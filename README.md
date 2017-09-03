@@ -22,6 +22,4 @@ We presented the Genotype-imputed Gene Set Enrichment Analysis (GIGSEA), a novel
 ```
 
 ## Example:
-```
-   See [GIGSEA_tutorial](https://github.com/zhushijia/GIGSEA/blob/master/vignettes/GIGSEA_tutorial.Rmd)
-```
+See [GIGSEA_tutorial](https://github.com/zhushijia/GIGSEA/blob/master/vignettes/GIGSEA_tutorial.Rmd)

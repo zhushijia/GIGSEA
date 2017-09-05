@@ -8,15 +8,16 @@ We presented the Genotype-imputed Gene Set Enrichment Analysis (GIGSEA), a novel
 -  Matrix
 
 ## Installation:
-1. Install the [devtools](https://github.com/hadley/devtools) package
+1. Install the [MetaXcan](https://github.com/hakyimlab/MetaXcan) package
+2. Install the [devtools](https://github.com/hadley/devtools) package
 ```
    install.packages("devtools")
 ```
-2. Load the devtools package
+3. Load the devtools package
 ```
    library(devtools)
 ```
-3. Install GIGSEA
+4. Install GIGSEA
 ```
    install_github("zhushijia/GIGSEA")
 ```

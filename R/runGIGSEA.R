@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #' runGIGSEA
 #'
 #' runGIGSEA use MetaXcan to impute the trait-associated differential gene expression from GWAS summary and eQTL database first, and next, performs gene set enrichment analysis for the trait-associated SNPs. 

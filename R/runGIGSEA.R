@@ -66,6 +66,7 @@ runGIGSEA <- function( MetaXcan , model_db_path, covariance, gwas_folder, gwas_f
 	
 	cat(MetaXcanCmd,'\n')
 	system(MetaXcanCmd)
+
 	
 	metaXcan <- read.table( paste0(output_dir,"/MetaXcan.res.csv") , sep=',' , header=T )
 	gene <- metaXcan$gene_name
@@ -105,6 +106,7 @@ runGIGSEA <- function( MetaXcan , model_db_path, covariance, gwas_folder, gwas_f
 # gwas_file_pattern="PGC2.SCZ.sumstats"
 # zscore_column="Z" 
 # gene_set=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug")
+# geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug")
 # output_dir="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/GIGSEA"
 # permutation_num=1000
 

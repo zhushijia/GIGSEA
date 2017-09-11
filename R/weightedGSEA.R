@@ -18,10 +18,17 @@
 #'
 #' library(GIGSEA)
 #' library(Matrix)
-#' weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug"), permutationNum=100, outputDir=getwd())
-#' dir()
-#'
-#'
+#' data(heart.metaXcan)
+#' gene = heart.metaXcan$gene_name
+#' fc <- heart.metaXcan$zscore
+#' usedFrac <- heart.metaXcan$n_snps_used / heart.metaXcan$n_snps_in_cov
+#' r2 <- heart.metaXcan$pred_perf_r2
+#' weights <- usedFrac*r2
+#' data <- data.frame(gene,fc,weights)
+#' # run one-step GIGSEA 
+#' weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', geneSet=c("MSigDB.KEGG.Pathway","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug"), permutationNum=10000, outputDir="./GIGSEA" )
+#' dir("./GIGSEA")
+#' 
 weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
                         geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug") ,
                         permutationNum=100 , outputDir=getwd() , MGSEAthres = NULL )

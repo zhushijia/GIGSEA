@@ -1,6 +1,6 @@
-#' GIGSEA
+#' weightedGSEA
 #'
-#' GIGSEA performs both SGSEA and MGSEA for a given list of gene sets, and write out the results.
+#' weightedGSEA performs both SGSEA and MGSEA for a given list of gene sets, and write out the results.
 #'
 #' @param data a data frame comprising comlumns: gene names (characer), differential gene expression (numeric) and sample weights (numeric and optional)
 #' @param geneCol an integer or a character indicating the column of gene name
@@ -18,11 +18,11 @@
 #'
 #' library(GIGSEA)
 #' library(Matrix)
-#' GIGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug"), permutationNum=100, outputDir=getwd())
+#' weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug"), permutationNum=100, outputDir=getwd())
 #' dir()
 #'
 #'
-GIGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
+weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
                         geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug") ,
                         permutationNum=100 , outputDir=getwd() , MGSEAthres = NULL )
 {

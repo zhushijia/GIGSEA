@@ -79,7 +79,7 @@ runGIGSEA <- function( MetaXcan , model_db_path, covariance, gwas_folder, gwas_f
 	cat( 'permutation for' , permutation_num , 'times\n' )
 	cat( 'writing results at' , output_dir , '\n' )
 
-	GIGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', 	geneSet=gene_set, permutationNum=permutation_num, outputDir=output_dir, MGSEAthres=MGSEA_thres)
+	weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', 	geneSet=gene_set, permutationNum=permutation_num, outputDir=output_dir, MGSEAthres=MGSEA_thres)
 
 	setwd(preWD)
 	
@@ -87,6 +87,8 @@ runGIGSEA <- function( MetaXcan , model_db_path, covariance, gwas_folder, gwas_f
 
 # source ~/setup/python/virtualenv-1.10.1/myVE/bin/activate
 # module load py_packages
+# library(GIGSEA , lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/tmp")
+
 
 # runGIGSEA( MetaXcan="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/PrediXcan/MetaXcan/software/MetaXcan.py" , 
 	# model_db_path="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/PrediXcan/MetaXcan/software/data/DGN-WB_0.5.db" ,
@@ -97,16 +99,24 @@ runGIGSEA <- function( MetaXcan , model_db_path, covariance, gwas_folder, gwas_f
 	# output_dir="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/GIGSEA",
 	# permutation_num=1000)
 
-# library(GIGSEA , lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/tmp")
 
-# MetaXcan="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/PrediXcan/MetaXcan/software/MetaXcan.py" 
-# model_db_path="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/PrediXcan/MetaXcan/software/data/DGN-WB_0.5.db" 
-# covariance="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/PrediXcan/MetaXcan/software/data/covariance.DGN-WB_0.5.txt.gz" 
-# gwas_folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/TWAS/source/fusion_twas-master" 
-# gwas_file_pattern="PGC2.SCZ.sumstats"
-# zscore_column="Z" 
+# snp_column="SNP"
+# non_effect_allele_column="A2"
+# effect_allele_column="A1"
+# or_column="OR"
+# beta_column="BETA"
+# beta_sign_column="direction"
+# zscore_column="Z"
+# pvalue_column="P"
 # gene_set=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug")
-# geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug")
-# output_dir="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/GIGSEA"
 # permutation_num=1000
-
+# MGSEA_thres=NULL
+# 
+# 
+# MetaXcan="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/PrediXcan/MetaXcan/software/MetaXcan.py"
+# model_db_path="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/PrediXcan/MetaXcan/software/data/DGN-WB_0.5.db"
+# covariance="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/PrediXcan/MetaXcan/software/data/covariance.DGN-WB_0.5.txt.gz"
+# gwas_folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/TWAS/source/fusion_twas-master"
+# gwas_file_pattern="PGC2.SCZ.sumstats"
+# output_dir="/hpc/users/zhus02/schzrnas/sjzhu/Project/GWAS/GIGSEA"
+# 

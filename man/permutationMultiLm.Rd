@@ -63,12 +63,13 @@ MGSEA.res <- permutationMultiLm( fc=data2$fc , net=net2 , weights=data2$weights 
 head(MGSEA.res)
 
 }
+\author{
+Shijia Zhu, \email{shijia.zhu@mssm.edu}
+}
 \references{
 
 }
 \seealso{
 \code{\link{orderedIntersect}};
 }
-\author{
-Shijia Zhu, \email{shijia.zhu@mssm.edu}
-}
+

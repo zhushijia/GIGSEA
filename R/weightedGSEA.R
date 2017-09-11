@@ -33,6 +33,13 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
                         geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug") ,
                         permutationNum=100 , outputDir=getwd() , MGSEAthres = NULL )
 {
+  
+  if( !file.exists(outputDir) )
+  { 
+    cat('creating ' , outputDir, '\n' )
+    dir.create( outputDir , showWarnings = TRUE, recursive = TRUE) 
+  }
+  
   allGeneSet = c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug")
   noGeneSet = setdiff( geneSet , allGeneSet )
   if(length(noGeneSet)) cat( "Gene sets are not defined: " , noGeneSet , '\n'  )

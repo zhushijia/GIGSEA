@@ -45,3 +45,4 @@ weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', geneSet=c("
 dir("./GIGSEA")
 
 }
+

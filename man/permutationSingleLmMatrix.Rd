@@ -63,12 +63,13 @@ system.time( SGSEA.res2 <- permutationSingleLmMatrix( fc=data2$fc , net=net2 , w
 head(SGSEA.res2)
 
 }
+\author{
+Shijia Zhu, \email{shijia.zhu@mssm.edu}
+}
 \references{
 
 }
 \seealso{
 \code{\link{orderedIntersect}}; \code{\link{permutationSingleLm}};
 }
-\author{
-Shijia Zhu, \email{shijia.zhu@mssm.edu}
-}
+

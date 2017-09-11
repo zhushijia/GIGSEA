@@ -61,7 +61,12 @@ runGIGSEA <- function( MetaXcan , model_db_path, covariance, gwas_folder, gwas_f
 		" --pvalue_column " , pvalue_column ,
 		" --output_file " , output_dir , "/MetaXcan.res.csv" ) 
 	
-	dir.create( output_dir , showWarnings = TRUE, recursive = TRUE)
+  if( !file.exists(output_dir) )
+  { 
+    cat('creating ' , output_dir, '\n' )
+    dir.create( output_dir , showWarnings = TRUE, recursive = TRUE) 
+  }
+  
 	preWD = setwd( output_dir )
 	
 	cat(MetaXcanCmd,'\n')

@@ -66,7 +66,7 @@ Barbeira, A., et al. Integrating tissue specific mechanisms into GWAS summary re
 https://github.com/hakyimlab/MetaXcan
 }
 \seealso{
-\code{\link{GIGSEA}};
+\code{\link{weightedGSEA}};
 }
 \author{
 Shijia Zhu, \email{shijia.zhu@mssm.edu}

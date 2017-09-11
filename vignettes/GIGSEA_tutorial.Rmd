@@ -165,7 +165,7 @@ head(data)
 
 
 ## 5. Gene set enrichment analysis
-### 5.1 Gene set enrichment analysis using single-variate weighted regression model
+### 5.1 Gene set enrichment analysis using weighted single regression model
 After obtaining the imputed gene differential expression and the weights, we build the weighted linear regression model to investigate the gene set enrichment. Permutation test was used to adjust the p values of the regression coefficients. We repeatedly shuffle the gene differential expression to obtain a global null distribution of no associated gene sets and calculate the empirical p value for each gene set. For the Single Gene Set Erichment Analysis (SGSEA), especially with many gene sets tested, a large number of weighted simple linear regression model would be interrogated. To improve the efficiency, we use weighted Pearson correlation to rank the significance, which uses the same hypothesis statistic with the single weighted regression model. Furthermore, we expressed it in terms of large matrix inner product, substantially improving the time efficiency. 
 
 ```{r}
@@ -181,7 +181,7 @@ system.time( SGSEA.res2 <- permutationSingleLmMatrix( fc=data2$fc , net=net2 , w
 head(SGSEA.res2)
 ```
 
-### 5.2 Gene set enrichment analysis using multi-variate weighted regression model
+### 5.2 Gene set enrichment analysis using weighted multiple regression model
 A gene may function in multiple ways and thus appear multiple times in functional gene sets. In spite of reflecting the crosstalk between gene sets, such overlap may make the results of gene set analysis more difficult to interpret.
 To address the redundancy existing among gene sets, we build a weighted multiple linear regression model, taking into account all gene sets in one model. The redundancy of one gene set can be adjusted by considering all other gene sets as covariates.  
 

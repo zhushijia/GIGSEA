@@ -38,7 +38,6 @@ runGIGSEA( MetaXcan="software/MetaXcan.py" , model_db_path="eQTL/DGN-WB_0.5.db",
 
 _In case that users have not installed MetaXcan yet, an example of MetaXcan-imputed gene expression is given as follows. Users can use it to test the codes of GIGSEA step by step._
 
-
 ## 3. One example of MetaXcan output
 MetaXcan integrates GWAS summary result with eQTL information to map trait-associated genes. See <https://github.com/hakyimlab/MetaXcan>. It provides a novel way to aggregate the multiple markers within each gene, address the long-range regulation, and adjust bias from gene boundaries and gene size. We use MetaXcan to impute the complex-trait-associated differential gene expression from eQTL summary and GWAS summary datasets. MetaXcan imputes ~10,000 genes with high quality prediction in most tissues. The training dataset for the expression prediction or 1000 Genomes was used as reference population to address the LD structure (covariance) of markers. Users can also specify their own genotype data to address the LD structure. The eQTL summary data was pre-calculated from large gene expression studies, such as the Genotype-Tissue Expression Project (GTEx; a comprehensive set of tissues from of ~20,000 samples) (Lonsdale, et al., 2013) and Depression Genes and Networks (DGN; 922 whole-blood samples) (Battle, et al., 2014). So, users only need to provide the GWAS summary data to estimate the genetically regulated gene expression. 
 

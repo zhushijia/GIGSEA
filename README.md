@@ -2,7 +2,7 @@
 Genotype Imputed Gene Set Enrichment Analysis
 
 ## Description
-Various methods for gene and gene-set analysis have been proposed, however, many challenges and limitations remained: 
+Various methods of gene set analysis for trait-associated SNPs have been proposed, however, many challenges and limitations remained: 
 1. Gene boundaries: different criteria have been proposed to assign a SNP to a gene but no consensus was reached; 
 2. Long-range regulation: assigning a causal link to the gene nearest the associated variant falls short of elucidating a long-range functional connection; 
 3. Gene size: longer genes are more likely to have significant P-values, possibly inflating the association test for gene sets that have many long genes; 

@@ -61,9 +61,6 @@ runGIGSEA use MetaXcan to impute the trait-associated differential gene expressi
   # permutation_num=1000)
  
 }
-\author{
-Shijia Zhu, \email{shijia.zhu@mssm.edu}
-}
 \references{
 Barbeira, A., et al. Integrating tissue specific mechanisms into GWAS summary results. bioRxiv 2016:045260.
 https://github.com/hakyimlab/MetaXcan
@@ -71,4 +68,6 @@ https://github.com/hakyimlab/MetaXcan
 \seealso{
 \code{\link{weightedGSEA}};
 }
-
+\author{
+Shijia Zhu, \email{shijia.zhu@mssm.edu}
+}

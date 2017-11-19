@@ -57,13 +57,12 @@ res = data.frame( wCorr , Pval )
 head(res)
 
 }
-\author{
-Shijia Zhu, \email{shijia.zhu@mssm.edu}
-}
 \references{
 
 }
 \seealso{
 \code{\link{orderedIntersect}}; \code{\link{matrixPval}};
 }
-
+\author{
+Shijia Zhu, \email{shijia.zhu@mssm.edu}
+}

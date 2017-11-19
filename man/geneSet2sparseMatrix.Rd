@@ -60,13 +60,12 @@ format( object.size(net1), units = "auto")
 format( object.size(net2), units = "auto")
 
 }
-\author{
-Shijia Zhu, \email{shijia.zhu@mssm.edu}
-}
 \references{
 
 }
 \seealso{
 \code{\link{gmt2geneSet}}; \code{\link{geneSet2Net}};
 }
-
+\author{
+Shijia Zhu, \email{shijia.zhu@mssm.edu}
+}

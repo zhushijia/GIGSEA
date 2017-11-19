@@ -1,5 +1,5 @@
 # GIGSEA
-Genotype Imputed Gene Set Enrichment Analysis
+Genotype Imputed Gene Set Enrichment Analysis using GWAS Summary Level Data
 
 ## Description
 Various methods of gene set analysis for trait-associated SNPs have been proposed, however, many challenges and limitations remained: 

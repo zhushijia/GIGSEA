@@ -212,4 +212,13 @@ dir("./GIGSEA")
 ```
 
 
-
+## 6. Background pvalue distribution
+```{r}
+shuffledFC <- sapply(1:100,function(s) sample(data2$fc) )
+shuffledCorr <-  weightedPearsonCorr( a=shuffledFC, b=net2 , w=data2$weights )
+p <- matrixPval( shuffledCorr , df=2909 )
+p <- c(p)
+background <- runif(10000)
+plot( quantile(background,seq(0,1,1e-2)) , quantile(p,seq(0,1,1e-2)) , xlim=c(0,1), ylim=c(0,1) , xlab="Theoretical pvalue quantile" , ylab="Observed pvalue quantile"  )
+abline(a=0,b=1,col=2)
+```

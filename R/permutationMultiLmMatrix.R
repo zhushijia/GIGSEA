@@ -1,12 +1,23 @@
-permutationSingleLmMatrix2 = function( fc , net , weights=rep(1,nrow(net)) , num=100 , step=1000 )
+#' permutationMultiLmMatrix
+#'
+#' @param fc 
+#' @param net 
+#' @param weights 
+#' @param num 
+#' @param step 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+permutationMultiLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=100 , step=1000 )
 {
   fc[is.na(fc)] = 0
   weights[is.na(weights)]=0
   net = net[,colSums(net)>0]
-  observedTstats = weightedPearsonCorr( x=net , y=fc, w=weights )[1,]
-  observedPval = matrixPval( observedTstats, df=sum(weights>0,na.rm=T)-2 )
-  #observedPval2 = separateLm( fc , net , weights )
-  #max(abs(observedPval-observedPval2))
+  observedTstats = weightedMultiLm( x=net , y=fc, w=weights )[,1]
+  observedPval = 2 * pt(abs(observedTstats),df=sum(weights>0,na.rm=T)-2,lower.tail=FALSE)
   
   empiricalSum = rep(0,ncol(net))
   if( num%%step==0 )
@@ -23,13 +34,13 @@ permutationSingleLmMatrix2 = function( fc , net , weights=rep(1,nrow(net)) , num
     shuffledFC = sapply(1:stepi,function(s) sample(fc) )
     shuffledTstats =  weightedMultiLm( x=net , y=shuffledFC, w=weights )
     
-    for(j in 1:ncol(shuffledCorr))
+    for(j in 1:nrow(shuffledTstats))
     {
-      if(observedCorr[j]>0) 
+      if(observedTstats[j]>0) 
       {
-        empiricalSum[j] = empiricalSum[j] + sum( shuffledCorr > observedCorr[j] )
+        empiricalSum[j] = empiricalSum[j] + sum( shuffledTstats > observedTstats[j] )
       } else {
-        empiricalSum[j] = empiricalSum[j] + sum( shuffledCorr < observedCorr[j] )
+        empiricalSum[j] = empiricalSum[j] + sum( shuffledTstats < observedTstats[j] )
       }
     }
     
@@ -39,12 +50,12 @@ permutationSingleLmMatrix2 = function( fc , net , weights=rep(1,nrow(net)) , num
   term = colnames(net)
   usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=T) )
   empiricalPval = empiricalSum/(num*ncol(net))
-  lc = locfdr( sign(observedCorr)*qnorm(empiricalPval) , plot=0 )
+  lc = locfdr( -1 * sign(observedTstats) * qnorm(empiricalPval) , plot=0 )
   localFdr = lc$fdr
   p0 = lc$fp0[3,3]
   BayesFactor = (1-localFdr)/localFdr *  p0/(1-p0)
   
-  pval = data.frame( term , usedGenes , observedCorr , observedPval , empiricalPval , localFdr , BayesFactor )
+  pval = data.frame( term , usedGenes , observedTstats , observedPval , empiricalPval , localFdr , BayesFactor )
   rownames(pval) = NULL
   pval = pval[order(pval$BayesFactor,decreasing=T),]
   pval

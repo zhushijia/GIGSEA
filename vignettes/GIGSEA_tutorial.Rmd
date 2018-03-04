@@ -27,6 +27,7 @@ GIGSEA depends on the R package Matrix, which has already been built in R. In GI
 ```{r}
 library(GIGSEA)
 library(Matrix)
+library(locfdr)
 ```
 
 ## 2. Quick start

@@ -15,8 +15,9 @@ Various methods of gene set analysis for trait-associated SNPs have been propose
 Here, we present GIGSEA (Genotype Imputed Gene Set Enrichment Analysis), a novel method that uses GWAS summary statistics and eQTL to infer differential gene expression and interrogate gene set enrichment for the trait-associated SNPs. By incorporating empirical eQTL of disease-relevant tissue, GIGSEA naturally accounts for factors such as gene size, gene boundary, SNP distal regulation, and multiple-marker regulation. The weighted linear regression model was used to perform the enrichment test, properly adjusting imputation accuracy, model incompleteness and redundancy in different gene sets. The significance level of enrichment is assessed by permutation, where matrix operation was employed to dramatically improve computation speed and efficiency. We have shown GIGSEA has appropriate type I error, and demonstrated high computational efficiency on real data set and discovered the plausible biological findings. 
 
 
-## Dependencies
+## Dependencies on R packages
 -  Matrix
+-  locfdr
 
 ## Installation:
 1. Install GIGSEA R package

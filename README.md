@@ -16,8 +16,8 @@ Here, we present GIGSEA (Genotype Imputed Gene Set Enrichment Analysis), a novel
 
 
 ## Dependencies on R packages
--  Matrix
--  locfdr
+-  Matrix - [Matrix](https://cran.r-project.org/web/packages/Matrix/index.html)
+-  locfdr - [locfdr](https://cran.r-project.org/web/packages/locfdr/index.html)
 
 ## Installation:
 1. Install GIGSEA R package

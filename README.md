@@ -22,7 +22,7 @@ Here, we present GIGSEA (Genotype Imputed Gene Set Enrichment Analysis), a novel
 ## Installation:
 1. Install GIGSEA R package
 ```
-wget https://github.com/fanglab/GIGSEA/zipball/master -O GIGSEA.zip && unzip GIGSEA.zip 
+wget https://github.com/zhushijia/GIGSEA/zipball/master -O GIGSEA.zip && unzip GIGSEA.zip 
 R CMD INSTALL zhushijia-GIGSEA* 
 ```
 Alternatively, install GIGSEA from [devtools](https://github.com/hadley/devtools) package in R

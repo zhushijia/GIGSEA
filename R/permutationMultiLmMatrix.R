@@ -62,6 +62,7 @@ permutationMultiLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=1
 {
   fc[is.na(fc)] = 0
   weights[is.na(weights)]=0
+  net = as.matrix(net)
   net = net[,colSums(net)>0]
   observedTstats = weightedMultiLm( x=net , y=fc, w=weights )[,1]
   observedPval = 2 * pt(abs(observedTstats),df=sum(weights>0,na.rm=T)-2,lower.tail=FALSE)

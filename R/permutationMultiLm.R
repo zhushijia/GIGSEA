@@ -5,7 +5,7 @@
 #' @param fc a vector of numeric values representing the gene expression fold change
 #' @param net a matrix of numeric values in the size of sample*feature representing the gene sets
 #' @param weights a vector of numeric values representing the weights of samples
-#' @param num a vector of integer values representing the number of permutations
+#' @param num an integer value representing the number of permutations
 #'
 #' @return a data frame comprising the following columns:
 #' \itemize{

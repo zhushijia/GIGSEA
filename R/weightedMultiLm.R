@@ -67,7 +67,7 @@ weightedMultiLm <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
   coefs = A %*% B
   predicts = X %*% coefs
   residuals = y - predicts
-  delta = colSums( w * residuals^2 )/( sum(weights>0,na.rm=T)-ncol(X) )
+  delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-ncol(X) )
   se = sapply( delta , function(d) sqrt( d * diag(A) ) )
 
   t = coefs/se

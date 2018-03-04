@@ -13,7 +13,7 @@ permutationMultiLm(fc, net, weights = rep(1, nrow(net)), num = 100)
 
 \item{weights}{a vector of numeric values representing the weights of samples}
 
-\item{num}{a vector of integer values representing the number of permutations}
+\item{num}{an integer value representing the number of permutations}
 }
 \value{
 a data frame comprising the following columns:

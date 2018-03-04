@@ -2,8 +2,8 @@
 #'
 #' weightedPearsonCorr caculates the weighted Pearson correlation
 #'
-#' @param a a matrix of numeric values in the size of sample*featureA
-#' @param b a matrix of numeric values in the size of sample*featureB
+#' @param x a matrix of numeric values in the size of sample*featureA
+#' @param y a matrix of numeric values in the size of sample*featureB
 #' @param w a vector of numeric values indicating the weights of samples
 #'
 #' @return a matrix of numeric values in the size of featureA*featureB, indicating the weighted Pearson correlation coefficients
@@ -52,18 +52,18 @@
 #'
 #' @seealso \code{\link{orderedIntersect}}; \code{\link{matrixPval}};
 #'
-weightedPearsonCorr <- function( a, b, w=rep(1,nrow(a))/nrow(a) )
+weightedPearsonCorr <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
 {
-  a = as.matrix(a)
-  b = as.matrix(b)
-  a[is.na(a)] = 0
-  b[is.na(b)] = 0
+  x = as.matrix(x)
+  y = as.matrix(y)
+  x[is.na(x)] = 0
+  y[is.na(y)] = 0
   w[is.na(w)] = 0
 
   w <- w / sum(w)
-  a <- sweep(a, 2, colSums(a * w))
-  b <- sweep(b, 2, colSums(b * w))
-  t(w*a)%*% b / sqrt( colSums(w * a**2) %*% t(colSums(w * b**2)) )
+  x <- sweep(x, 2, colSums(x * w))
+  y <- sweep(y, 2, colSums(y * w))
+  t(w*x)%*% y / sqrt( colSums(w * x**2) %*% t(colSums(w * y**2)) )
 }
 
 

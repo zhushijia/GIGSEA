@@ -60,6 +60,7 @@
 #'
 permutationMultiLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=100 , step=1000 )
 {
+  library(locfdr)
   fc[is.na(fc)] = 0
   weights[is.na(weights)]=0
   net = as.matrix(net)

@@ -61,7 +61,7 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
       weights <- imputeFC[,weightCol]
     }
 
-    cat('--> performing SGSEA ...\n')
+    cat('\n--> performing SGSEA ...\n')
     SGSEA.res <- permutationSingleLmMatrix( fc , net , weights , permutationNum )
     if( !is.null(get(gs)$annot) )
     {
@@ -76,8 +76,8 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
     {
       if( ncol(net)<MGSEAthres )
       {
-        cat('--> performing MGSEA ...\n')
-        MGSEA.res <- permutationMultiLm( fc , net , weights , permutationNum )
+        cat('\n--> performing MGSEA ...\n')
+        MGSEA.res <- permutationMultiLmMatrix( fc , net , weights , permutationNum )
         if( !is.null(get(gs)$annot) )
         {
           annot = get(gs)$annot

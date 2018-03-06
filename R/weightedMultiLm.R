@@ -54,6 +54,8 @@
 #'
 weightedMultiLm <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
 {
+  library(MASS)
+  
   x = as.matrix(x)
   y = as.matrix(y)
   x[is.na(x)] = 0
@@ -62,12 +64,15 @@ weightedMultiLm <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
 
   X = cbind(1,x)
   W = diag(w)
-  A = solve(t(X) %*% W %*% X)
+  #A = solve(t(X) %*% W %*% X)
+  A = ginv(t(X) %*% W %*% X)
   B = t(X) %*% W %*% y
   coefs = A %*% B
   predicts = X %*% coefs
   residuals = y - predicts
-  delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-ncol(X) )
+  #delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-ncol(X) )
+  delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-qr(X)$rank )
+  
   se = sapply( delta , function(d) sqrt( d * diag(A) ) )
 
   t = coefs/se

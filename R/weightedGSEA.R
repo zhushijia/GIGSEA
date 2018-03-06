@@ -47,7 +47,7 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
   for( gs in intersect(geneSet,allGeneSet) )
   {
 
-    cat('\nChecking',gs,'...\n')
+    cat('\n\n*** Checking',gs,'...\n')
     data(list=gs)
     net = get(gs)$net
     net <- net[ rownames(net) %in% as.character(data[,geneCol]) , ]
@@ -61,7 +61,7 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
       weights <- imputeFC[,weightCol]
     }
 
-    cat('\n--> performing SGSEA ...\n')
+    cat('--> performing SGSEA ...\n')
     SGSEA.res <- permutationSingleLmMatrix( fc , net , weights , permutationNum )
     if( !is.null(get(gs)$annot) )
     {

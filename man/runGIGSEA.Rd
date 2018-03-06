@@ -9,7 +9,7 @@ runGIGSEA(MetaXcan, model_db_path, covariance, gwas_folder, gwas_file_pattern,
   effect_allele_column = "A1", or_column = "OR", beta_column = "BETA",
   beta_sign_column = "direction", zscore_column = "Z",
   pvalue_column = "P", gene_set = c("MSigDB.KEGG.Pathway", "MSigDB.TF",
-  "MSigDB.miRNA", "Fantom5.TF", "TargetScan.miRNA", "GO", "LINCS.CMap.drug"),
+  "MSigDB.miRNA", "Fantom5.TF", "TargetScan.miRNA", "GO"),
   permutation_num = 1000, output_dir = "./GIGSEA", MGSEA_thres = NULL)
 }
 \arguments{

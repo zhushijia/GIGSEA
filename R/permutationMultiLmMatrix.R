@@ -87,9 +87,9 @@ permutationMultiLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=1
     {
       if(observedTstats[j]>0) 
       {
-        empiricalSum[j] = empiricalSum[j] + sum( shuffledTstats[j,] > observedTstats[j] )
+        empiricalSum[j] = empiricalSum[j] + sum( shuffledTstats > observedTstats[j] )
       } else {
-        empiricalSum[j] = empiricalSum[j] + sum( shuffledTstats[j,] < observedTstats[j] )
+        empiricalSum[j] = empiricalSum[j] + sum( shuffledTstats < observedTstats[j] )
       }
     }
     
@@ -98,8 +98,9 @@ permutationMultiLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=1
   
   term = colnames(net)
   usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=T) )
-  empiricalPval = (empiricalSum+0.1)/num #(num*ncol(net))
-  lc = locfdr( sign(observedTstats) * qnorm(empiricalPval) , plot=0 )
+  empiricalPval = (empiricalSum+0.1)/(num*ncol(net))
+  #lc = locfdr( sign(observedTstats) * qnorm(empiricalPval) , plot=0 )
+  lc = locfdr( observedTstats , plot=0 )
   localFdr = lc$fdr
   p0 = lc$fp0[3,3] - 1.96*lc$fp0[4,3]
   BayesFactor = (1-localFdr)/localFdr *  p0/(1-p0)

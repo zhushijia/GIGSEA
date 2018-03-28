@@ -15,6 +15,7 @@
 #' \item {observedCorr} a vector of numeric values indicating the observed weighted Pearson correlation coefficients.
 #' \item {observedPval} a vector of numeric values [0,1] indicating the observed p values of the weighted Pearson correlation coefficients.
 #' \item {empiricalPval} a vector of numeric values [0,1] indicating the permutation test-resulting p values of the weighted Pearson correlation coefficients.
+#' \item {empiricalPval} a vector of numeric values indicating the Bayes Factor for multiple test correction.
 #' }
 #'
 #' @export
@@ -60,13 +61,12 @@
 #'
 permutationSingleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=100 , step=1000 )
 {
-  library(locfdr)
   fc[is.na(fc)] = 0
   weights[is.na(weights)]=0
   net = as.matrix(net)
   net = net[,colSums(net)>0]
-  observedCorr = weightedPearsonCorr( x=net , y=fc, w=weights )[,1]
-  observedPval = matrixPval( observedCorr, df=sum(weights>0,na.rm=T)-2 )
+  observedCorr = weightedPearsonCorr( x=net, y=fc, w=weights )[,1]
+  observedPval = matrixPval( observedCorr, df=sum(weights>0, na.rm=T)-2 )
   #observedPval2 = separateLm( fc , net , weights )
   #max(abs(observedPval-observedPval2))
   
@@ -101,13 +101,14 @@ permutationSingleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=
   term = colnames(net)
   usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=T) )
   empiricalPval = (empiricalSum+0.1)/(num*ncol(net))
-  #lc = locfdr( -1 * sign(observedCorr)*qnorm(empiricalPval) , plot=0 )
-  lc = locfdr( observedCorr , plot=0 )
+  lc = locfdr( -1 * sign(observedCorr)*qnorm(empiricalPval) , plot=0 )
+  #lc = locfdr( observedCorr , plot=0 )
   localFdr = lc$fdr
   p0 = lc$fp0[3,3] - 1.96*lc$fp0[4,3]
   BayesFactor = (1-localFdr)/localFdr *  p0/(1-p0)
   
-  pval = data.frame( term , usedGenes , observedCorr , observedPval , empiricalPval , localFdr , BayesFactor )
+  #pval = data.frame( term , usedGenes , observedCorr , observedPval , empiricalPval , localFdr , BayesFactor )
+  pval = data.frame( term , usedGenes , observedCorr , observedPval , empiricalPval , BayesFactor )
   rownames(pval) = NULL
   pval = pval[order(pval$BayesFactor,decreasing=T),]
   #pval = pval[order(pval$empiricalPval),]

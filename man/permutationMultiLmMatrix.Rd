@@ -23,9 +23,10 @@ a data frame comprising following columns:
 \itemize{
 \item {term} a vector of character incidating the name of gene set.
 \item {usedGenes} a vector of numeric values indicating the number of gene used in the model.
-\item {observedCorr} a vector of numeric values indicating the observed weighted Pearson correlation coefficients.
-\item {observedPval} a vector of numeric values [0,1] indicating the observed p values of the weighted Pearson correlation coefficients.
-\item {empiricalPval} a vector of numeric values [0,1] indicating the permutation test-resulting p values of the weighted Pearson correlation coefficients.
+\item {observedTstats} a vector of numeric values indicating the observed t-statistics for the weighted regression coefficients.
+\item {observedPval} a vector of numeric values [0,1] indicating the observed p values of the weighted regression coefficients.
+\item {empiricalPval} a vector of numeric values [0,1] indicating the permutation test-resulting p values of the weighted regression coefficients.
+\item {empiricalPval} a vector of numeric values indicating the Bayes Factor for multiple test correction.
 }
 }
 \description{

@@ -26,6 +26,7 @@ a data frame comprising following columns:
 \item {observedCorr} a vector of numeric values indicating the observed weighted Pearson correlation coefficients.
 \item {observedPval} a vector of numeric values [0,1] indicating the observed p values of the weighted Pearson correlation coefficients.
 \item {empiricalPval} a vector of numeric values [0,1] indicating the permutation test-resulting p values of the weighted Pearson correlation coefficients.
+\item {empiricalPval} a vector of numeric values indicating the Bayes Factor for multiple test correction.
 }
 }
 \description{

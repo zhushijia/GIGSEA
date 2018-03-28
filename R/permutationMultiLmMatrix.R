@@ -12,9 +12,10 @@
 #' \itemize{
 #' \item {term} a vector of character incidating the name of gene set.
 #' \item {usedGenes} a vector of numeric values indicating the number of gene used in the model.
-#' \item {observedCorr} a vector of numeric values indicating the observed weighted Pearson correlation coefficients.
-#' \item {observedPval} a vector of numeric values [0,1] indicating the observed p values of the weighted Pearson correlation coefficients.
-#' \item {empiricalPval} a vector of numeric values [0,1] indicating the permutation test-resulting p values of the weighted Pearson correlation coefficients.
+#' \item {observedTstats} a vector of numeric values indicating the observed t-statistics for the weighted regression coefficients.
+#' \item {observedPval} a vector of numeric values [0,1] indicating the observed p values of the weighted regression coefficients.
+#' \item {empiricalPval} a vector of numeric values [0,1] indicating the permutation test-resulting p values of the weighted regression coefficients.
+#' \item {empiricalPval} a vector of numeric values indicating the Bayes Factor for multiple test correction.
 #' }
 #'
 #' @export
@@ -60,12 +61,28 @@
 #'
 permutationMultiLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=100 , step=1000 )
 {
-  library(locfdr)
   fc[is.na(fc)] = 0
   weights[is.na(weights)]=0
   net = as.matrix(net)
+  net[is.na(net)] = 0
   net = net[,colSums(net)>0]
-  observedTstats = weightedMultiLm( x=net , y=fc, w=weights )[,1]
+  
+  x = net
+  w = weights
+  y = fc
+  
+  X = cbind(1,x)
+  W = diag(w)
+  A0 = t(X) %*% W
+  A = ginv(A0 %*% X)
+  B = A0 %*% y
+  coefs = A %*% B
+  predicts = X %*% coefs
+  residuals = y - predicts
+  delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-qr(X)$rank )
+  se = sapply( delta , function(d) sqrt( d * diag(A) ) )
+  t = coefs/se
+  observedTstats = as.matrix(t[-1,1])
   observedPval = 2 * pt(abs(observedTstats),df=sum(weights>0,na.rm=T)-2,lower.tail=FALSE)
   
   empiricalSum = rep(0,ncol(net))
@@ -81,7 +98,15 @@ permutationMultiLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=1
   {
     stepi = steps[i]
     shuffledFC = sapply(1:stepi,function(s) sample(fc) )
-    shuffledTstats =  weightedMultiLm( x=net , y=shuffledFC, w=weights )
+    
+    B = A0 %*% shuffledFC
+    coefs = A %*% B
+    predicts = X %*% coefs
+    residuals = shuffledFC - predicts
+    delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-qr(X)$rank )
+    se = sapply( delta , function(d) sqrt( d * diag(A) ) )
+    t = coefs/se
+    shuffledTstats = as.matrix(t[-1,])
     
     for(j in 1:nrow(shuffledTstats))
     {
@@ -99,13 +124,14 @@ permutationMultiLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=1
   term = colnames(net)
   usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=T) )
   empiricalPval = (empiricalSum+0.1)/(num*ncol(net))
-  #lc = locfdr( sign(observedTstats) * qnorm(empiricalPval) , plot=0 )
-  lc = locfdr( observedTstats , plot=0 )
+  lc = locfdr( sign(observedTstats) * qnorm(empiricalPval) , plot=0 )
+  #lc = locfdr( observedTstats , plot=0 )
   localFdr = lc$fdr
   p0 = lc$fp0[3,3] - 1.96*lc$fp0[4,3]
   BayesFactor = (1-localFdr)/localFdr *  p0/(1-p0)
   
-  pval = data.frame( term , usedGenes , observedTstats , observedPval , empiricalPval , localFdr , BayesFactor )
+  #pval = data.frame( term , usedGenes , observedTstats , observedPval , empiricalPval , localFdr , BayesFactor )
+  pval = data.frame( term , usedGenes , observedTstats , observedPval , empiricalPval , BayesFactor )
   rownames(pval) = NULL
   pval = pval[order(pval$BayesFactor,decreasing=T),]
   #pval = pval[order(pval$empiricalPval),]

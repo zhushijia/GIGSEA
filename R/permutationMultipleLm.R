@@ -1,21 +1,21 @@
-#' permutationMultiLm
+#' permutationMultipleLm
 #'
-#' permutationMultiLm is a permutation test to calculate the empirical p values for a multiple weighted linear regression.
+#' permutationMultipleLm is a permutation test to calculate the empirical p values for a weighted multiple linear regression.
 #'
-#' @param fc a vector of numeric values representing the gene expression fold change
-#' @param net a matrix of numeric values in the size of sample*feature representing the gene sets
-#' @param weights a vector of numeric values representing the weights of samples
+#' @param fc a vector of numeric values representing gene expression fold change
+#' @param net a matrix of numeric values in the size of gene number x gene set number, representing the connectivity between genes and gene sets
+#' @param weights a vector of numeric values representing the weights of permuated genes
 #' @param num an integer value representing the number of permutations
 #'
 #' @return a data frame comprising the following columns:
 #' \itemize{
-#' \item {term} a vector of character incidating the name of gene set.
-#' \item {usedGenes} a vector of numeric values indicating the number of gene used in the model.
+#' \item {term} a vector of character incidating the names of gene sets.
+#' \item {usedGenes} a vector of numeric values indicating the number of genes used in the model.
 #' \item {Estimate} a vector of numeric values indicating the regression coefficients.
 #' \item {Std..Error} a vector of numeric values indicating the standard errors of regression coefficients.
 #' \item {t.value} a vector of numeric values indicating the t-statistics of regression coefficients.
-#' \item {observedPval} a vector of numeric values [0,1] indicating the p values from multiple weighted regression model.
-#' \item {empiricalPval} a vector of numeric values [0,1] indicating the p values from permutation test.
+#' \item {observedPval} a vector of numeric values [0,1] indicating the p values from the multiple weighted regression model.
+#' \item {empiricalPval} a vector of numeric values [0,1] indicating the empirical p values from the permutation test.
 #' }
 #'
 #' @export
@@ -23,16 +23,15 @@
 #' @examples
 #'
 #' library(GIGSEA)
-#' library(Matrix)
 #'
 #' # load data
 #' data(heart.metaXcan)
 #' gene = heart.metaXcan$gene_name
 #'
-#' # extract the imputed Z-score of gene differential expression, which follows normal distribution
+#' # extract the imputed Z-score of the differential gene expression, which follows the normal distribution
 #' fc <- heart.metaXcan$zscore
 #'
-#' # use the prediction R^2 and fraction of imputation-used SNPs as weights
+#' # use as weights the prediction R^2 and the fraction of imputation-used SNPs 
 #' usedFrac <- heart.metaXcan$n_snps_used / heart.metaXcan$n_snps_in_cov
 #' r2 <- heart.metaXcan$pred_perf_r2
 #' weights <- usedFrac*r2
@@ -43,13 +42,13 @@
 #'
 #' net <- MSigDB.KEGG.Pathway$net
 #'
-#' # do intersection of genes between the user-provided imputed gene expression dataset and the gene sets of interest
+#' # intersect the imputed genes with the gene sets of interest
 #' data2 <- orderedIntersect( x = data , by.x = data$gene , by.y = rownames(net)  )
 #' net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
 #' all( rownames(net2) == as.character(data2$gene) )
 #'
-#' # the SGSEA.res1 uses the single weighted linear regression model, while SGSEA.res2 used the weighted Pearson correlation. The latter one takes substantially less time.
-#' MGSEA.res <- permutationMultiLm( fc=data2$fc , net=net2 , weights=data2$weights , num=100 )
+#' # run the MGSEA
+#' MGSEA.res <- permutationMultipleLm( fc=data2$fc , net=net2 , weights=data2$weights , num=1000 )
 #' head(MGSEA.res)
 #'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
@@ -58,7 +57,7 @@
 #'
 #' @seealso \code{\link{orderedIntersect}};
 #'
-permutationMultiLm = function( fc , net , weights=rep(1,nrow(net)) , num=100 )
+permutationMultipleLm = function( fc , net , weights=rep(1,nrow(net)) , num=100 )
 {
   net = as.matrix(net) # to transform the sparseMatrix to matrix
   shuffle <- lapply( 1:num, function(i) {

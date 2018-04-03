@@ -9,12 +9,12 @@ orderedIntersect(x, by.x, by.y)
 \arguments{
 \item{x}{a data frame}
 
-\item{by.x}{a vector of characters. The data frame is sorted based on by.x}
+\item{by.x}{a vector of character values. The data frame is sorted based on by.x}
 
-\item{by.y}{a vector of characters. After being sorted, the rows of the data frame x are further extracted with by.x inside by.y}
+\item{by.y}{a vector of character values. After being sorted, the rows of x are further filtered by intersecting by.x with by.y}
 }
 \value{
-a sorted data frame based on by.x and also with by.x inside by.y
+a data frame sorted by "by.x" and intersected with "by.y"
 }
 \description{
 orderedIntersect sorts a data frame based on a given collumn and intersects with another vector.
@@ -22,7 +22,6 @@ orderedIntersect sorts a data frame based on a given collumn and intersects with
 \examples{
 
 library(GIGSEA)
-library(Matrix)
 
 # load data
 data(heart.metaXcan)
@@ -42,7 +41,7 @@ head(data)
 
 net <- MSigDB.KEGG.Pathway$net
 
-# do intersection of genes between the user-provided imputed gene expression dataset and the gene sets of interest
+# intersect the user-provided imputed genes with the gene set of interest
 data2 <- orderedIntersect( x = data , by.x = data$gene , by.y = rownames(net)  )
 net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
 all( rownames(net2) == as.character(data2$gene) )

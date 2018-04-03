@@ -2,16 +2,16 @@
 #'
 #' matrixPval calculates the p values for the correlation coefficients based on t-statistics
 #'
-#' @param r a vector or matrix of correlation coefficients in [-1,+1]
+#' @param r a vector or a matrix of Pearson correlation coefficients taking values in [-1,+1]
 #' @param df the degree of freedom
 #'
-#' @return a vector or matrix of p values in [0,1]
+#' @return a vector or matrix of p values taking values in [0,1]
 #' @export
 #'
 #' @examples
 #'
 #' library(GIGSEA)
-#' library(Matrix)
+#' 
 #' r <- cor(USArrests)
 #' df <- nrow(USArrests) - 2
 #' pval1 <- matrixPval(r,df)

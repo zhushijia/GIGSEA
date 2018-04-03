@@ -1,24 +1,23 @@
 #' geneSet2sparseMatrix
 #'
-#' geneSet2sparseMatrix transforms a geneset to a sparse matrix, which represents the connectivity between terms and genes.
+#' geneSet2sparseMatrix transforms gene sets to a sparse matrix, which represents the connectivity between terms and genes.
 #'
 #'
-#' @param term a vector of character incidating the names of gene sets, like pathway name of miRNA name.
-#' @param geneset a vector of characters, where each item is a character string of gene list separated by 'sep'.
-#' @param value a vector of numeric values indicating the connectivity of between a term and a gene. It could take either discrete values (0 and 1) or continuous values.
+#' @param term a vector of character values incidating the names of gene sets, e.g., pathway names and miRNA names.
+#' @param geneset a vector of character values, where each value is a gene list separated by 'sep'.
+#' @param value a vector of numeric values indicating the connectivity of between terms and genes. It could take either discrete values (0 and 1) or continuous values.
 #' @param sep a character which separates the genes in the geneset.
 #'
 #' @return
-#' a sparse matrix where the column corresponds the terms and the row corresponds the geneset.
+#' a sparse matrix where the column corresponds to the term and the row corresponds to the geneset.
 #'
 #' @export
 #'
 #' @examples
 #'
 #' library(GIGSEA)
-#' library(Matrix)
 #'
-#' # downlaod the gmt file
+#' # download the gmt file
 #' gmt <- readLines('http://amp.pharm.mssm.edu/CREEDS/download/single_drug_perturbations-v1.0.gmt')
 #'
 #' # obtain the index of up-regulated and down-regulated gene sets

@@ -1,21 +1,21 @@
-#' permutationMultiLmMatrix
+#' permutationMultipleLmMatrix
 #'
-#' permutationMultiLmMatrix is a permutation test to calculate the empirical p values for weighted multiple linear regression
+#' permutationMultipleLmMatrix is a permutation test to calculate the empirical p values for weighted multiple linear regression
 #'
-#' @param fc a vector of numeric values representing the gene expression fold change
-#' @param net a matrix of numeric values in the size of sample*feature representing the gene sets
-#' @param weights a vector of numeric values representing the weights of samples
+#' @param fc a vector of numeric values representing gene expression fold change
+#' @param net a matrix of numeric values in the size of gene number x gene set number, representing the connectivity between genes and gene sets
+#' @param weights a vector of numeric values representing the weights of permuated genes
 #' @param num an integer value representing the number of permutations
 #' @param step an integer value representing the number of permutations in each step 
 #'
 #' @return a data frame comprising following columns:
 #' \itemize{
-#' \item {term} a vector of character incidating the name of gene set.
-#' \item {usedGenes} a vector of numeric values indicating the number of gene used in the model.
-#' \item {observedTstats} a vector of numeric values indicating the observed t-statistics for the weighted regression coefficients.
-#' \item {observedPval} a vector of numeric values [0,1] indicating the observed p values of the weighted regression coefficients.
-#' \item {empiricalPval} a vector of numeric values [0,1] indicating the permutation test-resulting p values of the weighted regression coefficients.
-#' \item {empiricalPval} a vector of numeric values indicating the Bayes Factor for multiple test correction.
+#' \item {term} a vector of character values incidating the names of gene sets.
+#' \item {usedGenes} a vector of numeric values indicating the number of genes used in the model.
+#' \item {observedTstats} a vector of numeric values indicating the observed t-statistics for the weighted multiple regression coefficients.
+#' \item {observedPval} a vector of numeric values [0,1] indicating the observed p values of the weighted multiple regression coefficients.
+#' \item {empiricalPval} a vector of numeric values [0,1] indicating the empirical p values of the weighted multiple regression coefficients from the permutation test.
+#' \item {empiricalPval} a vector of numeric values indicating the Bayes Factor for the multiple test correction.
 #' }
 #'
 #' @export
@@ -23,16 +23,15 @@
 #' @examples
 #'
 #' library(GIGSEA)
-#' library(Matrix)
 #'
 #' # load data
 #' data(heart.metaXcan)
 #' gene = heart.metaXcan$gene_name
 #'
-#' # extract the imputed Z-score of gene differential expression, which follows normal distribution
+#' # extract the imputed Z-score of differential gene expression, which follows the normal distribution
 #' fc <- heart.metaXcan$zscore
 #'
-#' # use the prediction R^2 and fraction of imputation-used SNPs as weights
+#' # use as weights the prediction R^2 and the fraction of imputation-used SNPs 
 #' usedFrac <- heart.metaXcan$n_snps_used / heart.metaXcan$n_snps_in_cov
 #' r2 <- heart.metaXcan$pred_perf_r2
 #' weights <- usedFrac*r2
@@ -43,23 +42,23 @@
 #'
 #' net <- MSigDB.KEGG.Pathway$net
 #'
-#' # do intersection of genes between the user-provided imputed gene expression dataset and the gene sets of interest
+#' # intersect the imputed genes with the gene sets of interest
 #' data2 <- orderedIntersect( x = data , by.x = data$gene , by.y = rownames(net)  )
 #' net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
 #' all( rownames(net2) == as.character(data2$gene) )
 #'
-#' # the MGSEA.res1 uses the single weighted linear regression model, while MGSEA.res2 used the weighted Pearson correlation. The latter one takes substantially less time.
-#' system.time( MGSEA.res1 <- permutationMultiLm( fc=data2$fc , net=net2 , weights=data2$weights , num=100 ) )
-#' system.time( MGSEA.res2 <- permutationMultiLmMatrix( fc=data2$fc , net=net2 , weights=data2$weights , num=100 ) )
+#' # the MGSEA.res1 uses the weighted multiple linear regression to do permutation test, while MGSEA.res2 used the solution of weighted matrix operation. The latter one takes substantially less time.
+#' system.time( MGSEA.res1 <- permutationMultipleLm( fc=data2$fc , net=net2 , weights=data2$weights , num=1000 ) )
+#' system.time( MGSEA.res2 <- permutationMultipleLmMatrix( fc=data2$fc , net=net2 , weights=data2$weights , num=1000 ) )
 #' head(MGSEA.res2)
 #'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
 #'
 #' @references
 #'
-#' @seealso \code{\link{orderedIntersect}}; \code{\link{permutationMultiLm}};
+#' @seealso \code{\link{orderedIntersect}}; \code{\link{permutationMultipleLm}};
 #'
-permutationMultiLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=100 , step=1000 )
+permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=100 , step=1000 )
 {
   fc[is.na(fc)] = 0
   weights[is.na(weights)]=0

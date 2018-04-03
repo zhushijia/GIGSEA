@@ -6,33 +6,32 @@
 \usage{
 weightedGSEA(data, geneCol, fcCol, weightCol = NULL,
   geneSet = c("MSigDB.KEGG.Pathway", "MSigDB.TF", "MSigDB.miRNA",
-  "Fantom5.TF", "TargetScan.miRNA", "GO", "LINCS.CMap.drug"),
-  permutationNum = 100, outputDir = getwd(), MGSEAthres = NULL)
+  "Fantom5.TF", "TargetScan.miRNA", "GO"), permutationNum = 100,
+  outputDir = getwd(), MGSEAthres = NULL)
 }
 \arguments{
-\item{data}{a data frame comprising comlumns: gene names (characer), differential gene expression (numeric) and sample weights (numeric and optional)}
+\item{data}{a data frame comprising comlumns: gene names (characer), differential gene expression (numeric) and permuated gene weights (numeric and optional)}
 
-\item{geneCol}{an integer or a character indicating the column of gene name}
+\item{geneCol}{an integer or a character value indicating the column of gene name}
 
-\item{fcCol}{an integer or a character indicating the column of differential gene expression}
+\item{fcCol}{an integer or a character value indicating the column of differential gene expression}
 
-\item{weightCol}{an integer or a character indicating the column of sample weights}
+\item{weightCol}{an integer or a character value indicating the column of gene weights}
 
-\item{geneSet}{a vector of characters indicating the gene sets of interest. It takes values from "MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO" and "LINCS.CMap.drug"}
+\item{geneSet}{a vector of character values indicating the gene sets of interest. It takes values from "MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA", and "GO"}
 
-\item{permutationNum}{an integer indicating the number of permutation}
+\item{permutationNum}{an integer value indicating the number of permutation}
 
 \item{outputDir}{a character value indicating the directory for saving the results}
 
-\item{MGSEAthres}{an integer value indicating the thresfold for performing MGSEA. When the number of gene sets is smaller than MGSEAthres, we perform MGSEA.}
+\item{MGSEAthres}{an integer value indicating the thresfold for MGSEA. MGSEA is performed with no more than "MGSEAthres" gene sets}
 }
 \description{
-weightedGSEA performs both SGSEA and MGSEA for a given list of gene sets, and write out the results.
+weightedGSEA performs both SGSEA and MGSEA for a given list of gene sets, and writes out the results.
 }
 \examples{
 
 library(GIGSEA)
-library(Matrix)
 data(heart.metaXcan)
 gene = heart.metaXcan$gene_name
 fc <- heart.metaXcan$zscore

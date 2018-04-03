@@ -1,27 +1,26 @@
-#' weightedMultiLm
+#' weightedMultipleLm
 #'
-#' weightedMultiLm caculates the weighted Pearson correlation
+#' weightedMultipleLm solves the weighted multiple linear regression model via matrix operation
 #'
-#' @param a a matrix of numeric values in the size of sample*featureA
-#' @param b a matrix of numeric values in the size of sample*featureB
-#' @param w a vector of numeric values indicating the weights of samples
+#' @param x a matrix of numeric values in the size of genes x featureA
+#' @param y a matrix of numeric values in the size of genes x featureB
+#' @param w a vector of numeric values indicating the weights of genes
 #'
-#' @return a matrix of numeric values in the size of featureA*featureB, indicating the weighted Pearson correlation coefficients
+#' @return a matrix of numeric values in the size of featureA*featureB, indicating the weighted multiple regression coefficients
 #' @export
 #'
 #' @examples
 #'
 #' library(GIGSEA)
-#' library(Matrix)
 #'
 #' # load data
 #' data(heart.metaXcan)
 #' gene = heart.metaXcan$gene_name
 #'
-#' # extract the imputed Z-score of gene differential expression, which follows normal distribution
+#' # extract the imputed Z-score of gene differential expression, which follows the normal distribution
 #' fc <- heart.metaXcan$zscore
 #'
-#' # use the prediction R^2 and fraction of imputation-used SNPs as weights
+#' # use as weights the prediction R^2 and the fraction of imputation-used SNPs 
 #' usedFrac <- heart.metaXcan$n_snps_used / heart.metaXcan$n_snps_in_cov
 #' r2 <- heart.metaXcan$pred_perf_r2
 #' weights <- usedFrac*r2
@@ -32,18 +31,18 @@
 #'
 #' net <- MSigDB.KEGG.Pathway$net
 #'
-#' # do intersection of genes between the user-provided imputed gene expression dataset and the gene sets of interest
+#' # intersect the permuated genes with the gene sets of interest
 #' data2 <- orderedIntersect( x = data , by.x = data$gene , by.y = rownames(net)  )
 #' net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
 #' all( rownames(net2) == as.character(data2$gene) )
 #'
-#' # calculate the weighted Pearson correlation
-#' wCorr = weightedPearsonCorr( a=data2$fc, b=net2 , w=data2$weights )[1,]
+#' # perform the weighted multiple linear regression 
+#' observedTstats = weightedMultipleLm( x=net2 , y=data2$fc, w=data2$weights )
 #'
-#' # calculate the p values of the weighted Pearson correlation
-#' Pval = matrixPval( observedCorr, df=sum(weights>0,na.rm=T)-2 )
+#' # calculate the p values of the weighted multiple regression coefficients
+#' observedPval = 2 * pt(abs(observedTstats),df=sum(weights>0,na.rm=T)-2,lower.tail=FALSE)
 #'
-#' res = data.frame( wCorr , Pval )
+#' res = data.frame( observedTstats , observedPval )
 #' head(res)
 #'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
@@ -52,7 +51,7 @@
 #'
 #' @seealso \code{\link{orderedIntersect}}; \code{\link{matrixPval}};
 #'
-weightedMultiLm <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
+weightedMultipleLm <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
 {
   library(MASS)
   

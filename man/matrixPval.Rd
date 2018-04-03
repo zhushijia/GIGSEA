@@ -7,12 +7,12 @@
 matrixPval(r, df)
 }
 \arguments{
-\item{r}{a vector or matrix of correlation coefficients in [-1,+1]}
+\item{r}{a vector or a matrix of Pearson correlation coefficients taking values in [-1,+1]}
 
 \item{df}{the degree of freedom}
 }
 \value{
-a vector or matrix of p values in [0,1]
+a vector or matrix of p values taking values in [0,1]
 }
 \description{
 matrixPval calculates the p values for the correlation coefficients based on t-statistics
@@ -20,7 +20,7 @@ matrixPval calculates the p values for the correlation coefficients based on t-s
 \examples{
 
 library(GIGSEA)
-library(Matrix)
+
 r <- cor(USArrests)
 df <- nrow(USArrests) - 2
 pval1 <- matrixPval(r,df)

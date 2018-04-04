@@ -24,9 +24,8 @@ a data frame comprising following columns:
 \item {term} a vector of character values incidating the names of gene sets.
 \item {usedGenes} a vector of numeric values indicating the number of genes used in the model.
 \item {observedTstats} a vector of numeric values indicating the observed t-statistics for the weighted multiple regression coefficients.
-\item {observedPval} a vector of numeric values [0,1] indicating the observed p values of the weighted multiple regression coefficients.
 \item {empiricalPval} a vector of numeric values [0,1] indicating the empirical p values of the weighted multiple regression coefficients from the permutation test.
-\item {empiricalPval} a vector of numeric values indicating the Bayes Factor for the multiple test correction.
+\item {BayesFactor} a vector of numeric values indicating the Bayes Factor for the multiple test correction.
 }
 }
 \description{

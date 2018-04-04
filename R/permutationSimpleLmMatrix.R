@@ -13,9 +13,8 @@
 #' \item {term} a vector of character values incidating the name of gene set.
 #' \item {usedGenes} a vector of numeric values indicating the number of gene used in the model.
 #' \item {observedCorr} a vector of numeric values indicating the observed weighted Pearson correlation coefficients.
-#' \item {observedPval} a vector of numeric values [0,1] indicating the observed p values of the weighted Pearson correlation coefficients.
 #' \item {empiricalPval} a vector of numeric values [0,1] indicating the empirical p values of the weighted Pearson correlation coefficients from the permutation test. 
-#' \item {empiricalPval} a vector of numeric values indicating the Bayes Factor for the multiple test correction.
+#' \item {BayesFactor} a vector of numeric values indicating the Bayes Factor for the multiple test correction.
 #' }
 #'
 #' @export
@@ -107,7 +106,7 @@ permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=
   BayesFactor = (1-localFdr)/localFdr *  p0/(1-p0)
   
   #pval = data.frame( term , usedGenes , observedCorr , observedPval , empiricalPval , localFdr , BayesFactor )
-  pval = data.frame( term , usedGenes , observedCorr , observedPval , empiricalPval , BayesFactor )
+  pval = data.frame( term , usedGenes , observedCorr , empiricalPval , BayesFactor )
   rownames(pval) = NULL
   pval = pval[order(pval$BayesFactor,decreasing=T),]
   #pval = pval[order(pval$empiricalPval),]

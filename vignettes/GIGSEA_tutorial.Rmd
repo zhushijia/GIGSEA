@@ -186,11 +186,14 @@ head(SGSEA.res2)
 
 ### 5.2 Gene set enrichment analysis using weighted multiple regression model
 A gene may function in multiple ways and thus appear multiple times in functional gene sets. In spite of reflecting the crosstalk between gene sets, such overlap may make the results of gene set analysis more difficult to interpret.
-To address the redundancy existing among gene sets, we build a weighted multiple linear regression model, taking into account all gene sets in one model. The redundancy of one gene set can be adjusted by considering all other gene sets as covariates.  
+To address the redundancy existing among gene sets, we build a weighted multiple linear regression model, taking into account all gene sets in one model. The redundancy of one gene set can be adjusted by considering all other gene sets as covariates. To improve the time efficiency, we also use matrix operation to solve the weighted multiple regression model.   
 
 ```{r}
-MGSEA.res <- permutationMultipleLm( fc=data2$fc , net=net2 , weights=data2$weights , num=100 )
-head(MGSEA.res)
+# MGSEA.res1 uses the weighted multiple linear regression model 
+system.time( MGSEA.res1 <- permutationMultipleLm( fc=data2$fc , net=net2 , weights=data2$weights , num=1000 ) )
+# MGSEA.res2 used the matrix solution
+system.time( MGSEA.res2 <- permutationMultipleLmMatrix( fc=data2$fc , net=net2 , weights=data2$weights , num=1000 ) )
+head(MGSEA.res2)
 ```
 
 ### 5.3 One-step weightedGSEA

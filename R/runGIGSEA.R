@@ -20,7 +20,6 @@
 #' @param output_dir a character value indicating the directory for saving the results.
 #' @param MGSEA_thres an integer value indicating the thresfold for performing MGSEA. When the number of gene sets is smaller than MGSEAthres, we perform MGSEA.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -72,8 +71,10 @@ runGIGSEA <- function( MetaXcan , model_db_path, covariance, gwas_folder, gwas_f
 	cat(MetaXcanCmd,'\n')
 	system(MetaXcanCmd)
 
-	
 	metaXcan <- read.table( paste0(output_dir,"/MetaXcan.res.csv") , sep=',' , header=T )
+	cc = table( as.character(metaXcan$gene_name) )
+	metaXcan = metaXcan[ ! gene_name %in% (names(cc)[cc>1]) , ]
+	
 	gene <- metaXcan$gene_name
 	fc <- metaXcan$zscore
 	usedFrac <- metaXcan$n_snps_used / metaXcan$n_snps_in_cov

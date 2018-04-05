@@ -1,4 +1,21 @@
-dataFrame2geneSet = function( term , gene , value=NULL , sep=',' )
+#' dataFrame2geneSet
+#'
+#' dataFrame2geneSet transforms a data frame (1term-1gene) into geneSets (1term-Ngenes).
+#'
+#' @param term a character value incidating the name of the column for the gene set (terms).
+#' @param gene a character value incidating the name of the column for the genes.
+#' @param value a vector of numeric values indicating the connectivity of between terms and genes. It could take either discrete values (0 and 1) or continuous values.
+#'
+#' @return a data frame, comprising three vectors: term (like pathway names), geneset (a gene symbol list separate by comma), and value (either discrete or continuous separated by comma)
+#' @export
+#'
+#' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
+#'
+#' @references
+#'
+#' @seealso \code{\link{geneSet2Net}}; \code{\link{geneSet2sparseMatrix}};
+#'
+dataFrame2geneSet = function( term , gene , value=NULL )
 {
 	if( is.null(value) )
 	{
@@ -15,7 +32,7 @@ dataFrame2geneSet = function( term , gene , value=NULL , sep=',' )
 		} )
 		valueset = sapply( gene_value_set , function(x) {
 			values = sapply( strsplit( x , ' ' ) , function(gv) gv[2] )
-			paste(values,collapse=sep)
+			paste(values,collapse=',')
 		} )
 		res = data.frame( term=names(geneset) , geneset=geneset , valueset=valueset )
 	}

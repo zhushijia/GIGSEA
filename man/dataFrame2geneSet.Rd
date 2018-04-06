@@ -19,9 +19,6 @@ a data frame, comprising three vectors: term (like pathway names), geneset (a ge
 \description{
 dataFrame2geneSet transforms a data frame (1term-1gene) into geneSets (1term-Ngenes).
 }
-\references{
-
-}
 \seealso{
 \code{\link{geneSet2Net}}; \code{\link{geneSet2sparseMatrix}};
 }

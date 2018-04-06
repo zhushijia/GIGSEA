@@ -47,8 +47,6 @@
 #'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
 #'
-#' @references
-#'
 #' @seealso \code{\link{orderedIntersect}}; \code{\link{matrixPval}};
 #'
 weightedMultipleLm <- function( x, y, w=rep(1,nrow(x))/nrow(x) )

@@ -1,7 +1,7 @@
 Package: GIGSEA
 Type: Package
 Title: Genotype Imputed Gene Set Enrichment Analysis
-Version: 0.1.0
+Version: 0.99.0
 Author: Shijia Zhu
 Maintainer: Shijia Zhu <shijia.zhu@mssm.edu>
 Description: We presented the Genotype-imputed Gene Set Enrichment Analysis (GIGSEA), a novel method 
@@ -18,7 +18,8 @@ Description: We presented the Genotype-imputed Gene Set Enrichment Analysis (GIG
 License: LGPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: Matrix, MASS, locfdr
+Depends: Matrix, MASS, locfdr, stats
+VignetteBuilder: utils
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-
+biocViews: Software:BiologicalQuestion:GeneSetEnrichment

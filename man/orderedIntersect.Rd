@@ -47,9 +47,6 @@ net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
 all( rownames(net2) == as.character(data2$gene) )
 
 }
-\references{
-
-}
 \author{
 Shijia Zhu, \email{shijia.zhu@mssm.edu}
 }

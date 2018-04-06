@@ -24,7 +24,7 @@ a data frame comprising following columns:
 \item {term} a vector of character values incidating the names of gene sets.
 \item {usedGenes} a vector of numeric values indicating the number of genes used in the model.
 \item {observedTstats} a vector of numeric values indicating the observed t-statistics for the weighted multiple regression coefficients.
-\item {empiricalPval} a vector of numeric values [0,1] indicating the empirical p values of the weighted multiple regression coefficients from the permutation test.
+\item {empiricalPval} a vector of numeric values [0,1] indicating the permutation-based empirical p values.
 \item {BayesFactor} a vector of numeric values indicating the Bayes Factor for the multiple test correction.
 }
 }
@@ -58,13 +58,11 @@ data2 <- orderedIntersect( x = data , by.x = data$gene , by.y = rownames(net)  )
 net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
 all( rownames(net2) == as.character(data2$gene) )
 
-# the MGSEA.res1 uses the weighted multiple linear regression to do permutation test, while MGSEA.res2 used the solution of weighted matrix operation. The latter one takes substantially less time.
-system.time( MGSEA.res1 <- permutationMultipleLm( fc=data2$fc , net=net2 , weights=data2$weights , num=1000 ) )
-system.time( MGSEA.res2 <- permutationMultipleLmMatrix( fc=data2$fc , net=net2 , weights=data2$weights , num=1000 ) )
+# the MGSEA.res1 uses the weighted multiple linear regression to do permutation test, 
+# while MGSEA.res2 used the solution of weighted matrix operation. The latter one takes substantially less time.
+# system.time( MGSEA.res1<-permutationMultipleLm(fc=data2$fc, net=net2, weights=data2$weights, num=1000))
+system.time( MGSEA.res2<-permutationMultipleLmMatrix(fc=data2$fc, net=net2, weights=data2$weights, num=1000))
 head(MGSEA.res2)
-
-}
-\references{
 
 }
 \seealso{

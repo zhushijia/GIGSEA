@@ -11,7 +11,6 @@
 #'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
 #'
-#' @references
 #'
 #' @seealso \code{\link{geneSet2Net}}; \code{\link{geneSet2sparseMatrix}};
 #'

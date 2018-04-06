@@ -56,9 +56,6 @@ res = data.frame( observedCorr , observedPval )
 head(res)
 
 }
-\references{
-
-}
 \seealso{
 \code{\link{orderedIntersect}}; \code{\link{matrixPval}};
 }

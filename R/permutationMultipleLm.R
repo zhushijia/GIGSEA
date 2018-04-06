@@ -20,42 +20,11 @@
 #'
 #' @export
 #'
-#' @examples
-#'
-#' library(GIGSEA)
-#'
-#' # load data
-#' data(heart.metaXcan)
-#' gene = heart.metaXcan$gene_name
-#'
-#' # extract the imputed Z-score of the differential gene expression, which follows the normal distribution
-#' fc <- heart.metaXcan$zscore
-#'
-#' # use as weights the prediction R^2 and the fraction of imputation-used SNPs 
-#' usedFrac <- heart.metaXcan$n_snps_used / heart.metaXcan$n_snps_in_cov
-#' r2 <- heart.metaXcan$pred_perf_r2
-#' weights <- usedFrac*r2
-#'
-#' # build a new data frame for the following weighted linear regression-based enrichment analysis
-#' data <- data.frame(gene,fc,weights)
-#' head(data)
-#'
-#' net <- MSigDB.KEGG.Pathway$net
-#'
-#' # intersect the imputed genes with the gene sets of interest
-#' data2 <- orderedIntersect( x = data , by.x = data$gene , by.y = rownames(net)  )
-#' net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
-#' all( rownames(net2) == as.character(data2$gene) )
-#'
-#' # run the MGSEA
-#' MGSEA.res <- permutationMultipleLm( fc=data2$fc , net=net2 , weights=data2$weights , num=1000 )
-#' head(MGSEA.res)
 #'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
 #'
-#' @references
 #'
-#' @seealso \code{\link{orderedIntersect}};
+#' @seealso \code{\link{orderedIntersect}}; \code{\link{permutationMultipleLmMatrix}};
 #'
 permutationMultipleLm = function( fc , net , weights=rep(1,nrow(net)) , num=100 )
 {

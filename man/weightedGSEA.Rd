@@ -18,7 +18,7 @@ weightedGSEA(data, geneCol, fcCol, weightCol = NULL,
 
 \item{weightCol}{an integer or a character value indicating the column of gene weights}
 
-\item{geneSet}{a vector of character values indicating the gene sets of interest. It takes values from "MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA", and "GO"}
+\item{geneSet}{a vector of character values indicating the gene sets of interest.}
 
 \item{permutationNum}{an integer value indicating the number of permutation}
 
@@ -40,7 +40,8 @@ r2 <- heart.metaXcan$pred_perf_r2
 weights <- usedFrac*r2
 data <- data.frame(gene,fc,weights)
 # run one-step GIGSEA 
-weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', geneSet=c("MSigDB.KEGG.Pathway","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug"), permutationNum=10000, outputDir="./GIGSEA" )
-dir("./GIGSEA")
+# weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', 
+#    geneSet=c("MSigDB.KEGG.Pathway","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug"), permutationNum=10000, outputDir="./GIGSEA" )
+# dir("./GIGSEA")
 
 }

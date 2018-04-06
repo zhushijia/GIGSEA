@@ -13,12 +13,18 @@
 #' \item {term} a vector of character values incidating the name of gene set.
 #' \item {usedGenes} a vector of numeric values indicating the number of gene used in the model.
 #' \item {observedCorr} a vector of numeric values indicating the observed weighted Pearson correlation coefficients.
-#' \item {empiricalPval} a vector of numeric values [0,1] indicating the empirical p values of the weighted Pearson correlation coefficients from the permutation test. 
+#' \item {empiricalPval} a vector of numeric values [0,1] indicating the permutation-based empirical p values. 
 #' \item {BayesFactor} a vector of numeric values indicating the Bayes Factor for the multiple test correction.
 #' }
 #'
 #' @export
 #'
+#' @importFrom stats lm pt qnorm
+#' @importFrom utils read.table write.table
+#' @importFrom Matrix sparseMatrix
+#' @importFrom locfdr locfdr
+#' @import MASS
+#' 
 #' @examples
 #'
 #' library(GIGSEA)
@@ -46,14 +52,13 @@
 #' net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
 #' all( rownames(net2) == as.character(data2$gene) )
 #'
-#' # the SGSEA.res1 uses the weighted simple linear regression model, while SGSEA.res2 used the weighted Pearson correlation. The latter one takes substantially less time.
-#' system.time( SGSEA.res1 <- permutationSimpleLm( fc=data2$fc , net=net2 , weights=data2$weights , num=1000 ) )
-#' system.time( SGSEA.res2 <- permutationSimpleLmMatrix( fc=data2$fc , net=net2 , weights=data2$weights , num=1000 ) )
+#' # the SGSEA.res1 uses the weighted simple linear regression model, 
+#' # while SGSEA.res2 used the weighted Pearson correlation. The latter one takes substantially less time.
+#' #system.time(SGSEA.res1<-permutationSimpleLm(fc=data2$fc, net=net2, weights=data2$weights, num=1000))
+#' system.time(SGSEA.res2<-permutationSimpleLmMatrix(fc=data2$fc, net=net2, weights=data2$weights, num=1000))
 #' head(SGSEA.res2)
 #'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
-#'
-#' @references
 #'
 #' @seealso \code{\link{orderedIntersect}}; \code{\link{permutationSimpleLm}};
 #'

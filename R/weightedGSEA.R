@@ -6,7 +6,7 @@
 #' @param geneCol an integer or a character value indicating the column of gene name
 #' @param fcCol an integer or a character value indicating the column of differential gene expression
 #' @param weightCol an integer or a character value indicating the column of gene weights
-#' @param geneSet a vector of character values indicating the gene sets of interest. It takes values from "MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA", and "GO"
+#' @param geneSet a vector of character values indicating the gene sets of interest. 
 #' @param permutationNum an integer value indicating the number of permutation
 #' @param outputDir a character value indicating the directory for saving the results
 #' @param MGSEAthres an integer value indicating the thresfold for MGSEA. MGSEA is performed with no more than "MGSEAthres" gene sets 
@@ -25,8 +25,9 @@
 #' weights <- usedFrac*r2
 #' data <- data.frame(gene,fc,weights)
 #' # run one-step GIGSEA 
-#' weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', geneSet=c("MSigDB.KEGG.Pathway","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug"), permutationNum=10000, outputDir="./GIGSEA" )
-#' dir("./GIGSEA")
+#' # weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', 
+#' #    geneSet=c("MSigDB.KEGG.Pathway","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug"), permutationNum=10000, outputDir="./GIGSEA" )
+#' # dir("./GIGSEA")
 #' 
 weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
                         geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO") ,

@@ -26,15 +26,13 @@ In GIGSEA, the gene sets are saved as matrices. Such matrices are largely sparse
 
 ```{r}
 library(GIGSEA)
-library(Matrix)
-library(locfdr)
 ```
 
 ## 2. Quick start
 GIGSEA first uses MetaXcan (also called "s-predixcan") to impute trait-associated differential gene expression from both GWAS summary and eQTL database with LD structure adjusted, and next, builds a weighted regression model to perfrom gene set enrichment analysis. In user's convenience, we combine these procedures together into one function `runGIGSEA()`, which writes the enrichment test results at the local directory. Users only need to provide their GWAS summary data, and specify the paths to the MetaXcan.py file, the eQTL database (e.g. GTex and DGN) and the reference popultation (e.g. 1000 Genome). 
 
 ```{r}
-runGIGSEA( MetaXcan="software/MetaXcan.py" , model_db_path="eQTL/DGN-WB_0.5.db", covariance="reference/covariance.DGN-WB_0.5.txt.gz", gwas_folder="data/GWAS_summary", gwas_file_pattern="heart.sumstats", output_dir="result/GIGSEA", permutation_num=1000)
+#runGIGSEA( MetaXcan="software/MetaXcan.py" , model_db_path="eQTL/DGN-WB_0.5.db", covariance="reference/covariance.DGN-WB_0.5.txt.gz", gwas_folder="data/GWAS_summary", gwas_file_pattern="heart.sumstats", output_dir="result/GIGSEA", permutation_num=1000)
 ```
 
 Alternatively, users can also submit their GWAS summary data to the online version of MetaXcan (s-predixcan) <https://cloud.hakyimlab.org/s-predixcan> to impute the trait-associated differential gene expression, and next, run the following steps provided by GIGSEA to perform the gene set enrichment analysis for the trait-associated SNPs. 
@@ -213,7 +211,7 @@ weights <- usedFrac*r2
 data <- data.frame(gene,fc,weights)
 
 # run one-step GIGSEA 
-weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', geneSet=c("MSigDB.KEGG.Pathway","Fantom5.TF","TargetScan.miRNA","GO"), permutationNum=10000, outputDir="./GIGSEA" )
+#weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', geneSet=c("MSigDB.KEGG.Pathway","Fantom5.TF","TargetScan.miRNA","GO"), permutationNum=10000, outputDir="./GIGSEA" )
 
-dir("./GIGSEA")
+#dir("./GIGSEA")
 ```

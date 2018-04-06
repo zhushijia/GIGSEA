@@ -3,21 +3,21 @@
 \docType{data}
 \name{GO}
 \alias{GO}
-\title{Prices of 50,000 round cut diamonds.}
-\format{A data frame with 53940 rows and 10 variables:
+\title{GO}
+\format{A list with two items:
 \describe{
-  \item{price}{price, in US dollars}
-  \item{carat}{weight of the diamond, in carats}
+  \item{net}{a sparse matrix, the connectivity between terms and genes}
+  \item{annot}{a data frame, description of terms}
   ...
 }}
 \source{
-\url{http://www.diamondse.info/}
+\url{See the "database GO.db" in R.}
 }
 \usage{
 GO
 }
 \description{
-A dataset containing the prices and other attributes of almost 54,000
-diamonds.
+Gene sets that contain genes annotated by the same Gene Ontology (GO) term. 
+For each GO term, we not only incorporate its own gene sets, but also incorporate the gene sets belonging to its offsprings.
 }
 \keyword{datasets}

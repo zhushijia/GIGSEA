@@ -38,7 +38,6 @@
 #'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
 #'
-#' @references
 #'
 orderedIntersect <- function(x, by.x, by.y)
 {

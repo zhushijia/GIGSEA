@@ -22,4 +22,6 @@ Depends: Matrix, MASS, locfdr, stats
 VignetteBuilder: utils
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-biocViews: Software:BiologicalQuestion:GeneSetEnrichment
+biocViews: GeneSetEnrichment,SNP,VariantAnnotation,GeneExpression,GeneRegulation,Regression,DifferentialExpression
+
+

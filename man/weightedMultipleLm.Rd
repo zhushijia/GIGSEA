@@ -50,7 +50,7 @@ all( rownames(net2) == as.character(data2$gene) )
 observedTstats = weightedMultipleLm( x=net2 , y=data2$fc, w=data2$weights )
 
 # calculate the p values of the weighted multiple regression coefficients
-observedPval = 2 * pt(abs(observedTstats),df=sum(weights>0,na.rm=T)-2,lower.tail=FALSE)
+observedPval = 2 * pt(abs(observedTstats),df=sum(weights>0,na.rm=TRUE)-2,lower.tail=FALSE)
 
 res = data.frame( observedTstats , observedPval )
 head(res)

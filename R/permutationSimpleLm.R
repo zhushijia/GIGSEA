@@ -44,7 +44,7 @@ permutationSimpleLm = function( fc , net , weights=rep(1,nrow(net)) , num=100 )
   }
 
   term = colnames(net)
-  usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=T) )
+  usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
   pval = data.frame( term , usedGenes , observedPval , empiricalPval )
   rownames(pval) = NULL
   pval = pval[order(pval$empiricalPval),]

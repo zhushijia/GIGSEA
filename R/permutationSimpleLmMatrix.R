@@ -102,7 +102,7 @@ permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=
   }
   
   term = colnames(net)
-  usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=T) )
+  usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
   empiricalPval = (empiricalSum+0.1)/(num*ncol(net))
   lc = locfdr( -1 * sign(observedCorr)*qnorm(empiricalPval) , plot=0 )
   #lc = locfdr( observedCorr , plot=0 )

@@ -56,7 +56,7 @@ permutationMultipleLm = function( fc , net , weights=rep(1,nrow(net)) , num=100 
 
   nonNaRange = which( !is.na(trueLM$coefficients[-1]) )
   term = colnames(net)[nonNaRange]
-  usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=T) )[nonNaRange]
+  usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )[nonNaRange]
   # usedWeightedGenes = colSums( net*weights )
   pval = data.frame( term , usedGenes , observedCoef , observedPval , empiricalPval )
   rownames(pval) = NULL

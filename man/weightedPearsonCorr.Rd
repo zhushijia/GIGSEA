@@ -50,7 +50,7 @@ all( rownames(net2) == as.character(data2$gene) )
 observedCorr = weightedPearsonCorr( x=net2 , y=data2$fc, w=data2$weights )
 
 # calculate the p values of the weighted Pearson correlation
-observedPval = matrixPval( observedCorr, df=sum(weights>0,na.rm=T)-2 )
+observedPval = matrixPval( observedCorr, df=sum(weights>0,na.rm=TRUE)-2 )
 
 res = data.frame( observedCorr , observedPval )
 head(res)

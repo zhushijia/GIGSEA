@@ -26,12 +26,14 @@ weightedGSEA(data, geneCol, fcCol, weightCol = NULL,
 
 \item{MGSEAthres}{an integer value indicating the thresfold for MGSEA. MGSEA is performed with no more than "MGSEAthres" gene sets}
 }
+\value{
+TRUE
+}
 \description{
 weightedGSEA performs both SGSEA and MGSEA for a given list of gene sets, and writes out the results.
 }
 \examples{
 
-library(GIGSEA)
 data(heart.metaXcan)
 gene = heart.metaXcan$gene_name
 fc <- heart.metaXcan$zscore

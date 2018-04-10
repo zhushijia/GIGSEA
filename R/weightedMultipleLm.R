@@ -11,7 +11,6 @@
 #'
 #' @examples
 #'
-#' library(GIGSEA)
 #'
 #' # load data
 #' data(heart.metaXcan)
@@ -68,7 +67,7 @@ weightedMultipleLm <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
   predicts = X %*% coefs
   residuals = y - predicts
   #delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-ncol(X) )
-  delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-qr(X)$rank )
+  delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=TRUE)-qr(X)$rank )
   
   se = sapply( delta , function(d) sqrt( d * diag(A) ) )
 

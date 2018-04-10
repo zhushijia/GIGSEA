@@ -11,7 +11,6 @@
 #'
 #' @examples
 #'
-#' library(GIGSEA)
 #'
 #' # load data
 #' data(heart.metaXcan)

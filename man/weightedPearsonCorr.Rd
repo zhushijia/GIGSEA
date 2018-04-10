@@ -21,7 +21,6 @@ weightedPearsonCorr caculates the weighted Pearson correlation
 }
 \examples{
 
-library(GIGSEA)
 
 # load data
 data(heart.metaXcan)

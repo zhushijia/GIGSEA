@@ -33,8 +33,6 @@ permutationSimpleLmMatrix is a permutation test to calculate the empirical p val
 }
 \examples{
 
-library(GIGSEA)
-
 # load data
 data(heart.metaXcan)
 gene = heart.metaXcan$gene_name

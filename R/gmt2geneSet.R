@@ -10,6 +10,22 @@
 #' @return a data frame, comprising three vectors: term (like pathway names), geneset (a gene symbol list separate by comma), and value (either discrete or continuous separated by comma)
 #' @export
 #'
+#' @examples
+#'
+#' # download the gmt file
+#' gmt <- readLines('http://amp.pharm.mssm.edu/CREEDS/download/single_drug_perturbations-v1.0.gmt')
+#'
+#' # obtain the index of up-regulated and down-regulated gene sets
+#' index_up <- grep('-up',gmt)
+#' index_down <- grep('-dn',gmt)
+#'
+#' # transform the gmt file into gene sets. The gene set is a data frame, comprising three vectors: 
+#' # term (here is drug), geneset (a gene symbol list separate by comma), 
+#' # and value (1 and -1 separate by comma)
+#' gff_up <- gmt2geneSet( gmt[index_up] , termCol=c(1,2) , singleValue = 1 )
+#' gff_down <- gmt2geneSet( gmt[index_down] , termCol=c(1,2) , singleValue = -1 )
+#'
+#'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
 #'
 #' @seealso \code{\link{geneSet2Net}}; \code{\link{geneSet2sparseMatrix}};

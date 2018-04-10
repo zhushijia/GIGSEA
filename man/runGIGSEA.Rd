@@ -47,6 +47,9 @@ runGIGSEA(MetaXcan, model_db_path, covariance, gwas_folder, gwas_file_pattern,
 
 \item{MGSEA_thres}{an integer value indicating the thresfold for performing MGSEA. When the number of gene sets is smaller than MGSEAthres, we perform MGSEA.}
 }
+\value{
+TRUE
+}
 \description{
 runGIGSEA use MetaXcan to impute the trait-associated differential gene expression from GWAS summary and eQTL database first, and next, performs gene set enrichment analysis for the trait-associated SNPs.
 }

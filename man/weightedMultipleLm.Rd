@@ -21,7 +21,6 @@ weightedMultipleLm solves the weighted multiple linear regression model via matr
 }
 \examples{
 
-library(GIGSEA)
 
 # load data
 data(heart.metaXcan)

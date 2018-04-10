@@ -20,6 +20,7 @@
 #' @param output_dir a character value indicating the directory for saving the results.
 #' @param MGSEA_thres an integer value indicating the thresfold for performing MGSEA. When the number of gene sets is smaller than MGSEAthres, we perform MGSEA.
 #'
+#' @return TRUE
 #' @export
 #'
 #' @examples
@@ -71,7 +72,7 @@ runGIGSEA <- function( MetaXcan , model_db_path, covariance, gwas_folder, gwas_f
 	cat(MetaXcanCmd,'\n')
 	system(MetaXcanCmd)
 
-	metaXcan <- read.table( paste0(output_dir,"/MetaXcan.res.csv") , sep=',' , header=T )
+	metaXcan <- read.table( paste0(output_dir,"/MetaXcan.res.csv") , sep=',' , header=TRUE )
 	cc = table( as.character(metaXcan$gene_name) )
 	metaXcan = subset( metaXcan , ! gene_name %in% (names(cc)[cc>1]) )
 	
@@ -88,6 +89,8 @@ runGIGSEA <- function( MetaXcan , model_db_path, covariance, gwas_folder, gwas_f
 	weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', 	geneSet=gene_set, permutationNum=permutation_num, outputDir=output_dir, MGSEAthres=MGSEA_thres)
 
 	setwd(preWD)
+	
+	return(TRUE)
 	
 }
 

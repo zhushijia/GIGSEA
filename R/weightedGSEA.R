@@ -11,12 +11,11 @@
 #' @param outputDir a character value indicating the directory for saving the results
 #' @param MGSEAthres an integer value indicating the thresfold for MGSEA. MGSEA is performed with no more than "MGSEAthres" gene sets 
 #'
-#' @return NULL
+#' @return TRUE
 #' @export
 #'
 #' @examples
 #'
-#' library(GIGSEA)
 #' data(heart.metaXcan)
 #' gene = heart.metaXcan$gene_name
 #' fc <- heart.metaXcan$zscore
@@ -70,7 +69,7 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
       SGSEA.res = merge( annot , SGSEA.res , by.x=colnames(annot)[1] , by.y=colnames(SGSEA.res)[1] )
     }
     SGSEA.res = SGSEA.res[order(SGSEA.res$empiricalPval) , ]
-    write.table( SGSEA.res , paste0(outputDir,'/',gs,'.SGSEA.txt') , sep='\t' , quote=F , row.names=F , col.names=T)
+    write.table( SGSEA.res , paste0(outputDir,'/',gs,'.SGSEA.txt') , sep='\t' , quote=FALSE , row.names=FALSE , col.names=TRUE)
 
     if( !is.null(MGSEAthres) )
     {
@@ -85,11 +84,14 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
           MGSEA.res = merge( annot , MGSEA.res , by.x=colnames(annot)[1] , by.y=colnames(MGSEA.res)[1] )
         }
         MGSEA.res = MGSEA.res[order(MGSEA.res$empiricalPval) , ]
-        write.table( MGSEA.res , paste0(outputDir,'/',gs,'.MGSEA.txt') , sep='\t' , quote=F , row.names=F , col.names=T)
+        write.table( MGSEA.res , paste0(outputDir,'/',gs,'.MGSEA.txt') , sep='\t' , quote=FALSE , row.names=FALSE , col.names=TRUE)
      }
     }
 
   }
 
+  return(TRUE)
+  
+  
 }
 

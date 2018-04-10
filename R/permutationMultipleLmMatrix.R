@@ -26,9 +26,7 @@
 #' @import MASS
 #' 
 #' @examples
-#'
-#' library(GIGSEA)
-#'
+#' 
 #' # load data
 #' data(heart.metaXcan)
 #' gene = heart.metaXcan$gene_name
@@ -82,11 +80,11 @@ permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , nu
   coefs = A %*% B
   predicts = X %*% coefs
   residuals = y - predicts
-  delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-qr(X)$rank )
+  delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=TRUE)-qr(X)$rank )
   se = sapply( delta , function(d) sqrt( d * diag(A) ) )
   t = coefs/se
   observedTstats = as.matrix(t[-1,1])
-  observedPval = 2 * pt(abs(observedTstats),df=sum(weights>0,na.rm=T)-2,lower.tail=FALSE)
+  observedPval = 2 * pt(abs(observedTstats),df=sum(weights>0,na.rm=TRUE)-2,lower.tail=FALSE)
   
   empiricalSum = rep(0,ncol(net))
   if( num%%step==0 )
@@ -106,7 +104,7 @@ permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , nu
     coefs = A %*% B
     predicts = X %*% coefs
     residuals = shuffledFC - predicts
-    delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-qr(X)$rank )
+    delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=TRUE)-qr(X)$rank )
     se = sapply( delta , function(d) sqrt( d * diag(A) ) )
     t = coefs/se
     shuffledTstats = as.matrix(t[-1,])
@@ -125,7 +123,7 @@ permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , nu
   }
   
   term = colnames(net)
-  usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=T) )
+  usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
   empiricalPval = (empiricalSum+0.1)/(num*ncol(net))
   lc = locfdr( sign(observedTstats) * qnorm(empiricalPval) , plot=0 )
   #lc = locfdr( observedTstats , plot=0 )
@@ -136,7 +134,7 @@ permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , nu
   #pval = data.frame( term , usedGenes , observedTstats , observedPval , empiricalPval , localFdr , BayesFactor )
   pval = data.frame( term , usedGenes , observedTstats , empiricalPval , BayesFactor )
   rownames(pval) = NULL
-  pval = pval[order(pval$BayesFactor,decreasing=T),]
+  pval = pval[order(pval$BayesFactor,decreasing=TRUE),]
   #pval = pval[order(pval$empiricalPval),]
   pval
   

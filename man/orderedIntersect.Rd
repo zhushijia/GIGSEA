@@ -21,7 +21,6 @@ orderedIntersect sorts a data frame based on a given collumn and intersects with
 }
 \examples{
 
-library(GIGSEA)
 
 # load data
 data(heart.metaXcan)

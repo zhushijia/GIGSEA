@@ -10,7 +10,6 @@
 #'
 #' @examples
 #'
-#' library(GIGSEA)
 #' 
 #' r <- cor(USArrests)
 #' df <- nrow(USArrests) - 2

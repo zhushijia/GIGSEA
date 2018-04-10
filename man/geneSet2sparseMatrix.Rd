@@ -23,8 +23,6 @@ geneSet2sparseMatrix transforms gene sets to a sparse matrix, which represents t
 }
 \examples{
 
-library(GIGSEA)
-
 # download the gmt file
 gmt <- readLines('http://amp.pharm.mssm.edu/CREEDS/download/single_drug_perturbations-v1.0.gmt')
 

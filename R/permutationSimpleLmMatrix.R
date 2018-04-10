@@ -27,8 +27,6 @@
 #' 
 #' @examples
 #'
-#' library(GIGSEA)
-#'
 #' # load data
 #' data(heart.metaXcan)
 #' gene = heart.metaXcan$gene_name
@@ -69,7 +67,7 @@ permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=
   net = as.matrix(net)
   net = net[,colSums(net)>0]
   observedCorr = weightedPearsonCorr( x=net, y=fc, w=weights )[,1]
-  observedPval = matrixPval( observedCorr, df=sum(weights>0, na.rm=T)-2 )
+  observedPval = matrixPval( observedCorr, df=sum(weights>0, na.rm=TRUE)-2 )
   #observedPval2 = separateLm( fc , net , weights )
   #max(abs(observedPval-observedPval2))
   
@@ -113,7 +111,7 @@ permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=
   #pval = data.frame( term , usedGenes , observedCorr , observedPval , empiricalPval , localFdr , BayesFactor )
   pval = data.frame( term , usedGenes , observedCorr , empiricalPval , BayesFactor )
   rownames(pval) = NULL
-  pval = pval[order(pval$BayesFactor,decreasing=T),]
+  pval = pval[order(pval$BayesFactor,decreasing=TRUE),]
   #pval = pval[order(pval$empiricalPval),]
   pval
   

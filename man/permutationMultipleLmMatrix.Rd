@@ -33,8 +33,6 @@ permutationMultipleLmMatrix is a permutation test to calculate the empirical p v
 }
 \examples{
 
-library(GIGSEA)
-
 # load data
 data(heart.metaXcan)
 gene = heart.metaXcan$gene_name

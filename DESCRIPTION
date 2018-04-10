@@ -18,8 +18,9 @@ Description: We presented the Genotype-imputed Gene Set Enrichment Analysis (GIG
 License: LGPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: Matrix, MASS, locfdr, stats
-VignetteBuilder: utils
+Depends: Matrix, MASS, locfdr, stats, utils
+Suggests: knitr
+VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 NeedsCompilation: no
 biocViews: GeneSetEnrichment,SNP,VariantAnnotation,GeneExpression,GeneRegulation,Regression,DifferentialExpression

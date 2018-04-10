@@ -19,7 +19,6 @@ matrixPval calculates the p values for the correlation coefficients based on t-s
 }
 \examples{
 
-library(GIGSEA)
 
 r <- cor(USArrests)
 df <- nrow(USArrests) - 2

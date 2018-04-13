@@ -25,11 +25,11 @@
 #' data <- data.frame(gene,fc,weights)
 #' # run one-step GIGSEA 
 #' # weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', 
-#' #    geneSet=c("MSigDB.KEGG.Pathway","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug"), permutationNum=10000, outputDir="./GIGSEA" )
+#' #    geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","TargetScan.miRNA"), permutationNum=10000, outputDir="./GIGSEA" )
 #' # dir("./GIGSEA")
 #' 
 weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
-                        geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO") ,
+                        geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","TargetScan.miRNA") ,
                         permutationNum=100 , outputDir=getwd() , MGSEAthres = NULL )
 {
   

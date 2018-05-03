@@ -125,17 +125,23 @@ permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , nu
   term = colnames(net)
   usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
   empiricalPval = (empiricalSum+0.1)/(num*ncol(net))
-  lc = locfdr( sign(observedTstats) * qnorm(empiricalPval) , plot=0 )
+  
+  #lc = locfdr( sign(observedTstats) * qnorm(empiricalPval) , plot=0 )
   #lc = locfdr( observedTstats , plot=0 )
-  localFdr = lc$fdr
-  p0 = lc$fp0[3,3] - 1.96*lc$fp0[4,3]
-  BayesFactor = (1-localFdr)/localFdr *  p0/(1-p0)
+  zscore = qnorm(empiricalPval)
+  lc = locfdr( c(zscore,-zscore) , plot=0 )
+  localFdr = lc$fdr[1:length(zscore)]
+  
+  p0 = lc$fp0[3,3]
+  # p0 = lc$fp0[3,3] - 1.96*lc$fp0[4,3]
+  
+  BayesFactor = (1-localFdr)/localFdr *  p0/abs(1-p0)
   
   #pval = data.frame( term , usedGenes , observedTstats , observedPval , empiricalPval , localFdr , BayesFactor )
   pval = data.frame( term , usedGenes , observedTstats , empiricalPval , BayesFactor )
   rownames(pval) = NULL
-  pval = pval[order(pval$BayesFactor,decreasing=TRUE),]
-  #pval = pval[order(pval$empiricalPval),]
+  #pval = pval[order(pval$BayesFactor,decreasing=TRUE),]
+  pval = pval[order(pval$empiricalPval),]
   pval
   
 }

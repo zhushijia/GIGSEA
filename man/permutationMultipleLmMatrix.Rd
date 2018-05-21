@@ -47,7 +47,7 @@ data(heart.metaXcan)
 gene = heart.metaXcan$gene_name
 
 # extract the imputed Z-score of differential gene expression, which 
-follows the normal distribution
+# follows the normal distribution
 fc <- heart.metaXcan$zscore
 
 # use as weights the prediction R^2 and the fraction of imputation-used SNPs 
@@ -56,7 +56,7 @@ r2 <- heart.metaXcan$pred_perf_r2
 weights <- usedFrac*r2
 
 # build a new data frame for the following weighted linear regression-based 
-enrichment analysis
+# enrichment analysis
 data <- data.frame(gene,fc,weights)
 head(data)
 

@@ -48,7 +48,7 @@ data(heart.metaXcan)
 gene = heart.metaXcan$gene_name
 
 # extract the imputed Z-score of gene differential expression, which 
-follows the normal distribution
+# follows the normal distribution
 fc <- heart.metaXcan$zscore
 
 # use as weights the prediction R^2 and the fraction of imputation-used SNPs 
@@ -57,7 +57,7 @@ r2 <- heart.metaXcan$pred_perf_r2
 weights <- usedFrac*r2
 
 # build a new data frame for the following weighted linear regression-based 
-enrichment analysis
+# enrichment analysis
 data <- data.frame(gene,fc,weights)
 head(data)
 
@@ -72,7 +72,7 @@ all( rownames(net2) == as.character(data2$gene) )
 
 # the SGSEA.res1 uses the weighted simple linear regression model, 
 # while SGSEA.res2 used the weighted Pearson correlation. The latter one 
-takes substantially less time.
+# takes substantially less time.
 # system.time(SGSEA.res1<-permutationSimpleLm(fc=data2$fc, net=net2, 
 # weights=data2$weights, num=1000))
 # system.time(SGSEA.res2<-permutationSimpleLmMatrix(fc=data2$fc, net=net2, 

@@ -37,7 +37,7 @@
 #' gene = heart.metaXcan$gene_name
 #'
 #' # extract the imputed Z-score of differential gene expression, which follows 
-#' the normal distribution
+#' # the normal distribution
 #' fc <- heart.metaXcan$zscore
 #'
 #' # use as weights the prediction R^2 and the fraction of imputation-used SNPs 
@@ -46,7 +46,7 @@
 #' weights <- usedFrac*r2
 #'
 #' # build a new data frame for the following weighted linear regression-based 
-#' enrichment analysis
+#' # enrichment analysis
 #' data <- data.frame(gene,fc,weights)
 #' head(data)
 #'
@@ -60,9 +60,9 @@
 #' all( rownames(net2) == as.character(data2$gene) )
 #'
 #' # the MGSEA.res1 uses the weighted multiple linear regression to do 
-#' permutation test, 
+#' # permutation test, 
 #' # while MGSEA.res2 used the solution of weighted matrix operation. The 
-#' latter one takes substantially less time.
+#' # latter one takes substantially less time.
 #' # system.time( MGSEA.res1<-permutationMultipleLm(fc=data2$fc, net=net2, 
 #' # weights=data2$weights, num=1000))
 #' # system.time( MGSEA.res2<-permutationMultipleLmMatrix(fc=data2$fc, 

@@ -28,7 +28,7 @@
 #' index_down <- grep('-dn',gmt)
 #'
 #' # transform the gmt file into gene sets. The gene set is a data frame, 
-#' comprising three vectors: 
+#' # comprising three vectors: 
 #' # term (here is drug), geneset (a gene symbol list separate by comma), 
 #' # and value (1 and -1 separate by comma)
 #' gff_up <- gmt2geneSet( gmt[index_up], termCol=c(1,2), singleValue = 1 )

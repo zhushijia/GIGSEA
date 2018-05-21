@@ -6,17 +6,19 @@
 \title{MSigDB.miRNA}
 \format{A list with two items:
 \describe{
-  \item{net}{a sparse matrix, the connectivity between terms and genes, comprising 221 miRNAs (column) and 7444 genes (row)}
+  \item{net}{a sparse matrix, the connectivity between terms and genes, 
+  comprising 221 miRNAs (column) and 7444 genes (row)}
   \item{annot}{a data frame, description of terms}
   ...
 }}
 \source{
-\url{http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C3}
+\url{software.broadinstitute.org/gsea/msigdb/collections.jsp#C3}
 }
 \usage{
 MSigDB.miRNA
 }
 \description{
-Gene sets that contain genes sharing putative target sites (seed matches) of human mature miRNA in their 3'-UTRs.
+Gene sets that contain genes sharing putative target sites (seed matches) 
+of human mature miRNA in their 3'-UTRs.
 }
 \keyword{datasets}

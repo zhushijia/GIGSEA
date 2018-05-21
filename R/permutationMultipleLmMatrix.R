@@ -1,20 +1,29 @@
 #' permutationMultipleLmMatrix
 #'
-#' permutationMultipleLmMatrix is a permutation test to calculate the empirical p values for weighted multiple linear regression
+#' permutationMultipleLmMatrix is a permutation test to calculate the empirical
+#' p values for weighted multiple linear regression
 #'
-#' @param fc a vector of numeric values representing gene expression fold change
-#' @param net a matrix of numeric values in the size of gene number x gene set number, representing the connectivity between genes and gene sets
-#' @param weights a vector of numeric values representing the weights of permuated genes
+#' @param fc a vector of numeric values representing gene expression fold 
+#' change
+#' @param net a matrix of numeric values in the size of gene number x gene set 
+#' number, representing the connectivity between genes and gene sets
+#' @param weights a vector of numeric values representing the weights of 
+#' permuated genes
 #' @param num an integer value representing the number of permutations
-#' @param step an integer value representing the number of permutations in each step 
+#' @param step an integer value representing the number of permutations in 
+#' each step 
 #'
 #' @return a data frame comprising following columns:
 #' \itemize{
 #' \item {term} a vector of character values incidating the names of gene sets.
-#' \item {usedGenes} a vector of numeric values indicating the number of genes used in the model.
-#' \item {observedTstats} a vector of numeric values indicating the observed t-statistics for the weighted multiple regression coefficients.
-#' \item {empiricalPval} a vector of numeric values [0,1] indicating the permutation-based empirical p values.
-#' \item {BayesFactor} a vector of numeric values indicating the Bayes Factor for the multiple test correction.
+#' \item {usedGenes} a vector of numeric values indicating the number of genes 
+#' used in the model.
+#' \item {observedTstats} a vector of numeric values indicating the observed 
+#' t-statistics for the weighted multiple regression coefficients.
+#' \item {empiricalPval} a vector of numeric values [0,1] indicating the 
+#' permutation-based empirical p values.
+#' \item {BayesFactor} a vector of numeric values indicating the Bayes Factor 
+#' for the multiple test correction.
 #' }
 #'
 #' @export
@@ -31,7 +40,8 @@
 #' data(heart.metaXcan)
 #' gene = heart.metaXcan$gene_name
 #'
-#' # extract the imputed Z-score of differential gene expression, which follows the normal distribution
+#' # extract the imputed Z-score of differential gene expression, which 
+#' follows the normal distribution
 #' fc <- heart.metaXcan$zscore
 #'
 #' # use as weights the prediction R^2 and the fraction of imputation-used SNPs 
@@ -39,28 +49,35 @@
 #' r2 <- heart.metaXcan$pred_perf_r2
 #' weights <- usedFrac*r2
 #'
-#' # build a new data frame for the following weighted linear regression-based enrichment analysis
+#' # build a new data frame for the following weighted linear regression-based 
+#' enrichment analysis
 #' data <- data.frame(gene,fc,weights)
 #' head(data)
 #'
 #' net <- MSigDB.KEGG.Pathway$net
 #'
 #' # intersect the imputed genes with the gene sets of interest
-#' data2 <- orderedIntersect( x = data , by.x = data$gene , by.y = rownames(net)  )
-#' net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
+#' data2 <- orderedIntersect( x=data, by.x=data$gene, by.y=rownames(net))
+#' net2 <- orderedIntersect( x=net, by.x=rownames(net), by.y=data$gene)
 #' all( rownames(net2) == as.character(data2$gene) )
 #'
-#' # the MGSEA.res1 uses the weighted multiple linear regression to do permutation test, 
-#' # while MGSEA.res2 used the solution of weighted matrix operation. The latter one takes substantially less time.
-#' # system.time( MGSEA.res1<-permutationMultipleLm(fc=data2$fc, net=net2, weights=data2$weights, num=1000))
-#' system.time( MGSEA.res2<-permutationMultipleLmMatrix(fc=data2$fc, net=net2, weights=data2$weights, num=1000))
+#' # the MGSEA.res1 uses the weighted multiple linear regression to do 
+#' # permutation test, 
+#' # while MGSEA.res2 used the solution of weighted matrix operation. The 
+#' # latter one takes substantially less time.
+#' # system.time( MGSEA.res1<-permutationMultipleLm(fc=data2$fc, net=net2, 
+#' # weights=data2$weights, num=1000))
+#' system.time( MGSEA.res2<-permutationMultipleLmMatrix(fc=data2$fc, net=net2, 
+#' weights=data2$weights, num=1000))
 #' head(MGSEA.res2)
 #'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
 #'
-#' @seealso \code{\link{orderedIntersect}}; \code{\link{permutationMultipleLm}};
+#' @seealso \code{\link{orderedIntersect}}; 
+#' \code{\link{permutationMultipleLm}};
 #'
-permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=100 , step=1000 )
+permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , 
+                                        num=100 , step=1000 )
 {
   fc[is.na(fc)] = 0
   weights[is.na(weights)]=0
@@ -84,7 +101,8 @@ permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , nu
   se = sapply( delta , function(d) sqrt( d * diag(A) ) )
   t = coefs/se
   observedTstats = as.matrix(t[-1,1])
-  observedPval = 2 * pt(abs(observedTstats),df=sum(weights>0,na.rm=TRUE)-2,lower.tail=FALSE)
+  observedPval = 2 * pt(abs(observedTstats), df=sum(weights>0, na.rm=TRUE)-2, 
+                        lower.tail=FALSE)
   
   empiricalSum = rep(0,ncol(net))
   if( num%%step==0 )
@@ -113,9 +131,9 @@ permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , nu
     {
       if(observedTstats[j]>0) 
       {
-        empiricalSum[j] = empiricalSum[j] + sum( shuffledTstats > observedTstats[j] )
+        empiricalSum[j]=empiricalSum[j]+sum(shuffledTstats>observedTstats[j])
       } else {
-        empiricalSum[j] = empiricalSum[j] + sum( shuffledTstats < observedTstats[j] )
+        empiricalSum[j]=empiricalSum[j]+sum(shuffledTstats<observedTstats[j])
       }
     }
     
@@ -137,8 +155,7 @@ permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , nu
   
   BayesFactor = (1-localFdr)/localFdr *  p0/abs(1-p0)
   
-  #pval = data.frame( term , usedGenes , observedTstats , observedPval , empiricalPval , localFdr , BayesFactor )
-  pval = data.frame( term , usedGenes , observedTstats , empiricalPval , BayesFactor )
+  pval <- data.frame(term,usedGenes,observedTstats,empiricalPval,BayesFactor)
   rownames(pval) = NULL
   #pval = pval[order(pval$BayesFactor,decreasing=TRUE),]
   pval = pval[order(pval$empiricalPval),]

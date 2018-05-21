@@ -1,15 +1,24 @@
 #' weightedGSEA
 #'
-#' weightedGSEA performs both SGSEA and MGSEA for a given list of gene sets, and writes out the results.
+#' weightedGSEA performs both SGSEA and MGSEA for a given list of gene sets, 
+#' and writes out the results.
 #'
-#' @param data a data frame comprising comlumns: gene names (characer), differential gene expression (numeric) and permuated gene weights (numeric and optional)
-#' @param geneCol an integer or a character value indicating the column of gene name
-#' @param fcCol an integer or a character value indicating the column of differential gene expression
-#' @param weightCol an integer or a character value indicating the column of gene weights
-#' @param geneSet a vector of character values indicating the gene sets of interest. 
+#' @param data a data frame comprising comlumns: gene names (characer), 
+#' differential gene expression (numeric) and permuated gene weights (numeric 
+#' and optional)
+#' @param geneCol an integer or a character value indicating the column of gene 
+#' name
+#' @param fcCol an integer or a character value indicating the column of 
+#' differential gene expression
+#' @param weightCol an integer or a character value indicating the column of 
+#' gene weights
+#' @param geneSet a vector of character values indicating the gene sets of 
+#' interest. 
 #' @param permutationNum an integer value indicating the number of permutation
-#' @param outputDir a character value indicating the directory for saving the results
-#' @param MGSEAthres an integer value indicating the thresfold for MGSEA. MGSEA is performed with no more than "MGSEAthres" gene sets 
+#' @param outputDir a character value indicating the directory for saving the 
+#' results
+#' @param MGSEAthres an integer value indicating the thresfold for MGSEA. MGSEA 
+#' is performed with no more than "MGSEAthres" gene sets 
 #'
 #' @return TRUE
 #' @export
@@ -25,12 +34,15 @@
 #' data <- data.frame(gene,fc,weights)
 #' # run one-step GIGSEA 
 #' # weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', 
-#' #    geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","TargetScan.miRNA"), permutationNum=10000, outputDir="./GIGSEA" )
+#' #    geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA",
+#' # "TargetScan.miRNA"), permutationNum=10000, outputDir="./GIGSEA" )
 #' # dir("./GIGSEA")
 #' 
 weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
-                        geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","TargetScan.miRNA") ,
-                        permutationNum=100 , outputDir=getwd() , MGSEAthres = NULL )
+                        geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF",
+                                  "MSigDB.miRNA","TargetScan.miRNA") ,
+                        permutationNum=100 , outputDir=getwd() , 
+                        MGSEAthres = NULL )
 {
   
   if( !file.exists(outputDir) )
@@ -39,7 +51,8 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
     dir.create( outputDir , showWarnings = TRUE, recursive = TRUE) 
   }
   
-  allGeneSet = c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug")
+  allGeneSet = c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF",
+                 "TargetScan.miRNA","GO","LINCS.CMap.drug")
   noGeneSet = setdiff( geneSet , allGeneSet )
   if(length(noGeneSet)) cat( "Gene sets are not defined: " , noGeneSet , '\n'  )
 
@@ -61,30 +74,36 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
     }
 
     cat('--> performing SGSEA ...\n')
-    SGSEA.res <- permutationSimpleLmMatrix( fc , net , weights , permutationNum )
+    SGSEA.res <- permutationSimpleLmMatrix( fc , net , weights , 
+                                            permutationNum )
     if( !is.null(get(gs)$annot) )
     {
       annot = get(gs)$annot
       if( all(table(annot[,1])==1) )
-      SGSEA.res = merge( annot , SGSEA.res , by.x=colnames(annot)[1] , by.y=colnames(SGSEA.res)[1] )
+      SGSEA.res = merge( annot , SGSEA.res , by.x=colnames(annot)[1] , 
+                         by.y=colnames(SGSEA.res)[1] )
     }
     SGSEA.res = SGSEA.res[order(SGSEA.res$empiricalPval) , ]
-    write.table( SGSEA.res , paste0(outputDir,'/',gs,'.SGSEA.txt') , sep='\t' , quote=FALSE , row.names=FALSE , col.names=TRUE)
+    write.table( SGSEA.res , paste0(outputDir,'/',gs,'.SGSEA.txt') , sep='\t' , 
+                 quote=FALSE , row.names=FALSE , col.names=TRUE)
 
     if( !is.null(MGSEAthres) )
     {
       if( ncol(net)<MGSEAthres )
       {
         cat('\n--> performing MGSEA ...\n')
-        MGSEA.res <- permutationMultipleLmMatrix( fc , net , weights , permutationNum )
+        MGSEA.res <- permutationMultipleLmMatrix( fc , net , weights , 
+                                                  permutationNum )
         if( !is.null(get(gs)$annot) )
         {
           annot = get(gs)$annot
           if( all(table(annot[,1])==1) )
-          MGSEA.res = merge( annot , MGSEA.res , by.x=colnames(annot)[1] , by.y=colnames(MGSEA.res)[1] )
+          MGSEA.res = merge( annot , MGSEA.res , by.x=colnames(annot)[1] , 
+                             by.y=colnames(MGSEA.res)[1] )
         }
         MGSEA.res = MGSEA.res[order(MGSEA.res$empiricalPval) , ]
-        write.table( MGSEA.res , paste0(outputDir,'/',gs,'.MGSEA.txt') , sep='\t' , quote=FALSE , row.names=FALSE , col.names=TRUE)
+        write.table( MGSEA.res , paste0(outputDir,'/',gs,'.MGSEA.txt') , 
+                     sep='\t' , quote=FALSE , row.names=FALSE , col.names=TRUE)
      }
     }
 

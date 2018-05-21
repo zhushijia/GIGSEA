@@ -6,12 +6,13 @@
 \title{MSigDB.KEGG.Pathway}
 \format{A list with two items:
 \describe{
-  \item{net}{a sparse matrix, the connectivity between terms and genes, comprising 186 pathways (column) and 5267 genes (row)}
+  \item{net}{a sparse matrix, the connectivity between terms and genes, 
+  comprising 186 pathways (column) and 5267 genes (row)}
   \item{annot}{a data frame, description of terms}
   ...
 }}
 \source{
-\url{http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C2}
+\url{software.broadinstitute.org/gsea/msigdb/collections.jsp#C2}
 }
 \usage{
 MSigDB.KEGG.Pathway

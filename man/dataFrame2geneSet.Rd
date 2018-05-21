@@ -7,17 +7,24 @@
 dataFrame2geneSet(term, gene, value = NULL)
 }
 \arguments{
-\item{term}{a character value incidating the name of the column for the gene set (terms).}
+\item{term}{a character value incidating the name of the column for the 
+gene set (terms).}
 
-\item{gene}{a character value incidating the name of the column for the genes.}
+\item{gene}{a character value incidating the name of the column for the 
+genes.}
 
-\item{value}{a vector of numeric values indicating the connectivity of between terms and genes. It could take either discrete values (0 and 1) or continuous values.}
+\item{value}{a vector of numeric values indicating the connectivity of 
+between terms and genes. It could take either discrete values (0 and 1) 
+or continuous values.}
 }
 \value{
-a data frame, comprising three vectors: term (like pathway names), geneset (a gene symbol list separate by comma), and value (either discrete or continuous separated by comma)
+a data frame, comprising three vectors: term (like pathway names), 
+geneset (a gene symbol list separate by comma), and value (either discrete 
+or continuous separated by comma)
 }
 \description{
-dataFrame2geneSet transforms a data frame (1term-1gene) into geneSets (1term-Ngenes).
+dataFrame2geneSet transforms a data frame (1term-1gene) into geneSets 
+(1term-Ngenes).
 }
 \seealso{
 \code{\link{geneSet2Net}}; \code{\link{geneSet2sparseMatrix}};

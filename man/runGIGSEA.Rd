@@ -13,45 +13,66 @@ runGIGSEA(MetaXcan, model_db_path, covariance, gwas_folder, gwas_file_pattern,
   output_dir = "./GIGSEA", MGSEA_thres = NULL)
 }
 \arguments{
-\item{MetaXcan}{a character value indicating the path to the MetaXcan.py file.}
+\item{MetaXcan}{a character value indicating the path to the MetaXcan.py 
+file.}
 
-\item{model_db_path}{a character value indicating the path to tissue transriptome model.}
+\item{model_db_path}{a character value indicating the path to tissue 
+transriptome model.}
 
-\item{covariance}{a character value indicating the path to file containing covariance information. This covariance should have information related to the tissue transcriptome model.}
+\item{covariance}{a character value indicating the path to file containing 
+covariance information. This covariance should have information related to 
+the tissue transcriptome model.}
 
-\item{gwas_folder}{a character value indicating the folder containing GWAS summary statistics data.}
+\item{gwas_folder}{a character value indicating the folder containing GWAS 
+summary statistics data.}
 
-\item{gwas_file_pattern}{a regular expression indicating the gwas summary files.}
+\item{gwas_file_pattern}{a regular expression indicating the gwas summary 
+files.}
 
-\item{snp_column}{a character value indicating the name of column holding SNP data, by default, "SNP".}
+\item{snp_column}{a character value indicating the name of column holding 
+SNP data, by default, "SNP".}
 
-\item{non_effect_allele_column}{a character value indicating the name of column holding "other/non effect" allele data, by default, "A2".}
+\item{non_effect_allele_column}{a character value indicating the name of 
+column holding "other/non effect" allele data, by default, "A2".}
 
-\item{effect_allele_column}{a character value indicating the name of column holding effect allele data, by default, "A1".}
+\item{effect_allele_column}{a character value indicating the name of column 
+holding effect allele data, by default, "A1".}
 
-\item{or_column}{a character value indicating the name of column holding Odd Ratio data, by default, "OR".}
+\item{or_column}{a character value indicating the name of column holding Odd 
+Ratio data, by default, "OR".}
 
-\item{beta_column}{a character value indicating the name of column holding beta data, by default, "BETA".}
+\item{beta_column}{a character value indicating the name of column holding 
+beta data, by default, "BETA".}
 
-\item{beta_sign_column}{a character value indicating the name of column holding sign of beta, by default, "direction".}
+\item{beta_sign_column}{a character value indicating the name of column 
+holding sign of beta, by default, "direction".}
 
-\item{zscore_column}{a character value indicating the name of column holding zscore of beta, by default, "Z".}
+\item{zscore_column}{a character value indicating the name of column holding 
+zscore of beta, by default, "Z".}
 
-\item{pvalue_column}{a character value indicating the name of column holding p-values data, by default, "P".}
+\item{pvalue_column}{a character value indicating the name of column holding 
+p-values data, by default, "P".}
 
-\item{gene_set}{a vector of characters indicating the gene sets of interest for enrichment test, by default, c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO", "LINCS.CMap.drug")}
+\item{gene_set}{a vector of characters indicating the gene sets of interest 
+for enrichment test, by default, c("MSigDB.KEGG.Pathway","MSigDB.TF",
+"MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO", "LINCS.CMap.drug")}
 
 \item{permutation_num}{an integer indicating the number of permutation.}
 
-\item{output_dir}{a character value indicating the directory for saving the results.}
+\item{output_dir}{a character value indicating the directory for saving the 
+results.}
 
-\item{MGSEA_thres}{an integer value indicating the thresfold for performing MGSEA. When the number of gene sets is smaller than MGSEAthres, we perform MGSEA.}
+\item{MGSEA_thres}{an integer value indicating the thresfold for performing 
+MGSEA. When the number of gene sets is smaller than MGSEAthres, we perform 
+MGSEA.}
 }
 \value{
 TRUE
 }
 \description{
-runGIGSEA use MetaXcan to impute the trait-associated differential gene expression from GWAS summary and eQTL database first, and next, performs gene set enrichment analysis for the trait-associated SNPs.
+runGIGSEA use MetaXcan to impute the trait-associated differential gene 
+expression from GWAS summary and eQTL database first, and next, performs 
+gene set enrichment analysis for the trait-associated SNPs.
 }
 \examples{
 # runGIGSEA( MetaXcan="/MetaXcan/software/MetaXcan.py" , 
@@ -65,7 +86,8 @@ runGIGSEA use MetaXcan to impute the trait-associated differential gene expressi
  
 }
 \references{
-Barbeira, A., et al. Integrating tissue specific mechanisms into GWAS summary results. bioRxiv 2016:045260.
+Barbeira, A., et al. Integrating tissue specific mechanisms into GWAS 
+summary results. bioRxiv 2016:045260.
 https://github.com/hakyimlab/MetaXcan
 }
 \seealso{

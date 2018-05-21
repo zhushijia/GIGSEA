@@ -14,7 +14,8 @@ weightedPearsonCorr(x, y, w = rep(1, nrow(x))/nrow(x))
 \item{w}{a vector of numeric values indicating the weights of genes}
 }
 \value{
-a matrix of numeric values in the size of featureA*featureB, indicating the weighted Pearson correlation coefficients
+a matrix of numeric values in the size of featureA*featureB, 
+indicating the weighted Pearson correlation coefficients
 }
 \description{
 weightedPearsonCorr caculates the weighted Pearson correlation
@@ -26,7 +27,8 @@ weightedPearsonCorr caculates the weighted Pearson correlation
 data(heart.metaXcan)
 gene = heart.metaXcan$gene_name
 
-# extract the imputed Z-score of gene differential expression, which follows the normal distribution
+# extract the imputed Z-score of gene differential expression, which follows 
+the normal distribution
 fc <- heart.metaXcan$zscore
 
 # use as weights the prediction R^2 and fraction of imputation-used SNPs 
@@ -34,15 +36,18 @@ usedFrac <- heart.metaXcan$n_snps_used / heart.metaXcan$n_snps_in_cov
 r2 <- heart.metaXcan$pred_perf_r2
 weights <- usedFrac*r2
 
-# build a new data frame for the following weighted simple linear regression-based enrichment analysis
+# build a new data frame for the following weighted simple linear 
+regression-based enrichment analysis
 data <- data.frame(gene,fc,weights)
 head(data)
 
 net <- MSigDB.KEGG.Pathway$net
 
 # intersect the imputed genes with the gene sets of interest
-data2 <- orderedIntersect( x = data , by.x = data$gene , by.y = rownames(net)  )
-net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
+data2 <- orderedIntersect( x = data , by.x = data$gene , 
+by.y = rownames(net)  )
+net2 <- orderedIntersect( x = net , by.x = rownames(net) , 
+by.y = data$gene  )
 all( rownames(net2) == as.character(data2$gene) )
 
 # calculate the weighted Pearson correlation

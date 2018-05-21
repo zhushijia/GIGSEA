@@ -1,8 +1,10 @@
 #' matrixPval
 #'
-#' matrixPval calculates the p values for the correlation coefficients based on t-statistics
+#' matrixPval calculates the p values for the correlation coefficients based on 
+#' t-statistics
 #'
-#' @param r a vector or a matrix of Pearson correlation coefficients taking values in [-1,+1]
+#' @param r a vector or a matrix of Pearson correlation coefficients taking 
+#' values in [-1,+1]
 #' @param df the degree of freedom
 #'
 #' @return a vector or matrix of p values taking values in [0,1]

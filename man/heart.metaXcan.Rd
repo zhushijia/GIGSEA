@@ -11,22 +11,29 @@
   \item{zscore}{MetaXcan's association result for the gene}
   \item{effect_size}{MetaXcan's association effect size for the gene}
   \item{pvalue}{P-value of the aforementioned statistic}
-  \item{pred_perf_r2}{R2 of transcriptome prediction model's correlation to gene's measured transcriptome}
-  \item{pred_perf_pval}{pval of transcriptome prediction model's correlation to gene's measured transcriptome}
-  \item{pred_perf_qval}{qval of transcriptome prediction model's correlation to gene's measured transcriptome}
-  \item{n_snps_used}{number of snps from GWAS that got used in MetaXcan analysis}
+  \item{pred_perf_r2}{R2 of transcriptome prediction model's correlation 
+  to gene's measured transcriptome}
+  \item{pred_perf_pval}{pval of transcriptome prediction model's correlation 
+  to gene's measured transcriptome}
+  \item{pred_perf_qval}{qval of transcriptome prediction model's correlation 
+  to gene's measured transcriptome}
+  \item{n_snps_used}{number of snps from GWAS that got used in MetaXcan 
+  analysis}
   \item{n_snps_in_cov}{number of snps in the covariance matrix}
   \item{n_snps_in_model}{number of snps in the prediction model}
   \item{var_g}{variance of the gene expression}
   ...
 }}
 \source{
-\url{http://www.cardiogramplusc4d.org/data-downloads/;https://cloud.hakyimlab.org/s-predixcan}
+\url{http://www.cardiogramplusc4d.org/data-downloads/;
+https://cloud.hakyimlab.org/s-predixcan}
 }
 \usage{
 heart.metaXcan
 }
 \description{
-The MetaXcan-predicted differential gene expression from the cardiovascular disease (CVD) GWAS, CARDIoGRAMplusC4D (60,801 cases, 123,504 controls and 9.4M SNPs).
+The MetaXcan-predicted differential gene expression from the cardiovascular 
+disease (CVD) GWAS, CARDIoGRAMplusC4D (60,801 cases, 123,504 controls and 
+9.4M SNPs).
 }
 \keyword{datasets}

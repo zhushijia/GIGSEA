@@ -1,20 +1,30 @@
 #' permutationSimpleLmMatrix
 #'
-#' permutationSimpleLmMatrix is a permutation test to calculate the empirical p values for the weighted simple linear regression model based on the weighted Pearson correlation.
+#' permutationSimpleLmMatrix is a permutation test to calculate the empirical p 
+#' values for the weighted simple linear regression model based on the weighted 
+#' Pearson correlation.
 #'
-#' @param fc a vector of numeric values representing the gene expression fold change
-#' @param net a matrix of numeric values in the size of gene number x gene set number, representing the connectivity betwen genes and gene sets
-#' @param weights a vector of numeric values representing the weights of permuted genes
+#' @param fc a vector of numeric values representing the gene expression fold 
+#' change
+#' @param net a matrix of numeric values in the size of gene number x gene set 
+#' number, representing the connectivity betwen genes and gene sets
+#' @param weights a vector of numeric values representing the weights of 
+#' permuted genes
 #' @param num an integer value representing the number of permutations
-#' @param step an integer value representing the number of permutations in each step 
+#' @param step an integer value representing the number of permutations in 
+#' each step 
 #'
 #' @return a data frame comprising following columns:
 #' \itemize{
 #' \item {term} a vector of character values incidating the name of gene set.
-#' \item {usedGenes} a vector of numeric values indicating the number of gene used in the model.
-#' \item {observedCorr} a vector of numeric values indicating the observed weighted Pearson correlation coefficients.
-#' \item {empiricalPval} a vector of numeric values [0,1] indicating the permutation-based empirical p values. 
-#' \item {BayesFactor} a vector of numeric values indicating the Bayes Factor for the multiple test correction.
+#' \item {usedGenes} a vector of numeric values indicating the number of gene 
+#' used in the model.
+#' \item {observedCorr} a vector of numeric values indicating the observed 
+#' weighted Pearson correlation coefficients.
+#' \item {empiricalPval} a vector of numeric values [0,1] indicating the 
+#' permutation-based empirical p values. 
+#' \item {BayesFactor} a vector of numeric values indicating the Bayes Factor 
+#' for the multiple test correction.
 #' }
 #'
 #' @export
@@ -31,7 +41,8 @@
 #' data(heart.metaXcan)
 #' gene = heart.metaXcan$gene_name
 #'
-#' # extract the imputed Z-score of gene differential expression, which follows the normal distribution
+#' # extract the imputed Z-score of gene differential expression, which follows 
+#' the normal distribution
 #' fc <- heart.metaXcan$zscore
 #'
 #' # use as weights the prediction R^2 and the fraction of imputation-used SNPs 
@@ -39,28 +50,35 @@
 #' r2 <- heart.metaXcan$pred_perf_r2
 #' weights <- usedFrac*r2
 #'
-#' # build a new data frame for the following weighted linear regression-based enrichment analysis
+#' # build a new data frame for the following weighted linear regression-based 
+#' enrichment analysis
 #' data <- data.frame(gene,fc,weights)
 #' head(data)
 #'
 #' net <- MSigDB.KEGG.Pathway$net
 #'
 #' # intersect the permuted genes with the gene sets of interest
-#' data2 <- orderedIntersect( x = data , by.x = data$gene , by.y = rownames(net)  )
-#' net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
+#' data2 <- orderedIntersect( x = data , by.x = data$gene , 
+#' by.y = rownames(net)  )
+#' net2 <- orderedIntersect( x = net , by.x = rownames(net) , 
+#' by.y = data$gene  )
 #' all( rownames(net2) == as.character(data2$gene) )
 #'
 #' # the SGSEA.res1 uses the weighted simple linear regression model, 
-#' # while SGSEA.res2 used the weighted Pearson correlation. The latter one takes substantially less time.
-#' #system.time(SGSEA.res1<-permutationSimpleLm(fc=data2$fc, net=net2, weights=data2$weights, num=1000))
-#' system.time(SGSEA.res2<-permutationSimpleLmMatrix(fc=data2$fc, net=net2, weights=data2$weights, num=1000))
+#' # while SGSEA.res2 used the weighted Pearson correlation. The latter one 
+#' # takes substantially less time.
+#' # system.time(SGSEA.res1<-permutationSimpleLm(fc=data2$fc, net=net2, 
+#' # weights=data2$weights, num=1000))
+#' system.time(SGSEA.res2<-permutationSimpleLmMatrix(fc=data2$fc, net=net2, 
+#' weights=data2$weights, num=1000))
 #' head(SGSEA.res2)
 #'
 #' @author Shijia Zhu, \email{shijia.zhu@@mssm.edu}
 #'
 #' @seealso \code{\link{orderedIntersect}}; \code{\link{permutationSimpleLm}};
 #'
-permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=100 , step=1000 )
+permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , 
+                                      num=100 , step=1000 )
 {
   fc[is.na(fc)] = 0
   weights[is.na(weights)]=0
@@ -90,9 +108,9 @@ permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=
     {
       if(observedCorr[j]>0) 
       {
-        empiricalSum[j] = empiricalSum[j] + sum( shuffledCorr > observedCorr[j] )
+        empiricalSum[j] = empiricalSum[j] + sum(shuffledCorr > observedCorr[j])
       } else {
-        empiricalSum[j] = empiricalSum[j] + sum( shuffledCorr < observedCorr[j] )
+        empiricalSum[j] = empiricalSum[j] + sum(shuffledCorr < observedCorr[j])
       }
     }
     
@@ -113,8 +131,7 @@ permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , num=
   
   BayesFactor = (1-localFdr)/localFdr *  p0/abs(1-p0)
   
-  #pval = data.frame( term , usedGenes , observedCorr , observedPval , empiricalPval , localFdr , BayesFactor )
-  pval = data.frame( term , usedGenes , observedCorr , empiricalPval , BayesFactor )
+  pval = data.frame( term, usedGenes, observedCorr, empiricalPval, BayesFactor )
   rownames(pval) = NULL
   #pval = pval[order(pval$BayesFactor,decreasing=TRUE),]
   pval = pval[order(pval$empiricalPval),]

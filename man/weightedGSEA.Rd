@@ -10,27 +10,36 @@ weightedGSEA(data, geneCol, fcCol, weightCol = NULL,
   MGSEAthres = NULL)
 }
 \arguments{
-\item{data}{a data frame comprising comlumns: gene names (characer), differential gene expression (numeric) and permuated gene weights (numeric and optional)}
+\item{data}{a data frame comprising comlumns: gene names (characer), 
+differential gene expression (numeric) and permuated gene weights (numeric 
+and optional)}
 
-\item{geneCol}{an integer or a character value indicating the column of gene name}
+\item{geneCol}{an integer or a character value indicating the column of gene 
+name}
 
-\item{fcCol}{an integer or a character value indicating the column of differential gene expression}
+\item{fcCol}{an integer or a character value indicating the column of 
+differential gene expression}
 
-\item{weightCol}{an integer or a character value indicating the column of gene weights}
+\item{weightCol}{an integer or a character value indicating the column of 
+gene weights}
 
-\item{geneSet}{a vector of character values indicating the gene sets of interest.}
+\item{geneSet}{a vector of character values indicating the gene sets of 
+interest.}
 
 \item{permutationNum}{an integer value indicating the number of permutation}
 
-\item{outputDir}{a character value indicating the directory for saving the results}
+\item{outputDir}{a character value indicating the directory for saving the 
+results}
 
-\item{MGSEAthres}{an integer value indicating the thresfold for MGSEA. MGSEA is performed with no more than "MGSEAthres" gene sets}
+\item{MGSEAthres}{an integer value indicating the thresfold for MGSEA. MGSEA 
+is performed with no more than "MGSEAthres" gene sets}
 }
 \value{
 TRUE
 }
 \description{
-weightedGSEA performs both SGSEA and MGSEA for a given list of gene sets, and writes out the results.
+weightedGSEA performs both SGSEA and MGSEA for a given list of gene sets, 
+and writes out the results.
 }
 \examples{
 
@@ -43,7 +52,8 @@ weights <- usedFrac*r2
 data <- data.frame(gene,fc,weights)
 # run one-step GIGSEA 
 # weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', 
-#    geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","TargetScan.miRNA"), permutationNum=10000, outputDir="./GIGSEA" )
+#    geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA",
+# "TargetScan.miRNA"), permutationNum=10000, outputDir="./GIGSEA" )
 # dir("./GIGSEA")
 
 }

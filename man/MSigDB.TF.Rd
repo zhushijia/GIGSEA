@@ -6,17 +6,19 @@
 \title{MSigDB.TF}
 \format{A list with two items:
 \describe{
-  \item{net}{a sparse matrix, the connectivity between terms and genes, comprising 615 TFs (column) and 12774 genes (row)}
+  \item{net}{a sparse matrix, the connectivity between terms and genes, 
+  comprising 615 TFs (column) and 12774 genes (row)}
   \item{annot}{a data frame, description of terms}
   ...
 }}
 \source{
-\url{http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C3}
+\url{software.broadinstitute.org/gsea/msigdb/collections.jsp#C3}
 }
 \usage{
 MSigDB.TF
 }
 \description{
-Gene sets that share upstream cis-regulatory motifs which can function as potential transcription factor binding sites.
+Gene sets that share upstream cis-regulatory motifs which can function as 
+potential transcription factor binding sites.
 }
 \keyword{datasets}

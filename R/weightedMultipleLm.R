@@ -76,7 +76,7 @@ weightedMultipleLm <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
   #delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-ncol(X) )
   delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=TRUE)-qr(X)$rank )
   
-  se = sapply( delta , function(d) sqrt( d * diag(A) ) )
+  se = vapply( delta , function(d) sqrt( d * diag(A) ) , numeric(nrow(A)) )
 
   t = coefs/se
   as.matrix(t[-1,])

@@ -42,15 +42,17 @@
 gmt2geneSet <- function( gmt, termCol=1, nonGeneCol=termCol, singleValue=NULL )
 {
   split_gmt = strsplit( as.character(gmt) , '\t' )
-  term = sapply( split_gmt , function(x) paste( x[termCol],collapse=',' ) )
-  geneset <- sapply(split_gmt, function(x) paste(x[-nonGeneCol],collapse=','))
+  term = vapply( split_gmt , function(x) 
+    paste( x[termCol],collapse=',' ) , character(1) )
+  geneset <- vapply(split_gmt, function(x) 
+    paste(x[-nonGeneCol],collapse=',') , character(1) )
   if( is.null(singleValue) )
   {
     gff = data.frame(term , geneset , stringsAsFactors = FALSE)
   } else {
-    gene_num <- sapply( strsplit(geneset,',') , length )
-    value <- sapply( gene_num , function(times) paste( rep(singleValue,times)
-                                                       ,collapse=',') )
+    gene_num <- vapply( strsplit(geneset,',') , length , integer(1) )
+    value <- vapply( gene_num , function(times) 
+      paste( rep(singleValue,times),collapse=',') , character(1) )
     gff = data.frame(term , geneset , value , stringsAsFactors = FALSE)
   }
   gff

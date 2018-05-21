@@ -101,7 +101,7 @@ permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) ,
   for( i in 1:length(steps) )
   {
     stepi = steps[i]
-    shuffledFC = sapply(1:stepi,function(s) sample(fc) )
+    shuffledFC = vapply(1:stepi,function(s) sample(fc) , numeric(length(fc)) )
     shuffledCorr =  weightedPearsonCorr( x=net, y=shuffledFC, w=weights )
     
     for(j in 1:nrow(shuffledCorr))

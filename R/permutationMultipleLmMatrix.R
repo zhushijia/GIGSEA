@@ -98,7 +98,7 @@ permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) ,
   predicts = X %*% coefs
   residuals = y - predicts
   delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=TRUE)-qr(X)$rank )
-  se = sapply( delta , function(d) sqrt( d * diag(A) ) )
+  se = vapply( delta , function(d) sqrt( d * diag(A) ) , numeric(nrow(A)) )
   t = coefs/se
   observedTstats = as.matrix(t[-1,1])
   observedPval = 2 * pt(abs(observedTstats), df=sum(weights>0, na.rm=TRUE)-2, 
@@ -116,14 +116,14 @@ permutationMultipleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) ,
   for( i in 1:length(steps) )
   {
     stepi = steps[i]
-    shuffledFC = sapply(1:stepi,function(s) sample(fc) )
+    shuffledFC = vapply(1:stepi,function(s) sample(fc) , numeric(length(fc)) )
     
     B = A0 %*% shuffledFC
     coefs = A %*% B
     predicts = X %*% coefs
     residuals = shuffledFC - predicts
     delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=TRUE)-qr(X)$rank )
-    se = sapply( delta , function(d) sqrt( d * diag(A) ) )
+    se = vapply( delta , function(d) sqrt( d * diag(A) ) , numeric(nrow(A)) )
     t = coefs/se
     shuffledTstats = as.matrix(t[-1,])
     

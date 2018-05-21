@@ -38,19 +38,20 @@
 #' # combine up and down-regulated gene sets, and use 1 and -1 to indicate 
 #' # their direction 
 #' # extract the drug names
-#' term_up <- sapply( gff_up$term , function(x) gsub('-up','',x) )
-#' term_down <- sapply( gff_down$term , function(x) gsub('-dn','',x) )
+#' term_up<-vapply(gff_up$term, function(x) gsub('-up','',x), character(1))
+#' term_down<-vapply(gff_down$term, function(x) gsub('-dn','',x), character(1))
 #' all(term_up==term_down)
 #'
 #' # combine the up-regulated and down-regulated gene names for each 
 #' # drug perturbation
-#' geneset<-sapply(1:nrow(gff_up),function(i) paste(gff_up$geneset[i],
-#' gff_down$geneset[i],sep=','))
-#'
+#' geneset <- vapply(1:nrow(gff_up),function(i) paste(gff_up$geneset[i],
+#' gff_down$geneset[i],sep=','), character(1) )
+#' 
 #' # use 1 and -1 to indicate the direction of up and down-regulated genes
-#' value <- sapply( 1:nrow(gff_up) , function(i) paste(gff_up$value[i],
-#' gff_down$value[i],sep=','))
-#'
+#' value <- vapply( 1:nrow(gff_up) , function(i) paste(gff_up$value[i],
+#' gff_down$value[i],sep=',') , character(1) )
+#' 
+#' 
 #' # transform the gene set into matrix, where the row represents the gene, 
 #' # the column represents the drug perturbation, and each entry takes values 
 #' # of 1 and -1
@@ -78,7 +79,7 @@ geneSet2sparseMatrix <- function( term , geneset , value=NULL , sep=',' )
   genes = unique( do.call(c,split_geneset) )
 
   index = lapply( split_geneset , function(x) match( x , genes )  )
-  num = sapply(index,length)
+  num = vapply(index,length,integer(1))
   i = do.call(c,index)
   j = rep(1:length(term),num)
 

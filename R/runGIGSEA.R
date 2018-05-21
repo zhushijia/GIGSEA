@@ -82,22 +82,22 @@ runGIGSEA <- function( MetaXcan,
                        output_dir="./GIGSEA", 
                        MGSEA_thres=NULL )
 {
-
-  MetaXcanCmd = paste0( MetaXcan , 
-	  " --model_db_path " , model_db_path , 
-		" --covariance " , covariance ,
-		" --gwas_folder " , gwas_folder ,
-		" --gwas_file_pattern " , gwas_file_pattern ,
-		" --snp_column " , snp_column ,
-		" --non_effect_allele_column " , non_effect_allele_column ,
-		" --effect_allele_column " , effect_allele_column ,
-		" --or_column " , or_column ,
-		" --beta_column " , beta_column ,
-		" --beta_sign_column " , beta_sign_column ,
-		" --zscore_column " , zscore_column ,
-		" --pvalue_column " , pvalue_column ,
-		" --output_file " , output_dir , "/MetaXcan.res.csv" ) 
-	
+  
+  MetaXcanCmd<-paste0( MetaXcan , 
+                       " --model_db_path " , model_db_path , 
+                       " --covariance " , covariance ,
+                       " --gwas_folder " , gwas_folder ,
+                       " --gwas_file_pattern " , gwas_file_pattern ,
+                       " --snp_column " , snp_column ,
+                       " --non_effect_allele_column ", non_effect_allele_column,
+                       " --effect_allele_column " , effect_allele_column ,
+                       " --or_column " , or_column ,
+                       " --beta_column " , beta_column ,
+                       " --beta_sign_column " , beta_sign_column ,
+                       " --zscore_column " , zscore_column ,
+                       " --pvalue_column " , pvalue_column ,
+                       " --output_file " , output_dir , "/MetaXcan.res.csv" ) 
+  
   if( !file.exists(output_dir) )
   { 
     cat('creating ' , output_dir, '\n' )
@@ -107,14 +107,14 @@ runGIGSEA <- function( MetaXcan,
 	preWD = setwd( output_dir )
 	
 	cat(MetaXcanCmd,'\n')
-	system(MetaXcanCmd)
+	system2(MetaXcanCmd)
 
 	metaXcan <- read.table( paste0(output_dir,"/MetaXcan.res.csv") , sep=',' , 
 	                        header=TRUE )
-	cc = table( as.character(metaXcan$gene_name) )
+	cc = table( as.character( with( metaXcan , gene_name ) ) )
 	metaXcan = subset( metaXcan , ! gene_name %in% (names(cc)[cc>1]) )
 	
-	gene <- metaXcan$gene_name
+	gene <- with( metaXcan , gene_name )
 	fc <- metaXcan$zscore
 	usedFrac <- metaXcan$n_snps_used / metaXcan$n_snps_in_cov
 	r2 <- metaXcan$pred_perf_r2

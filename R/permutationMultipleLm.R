@@ -79,7 +79,7 @@
 permutationMultipleLm = function( fc, net, weights=rep(1,nrow(net)), num=100 )
 {
   net = as.matrix(net) # to transform the sparseMatrix to matrix
-  shuffle <- lapply( 1:num, function(i) {
+  shuffle <- lapply( seq_len(num), function(i) {
     reportProgress(i,num,10)
     #randomfc = rnorm(nrow(net))
     shuffledFC = sample(fc,length(fc))
@@ -99,7 +99,7 @@ permutationMultipleLm = function( fc, net, weights=rep(1,nrow(net)), num=100 )
   observedF = summary(trueLM)$fstatistic[1]
 
   empiricalPval = c()
-  for(i in 1:nrow(shuffledPval))
+  for( i in seq_len(nrow(shuffledPval)) )
   {
     empiricalPval[i] = mean( shuffledPval[i,]<observedPval[i] )
   }

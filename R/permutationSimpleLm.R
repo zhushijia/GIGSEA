@@ -78,7 +78,7 @@
 #'
 permutationSimpleLm = function( fc , net , weights=rep(1,nrow(net)) , num=100 )
 {
-  shuffledPval <- lapply( 1:num, function(i) {
+  shuffledPval <- lapply( seq_len(num) , function(i) {
     reportProgress(i,num,10)
     shuffledFC = sample(fc,length(fc))
     separateLm( shuffledFC , net , weights )
@@ -88,7 +88,7 @@ permutationSimpleLm = function( fc , net , weights=rep(1,nrow(net)) , num=100 )
   observedPval = separateLm( fc , net , weights )
 
   empiricalPval = c()
-  for(i in 1:nrow(shuffledPval))
+  for(i in seq_len(nrow(shuffledPval)) )
   {
     empiricalPval[i] = mean( shuffledPval[i,]<observedPval[i] )
   }

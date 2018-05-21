@@ -34,13 +34,14 @@ dataframe2geneSet = function( term , gene , value=NULL )
     gene_value = paste( gene , value )
     gene_value_set = split( gene_value , term )
     geneset = sapply( gene_value_set , function(x) {
-      genes = vapply( strsplit( x , ' ' ) , function(gv) gv[1] , character(1) )
+      genes = vapply( strsplit( x , ' ' ) , function(gv) gv[1] , character(1) ) 
       paste(genes,collapse=',')
     } )
     valueset = sapply( gene_value_set , function(x) {
       values = vapply( strsplit( x , ' ' ) , function(gv) gv[2] , character(1) )
       paste(values,collapse=',')
     } )
+    
     res = data.frame( term=names(geneset) , geneset=geneset , 
                       valueset=valueset )
   }

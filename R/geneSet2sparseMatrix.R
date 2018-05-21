@@ -22,7 +22,8 @@
 #' @examples
 #'
 #' # download the gmt file
-#' gmt <- readLines('http://amp.pharm.mssm.edu/CREEDS/download/single_drug_perturbations-v1.0.gmt')
+#' gmt <- readLines('http://amp.pharm.mssm.edu/CREEDS/download/
+#' single_drug_perturbations-v1.0.gmt')
 #'
 #' # obtain the index of up-regulated and down-regulated gene sets
 #' index_up <- grep('-up',gmt)
@@ -81,7 +82,7 @@ geneSet2sparseMatrix <- function( term , geneset , value=NULL , sep=',' )
   index = lapply( split_geneset , function(x) match( x , genes )  )
   num = vapply(index,length,integer(1))
   i = do.call(c,index)
-  j = rep(1:length(term),num)
+  j = rep( seq_along(term), num )
 
   if( is.null(value) )
   {

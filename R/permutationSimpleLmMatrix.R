@@ -98,13 +98,14 @@ permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) ,
   }
   cs_steps = c( 1, cumsum(steps) )
   
-  for( i in 1:length(steps) )
+  for( i in seq_along(steps) )
   {
     stepi = steps[i]
-    shuffledFC = vapply(1:stepi,function(s) sample(fc) , numeric(length(fc)) )
+    shuffledFC = vapply( seq_len(stepi) , 
+                         function(s) sample(fc) , numeric(length(fc)) )
     shuffledCorr =  weightedPearsonCorr( x=net, y=shuffledFC, w=weights )
     
-    for(j in 1:nrow(shuffledCorr))
+    for( j in seq_len(nrow(shuffledCorr)) )
     {
       if(observedCorr[j]>0) 
       {
@@ -124,7 +125,7 @@ permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) ,
   #lc = locfdr( observedCorr , plot=0 )
   zscore = qnorm(empiricalPval)
   lc = locfdr( c(zscore,-zscore) , plot=0 )
-  localFdr = lc$fdr[1:length(zscore)]
+  localFdr = lc$fdr[seq_along(zscore)]
   
   p0 = lc$fp0[3,3]
   # p0 = lc$fp0[3,3] - 1.96*lc$fp0[4,3]

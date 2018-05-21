@@ -1,6 +1,6 @@
 reportProgress <- function(current, total, percent.text = 10, percent.dot = 2){
   
-  all.iterations <- 1:total
+  all.iterations <- seq_len(total)
   percent.prog <- round(all.iterations/total, 2)*100
   
   rounded.percent.write <- percent.prog%/%percent.text

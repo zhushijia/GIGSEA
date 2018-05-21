@@ -21,7 +21,8 @@
 #' @examples
 #'
 #' # download the gmt file
-#' gmt <- readLines('http://amp.pharm.mssm.edu/CREEDS/download/single_drug_perturbations-v1.0.gmt')
+#' gmt <- readLines('http://amp.pharm.mssm.edu/CREEDS/download/
+#' single_drug_perturbations-v1.0.gmt')
 #'
 #' # obtain the index of up-regulated and down-regulated gene sets
 #' index_up <- grep('-up',gmt)
@@ -79,7 +80,7 @@ geneSet2Net <- function( term , geneset , value=NULL , sep=',' )
 
   if( is.null(value) )
   {
-    net = vapply( 1:length(term) , function(i) {
+    net = vapply( seq_along(term) , function(i) {
       neti = rep(0,length(all_genes))
       neti[ all_genes %in% split_geneset[[i]] ] = 1
       neti
@@ -87,7 +88,7 @@ geneSet2Net <- function( term , geneset , value=NULL , sep=',' )
   } else {
     sv_tmp = strsplit( as.character(value) , sep )
     split_value = lapply( sv_tmp ,  function(x) as.numeric(as.character(x)) )
-    net = vapply( 1:length(term) , function(i) {
+    net = vapply( seq_along(term) , function(i) {
       neti = rep(0,length(all_genes))
       index = match( split_geneset[[i]] , all_genes )
       neti[ index  ] = split_value[[i]]

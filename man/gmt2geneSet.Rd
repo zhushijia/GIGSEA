@@ -7,16 +7,24 @@
 gmt2geneSet(gmt, termCol = 1, nonGeneCol = termCol, singleValue = NULL)
 }
 \arguments{
-\item{gmt}{a vector of character values. Each item is a list of words comprising a term and its corresponding gene set, which are separated by tab.}
+\item{gmt}{a vector of character values. Each item is a list of words 
+comprising a term and its corresponding gene set, which are separated by tab.}
 
-\item{termCol}{an integer value indicating in each item of gmt, which word is the term , by default, 1.}
+\item{termCol}{an integer value indicating in each item of gmt, which word 
+is the term , by default, 1.}
 
-\item{nonGeneCol}{an integer value indicating in each item of gmt, which words are not the gene set, by default, termCol.}
+\item{nonGeneCol}{an integer value indicating in each item of gmt, which 
+words are not the gene set, by default, termCol.}
 
-\item{singleValue}{a numeric value, which assigns the same value to all genes in a given gene set. This is useful when combining together the up-regulated gene sets (regularly, singleValue=1) and the down-regulated gene sets (regularly, singleValue=-1)}
+\item{singleValue}{a numeric value, which assigns the same value to all 
+genes in a given gene set. This is useful when combining together the 
+up-regulated gene sets (regularly, singleValue=1) and the down-regulated 
+gene sets (regularly, singleValue=-1)}
 }
 \value{
-a data frame, comprising three vectors: term (like pathway names), geneset (a gene symbol list separate by comma), and value (either discrete or continuous separated by comma)
+a data frame, comprising three vectors: term (like pathway names), 
+geneset (a gene symbol list separate by comma), and value (either discrete 
+or continuous separated by comma)
 }
 \description{
 gmt2geneSet transforms a gmt format file into geneSets.
@@ -30,11 +38,12 @@ gmt <- readLines('http://amp.pharm.mssm.edu/CREEDS/download/single_drug_perturba
 index_up <- grep('-up',gmt)
 index_down <- grep('-dn',gmt)
 
-# transform the gmt file into gene sets. The gene set is a data frame, comprising three vectors: 
+# transform the gmt file into gene sets. The gene set is a data frame, 
+# comprising three vectors: 
 # term (here is drug), geneset (a gene symbol list separate by comma), 
 # and value (1 and -1 separate by comma)
-gff_up <- gmt2geneSet( gmt[index_up] , termCol=c(1,2) , singleValue = 1 )
-gff_down <- gmt2geneSet( gmt[index_down] , termCol=c(1,2) , singleValue = -1 )
+gff_up <- gmt2geneSet( gmt[index_up], termCol=c(1,2), singleValue = 1 )
+gff_down <- gmt2geneSet( gmt[index_down], termCol=c(1,2), singleValue = -1 )
 
 
 }

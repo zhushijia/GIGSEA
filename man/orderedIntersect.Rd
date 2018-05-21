@@ -9,15 +9,18 @@ orderedIntersect(x, by.x, by.y)
 \arguments{
 \item{x}{a data frame}
 
-\item{by.x}{a vector of character values. The data frame is sorted based on by.x}
+\item{by.x}{a vector of character values. The data frame is sorted based on 
+by.x}
 
-\item{by.y}{a vector of character values. After being sorted, the rows of x are further filtered by intersecting by.x with by.y}
+\item{by.y}{a vector of character values. After being sorted, the rows of x 
+are further filtered by intersecting by.x with by.y}
 }
 \value{
 a data frame sorted by "by.x" and intersected with "by.y"
 }
 \description{
-orderedIntersect sorts a data frame based on a given collumn and intersects with another vector.
+orderedIntersect sorts a data frame based on a given collumn and intersects 
+with another vector.
 }
 \examples{
 
@@ -26,7 +29,8 @@ orderedIntersect sorts a data frame based on a given collumn and intersects with
 data(heart.metaXcan)
 gene = heart.metaXcan$gene_name
 
-# extract the imputed Z-score of gene differential expression, which follows normal distribution
+# extract the imputed Z-score of gene differential expression, which follows 
+normal distribution
 fc <- heart.metaXcan$zscore
 
 # use the prediction R^2 and fraction of imputation-used SNPs as weights
@@ -34,15 +38,16 @@ usedFrac <- heart.metaXcan$n_snps_used / heart.metaXcan$n_snps_in_cov
 r2 <- heart.metaXcan$pred_perf_r2
 weights <- usedFrac*r2
 
-# build a new data frame for the following weighted linear regression-based enrichment analysis
+# build a new data frame for the following weighted linear regression-based 
+enrichment analysis
 data <- data.frame(gene,fc,weights)
 head(data)
 
 net <- MSigDB.KEGG.Pathway$net
 
 # intersect the user-provided imputed genes with the gene set of interest
-data2 <- orderedIntersect( x = data , by.x = data$gene , by.y = rownames(net)  )
-net2 <- orderedIntersect( x = net , by.x = rownames(net) , by.y = data$gene  )
+data2 <- orderedIntersect( x=data, by.x=data$gene, by.y=rownames(net) )
+net2 <- orderedIntersect( x=net, by.x=rownames(net), by.y=data$gene )
 all( rownames(net2) == as.character(data2$gene) )
 
 }

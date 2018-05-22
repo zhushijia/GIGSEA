@@ -2,7 +2,9 @@
 title: 'GIGSEA: Genotype Imputed Gene Set Enrichment Analysis'
 author: |
   | Shijia Zhu
-  | Department of Genetics and Genomic Sciences and Icahn Institute for Genomics and Multiscale Biology, Icahn School of Medicine at Mount Sinai, New York, NY 10029, USA
+  | Department of Genetics and Genomic Sciences and Icahn Institute for Genomics 
+  and Multiscale Biology, Icahn School of Medicine at Mount Sinai, New York, NY
+  10029, USA
 date: "August 28, 2017"
 output:
   pdf_document:
@@ -20,12 +22,27 @@ output:
 -->
 
 ## Abstract
-We presented the Genotype Imputed Gene Set Enrichment Analysis (GIGSEA), a novel method that uses GWAS-and-eQTL-imputed differential gene expression to interrogate gene set enrichment for the trait-associated SNPs. By incorporating eQTL from large gene expression studies, e.g. GTEx, GIGSEA appropriately addresses such challenges for SNP enrichment as gene size, gene boundary, and multiple-marker regulation. The weighted linear regression model, taking as weights both imputation accuracy and model completeness, was used to test the enrichment, properly adjusting the bias due to redundancy in different gene sets. The permutation test, furthermore, is used to evaluate the significance of enrichment, whose efficiency can be largely elevated by expressing the computational intensive part in terms of large matrix operation. We have shown the appropriate type I error rates for GIGSEA (<5%), and the preliminary results also demonstrate its good performance to uncover the real biological signal. 
- 
+We presented the Genotype Imputed Gene Set Enrichment Analysis (GIGSEA), a novel
+method that uses GWAS-and-eQTL-imputed differential gene expression to 
+interrogate gene set enrichment for the trait-associated SNPs. By incorporating 
+eQTL from large gene expression studies, e.g. GTEx, GIGSEA appropriately 
+addresses such challenges for SNP enrichment as gene size, gene boundary, and
+multiple-marker regulation. The weighted linear regression model, taking as 
+weights both imputation accuracy and model completeness, was used to test the
+enrichment, properly adjusting the bias due to redundancy in different gene 
+sets. The permutation test, furthermore, is used to evaluate the significance of
+enrichment, whose efficiency can be largely elevated by expressing the 
+computational intensive part in terms of large matrix operation. We have shown 
+the appropriate type I error rates for GIGSEA (<5%), and the preliminary results
+also demonstrate its good performance to uncover the real biological signal. 
 
 
 ## 1. Import packages
-In GIGSEA, the gene sets are saved as matrices. Such matrices are largely sparse, so, in order to save space, we used the functions provided by the R package "Matrix" to build the sparse matrices and pre-saved into the GIGSEA package. In addition, GIGSEA uses the local fdr, implemented by the R package "locfdr", to adjust for multiple hypothesis testing.  
+In GIGSEA, the gene sets are saved as matrices. Such matrices are largely 
+sparse, so, in order to save space, we used the functions provided by the R 
+package "Matrix" to build the sparse matrices and pre-saved into the GIGSEA 
+package. In addition, GIGSEA uses the local fdr, implemented by the R package
+"locfdr", to adjust for multiple hypothesis testing.  
 
 ```{r}
 library(GIGSEA)

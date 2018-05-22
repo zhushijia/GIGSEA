@@ -30,8 +30,8 @@ represents the connectivity between terms and genes.
 \examples{
 
 # download the gmt file
-gmt <- readLines('http://amp.pharm.mssm.edu/CREEDS/download/
-single_drug_perturbations-v1.0.gmt')
+gmt <- readLines( paste0('http://amp.pharm.mssm.edu/CREEDS/download/',
+'single_drug_perturbations-v1.0.gmt') ) 
 
 # obtain the index of up-regulated and down-regulated gene sets
 index_up <- grep('-up',gmt)

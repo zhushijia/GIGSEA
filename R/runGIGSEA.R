@@ -111,10 +111,11 @@ runGIGSEA <- function( MetaXcan,
   
     metaXcan <- read.table( paste0(output_dir,"/MetaXcan.res.csv") , sep=',' , 
                             header=TRUE )
-    cc = table( as.character( with( metaXcan , gene_name ) ) )
-    metaXcan = subset( metaXcan , ! gene_name %in% (names(cc)[cc>1]) )
+    cc = table( as.character( metaXcan$gene_name ) )
+    metaXcan = subset( metaXcan , 
+                  ! as.character(metaXcan$gene_name) %in% (names(cc)[cc>1]) )
   
-    gene <- with( metaXcan , gene_name )
+    gene <- metaXcan$gene_name
     fc <- metaXcan$zscore
     usedFrac <- metaXcan$n_snps_used / metaXcan$n_snps_in_cov
     r2 <- metaXcan$pred_perf_r2

@@ -26,25 +26,25 @@ dataframe2geneSet = function( term , gene , value=NULL )
 {
     if( is.null(value) )
     {
-      geneset<-split( gene , term )
-      geneset<-vapply( geneset, function(x) 
-        paste(x,collapse=','), character(1) )
-      res = data.frame( term=names(geneset) , geneset=geneset )
+        geneset<-split( gene , term )
+        geneset<-vapply( geneset, function(x) 
+            paste(x,collapse=','), character(1) )
+        res = data.frame( term=names(geneset) , geneset=geneset )
     } else {
-      gene_value = paste( gene , value )
-      gene_value_set = split( gene_value , term )
-      geneset = sapply( gene_value_set , function(x) {
-        genes = vapply( strsplit( x , ' ' ) , function(gv) gv[1] , character(1) ) 
-        paste(genes,collapse=',')
-        } )
-      valueset = sapply( gene_value_set , function(x) {
-        values = vapply( strsplit( x , ' ' ) , function(gv) gv[2] , character(1) )
-        paste(values,collapse=',')
-        } )
-      res = data.frame( term=names(geneset) , geneset=geneset , 
-                      valueset=valueset )
-      }
-  rownames(res) = NULL
-  res
+        gene_value = paste( gene , value )
+        gene_value_set = split( gene_value , term )
+        geneset = vapply( gene_value_set , function(x) {
+            genes = vapply( strsplit( x , ' ' ), function(gv) gv[1], character(1) ) 
+            paste(genes,collapse=',')
+            } , character(length(gene_value_set)) )
+        valueset = sapply( gene_value_set , function(x) {
+            values = vapply( strsplit( x , ' ' ), function(gv) gv[2], character(1) )
+            paste(values,collapse=',')
+            } , character(length(gene_value_set)) )
+        res = data.frame( term=names(geneset) , geneset=geneset , 
+                        valueset=valueset )
+        }
+    rownames(res) = NULL
+    res
   
 }

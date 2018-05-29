@@ -15,7 +15,7 @@
 #'
 #' # load data
 #' data(heart.metaXcan)
-#' gene = heart.metaXcan$gene_name
+#' gene <- heart.metaXcan$gene_name
 #'
 #' # extract the imputed Z-score of gene differential expression, which follows 
 #' # the normal distribution
@@ -55,16 +55,16 @@
 #'
 weightedPearsonCorr <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
 {
-  x = as.matrix(x)
-  y = as.matrix(y)
-  x[is.na(x)] = 0
-  y[is.na(y)] = 0
-  w[is.na(w)] = 0
+    x <- as.matrix(x)
+    y <- as.matrix(y)
+    x[is.na(x)] <- 0
+    y[is.na(y)] <- 0
+    w[is.na(w)] <- 0
 
-  w <- w / sum(w)
-  x <- sweep(x, 2, colSums(x * w))
-  y <- sweep(y, 2, colSums(y * w))
-  t(w*x)%*% y / sqrt( colSums(w * x**2) %*% t(colSums(w * y**2)) )
+    w <- w / sum(w)
+    x <- sweep(x, 2, colSums(x * w))
+    y <- sweep(y, 2, colSums(y * w))
+    t(w*x)%*% y / sqrt( colSums(w * x**2) %*% t(colSums(w * y**2)) )
 }
 
 

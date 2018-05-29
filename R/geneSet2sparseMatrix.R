@@ -74,29 +74,29 @@
 #'
 geneSet2sparseMatrix <- function( term , geneset , value=NULL , sep=',' )
 {
-  library(Matrix)
-  split_geneset = strsplit( as.character(geneset) , sep )
-  names(split_geneset) = as.character(term)
-  genes = unique( do.call(c,split_geneset) )
+    #library(Matrix)
+    split_geneset <- strsplit( as.character(geneset) , sep )
+    names(split_geneset) <- as.character(term)
+    genes <- unique( do.call(c,split_geneset) )
 
-  index = lapply( split_geneset , function(x) match( x , genes )  )
-  num = vapply(index,length,integer(1))
-  i = do.call(c,index)
-  j = rep( seq_along(term), num )
+    index <- lapply( split_geneset , function(x) match( x , genes )  )
+    num <- vapply(index,length,integer(1))
+    i <- do.call(c,index)
+    j <- rep( seq_along(term), num )
 
-  if( is.null(value) )
-  {
-    net = sparseMatrix( i , j , x=1 , dims=c(length(genes),length(term)) )
-  } else {
-    sv_tmp = strsplit( as.character(value) , sep )
-    split_value = lapply( sv_tmp ,  function(x) as.numeric(as.character(x)) )
-    x = do.call(c,split_value)
-    net = sparseMatrix( i , j , x=x , dims=c(length(genes),length(term)) )
-  }
+    if( is.null(value) )
+    { 
+        net <- sparseMatrix( i , j , x=1 , dims=c(length(genes),length(term)) )
+    } else {
+        sv_tmp <- strsplit( as.character(value) , sep )
+        split_value <- lapply( sv_tmp,  function(x) as.numeric(as.character(x)))
+        x <- do.call(c,split_value)
+        net <- sparseMatrix( i , j , x=x , dims=c(length(genes),length(term)) )
+    }
 
-  colnames(net) = term
-  rownames(net) = genes
-  net = net[ order(genes) , ]
-  net
+    colnames(net) <- term
+    rownames(net) <- genes
+    net <- net[ order(genes) , ]
+   net
 
 }

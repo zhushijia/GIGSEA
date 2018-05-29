@@ -26,7 +26,7 @@
 #' @examples
 #'
 #' data(heart.metaXcan)
-#' gene = heart.metaXcan$gene_name
+#' gene <- heart.metaXcan$gene_name
 #' fc <- heart.metaXcan$zscore
 #' usedFrac <- heart.metaXcan$n_snps_used / heart.metaXcan$n_snps_in_cov
 #' r2 <- heart.metaXcan$pred_perf_r2
@@ -45,71 +45,73 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
                         MGSEAthres = NULL )
 {
   
-  if( !file.exists(outputDir) )
-  { 
-    cat('creating ' , outputDir, '\n' )
-    dir.create( outputDir , showWarnings = TRUE, recursive = TRUE) 
-  }
+    if( !file.exists(outputDir) )
+    { 
+        cat('creating ' , outputDir, '\n' )
+        dir.create( outputDir , showWarnings = TRUE, recursive = TRUE) 
+    }
   
-  allGeneSet = c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA","Fantom5.TF",
-                 "TargetScan.miRNA","GO","LINCS.CMap.drug")
-  noGeneSet = setdiff( geneSet , allGeneSet )
-  if(length(noGeneSet)) cat( "Gene sets are not defined: " , noGeneSet , '\n'  )
+    allGeneSet <- c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA",
+                    "Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug")
+    noGeneSet <- setdiff( geneSet , allGeneSet )
+    if(length(noGeneSet)) cat( "Gene sets are not defined: " , noGeneSet , '\n')
 
-  for( gs in intersect(geneSet,allGeneSet) )
-  {
-
-    cat('\n\n*** Checking',gs,'...\n')
-    data(list=gs)
-    net = get(gs)$net
-    net <- net[ rownames(net) %in% as.character(data[,geneCol]) , ]
-    imputeFC <- data[ match( rownames(net), as.character(data[,geneCol]) ) , ]
-    fc <- imputeFC[,fcCol]
-
-    if( is.null(weightCol) )
+    for( gs in intersect(geneSet,allGeneSet) )
     {
-      weights <- rep(1, nrow(net))
-    } else {
-      weights <- imputeFC[,weightCol]
-    }
 
-    cat('--> performing SGSEA ...\n')
-    SGSEA.res <- permutationSimpleLmMatrix( fc , net , weights , 
-                                            permutationNum )
-    if( !is.null(get(gs)$annot) )
-    {
-      annot = get(gs)$annot
-      if( all(table(annot[,1])==1) )
-      SGSEA.res = merge( annot , SGSEA.res , by.x=colnames(annot)[1] , 
-                         by.y=colnames(SGSEA.res)[1] )
-    }
-    SGSEA.res = SGSEA.res[order(SGSEA.res$empiricalPval) , ]
-    write.table( SGSEA.res , paste0(outputDir,'/',gs,'.SGSEA.txt') , sep='\t' , 
-                 quote=FALSE , row.names=FALSE , col.names=TRUE)
+        cat('\n\n*** Checking',gs,'...\n')
+        data(list=gs)
+        net <- get(gs)$net
+        net <- net[ rownames(net) %in% as.character(data[,geneCol]) , ]
+        imputeFC <- data[ match(rownames(net),as.character(data[,geneCol])), ]
+        fc <- imputeFC[,fcCol]
 
-    if( !is.null(MGSEAthres) )
-    {
-      if( ncol(net)<MGSEAthres )
-      {
-        cat('\n--> performing MGSEA ...\n')
-        MGSEA.res <- permutationMultipleLmMatrix( fc , net , weights , 
-                                                  permutationNum )
+        if( is.null(weightCol) )
+        {
+            weights <- rep(1, nrow(net))
+        } else {
+            weights <- imputeFC[,weightCol]
+        }
+
+        cat('--> performing SGSEA ...\n')
+        SGSEA.res <- permutationSimpleLmMatrix( fc , net , weights , 
+                                                permutationNum )
         if( !is.null(get(gs)$annot) )
         {
-          annot = get(gs)$annot
-          if( all(table(annot[,1])==1) )
-          MGSEA.res = merge( annot , MGSEA.res , by.x=colnames(annot)[1] , 
-                             by.y=colnames(MGSEA.res)[1] )
+            annot <- get(gs)$annot
+            if( all(table(annot[,1])==1) )
+            SGSEA.res <- merge( annot , SGSEA.res , by.x=colnames(annot)[1] ,
+                                by.y=colnames(SGSEA.res)[1] )
         }
-        MGSEA.res = MGSEA.res[order(MGSEA.res$empiricalPval) , ]
-        write.table( MGSEA.res , paste0(outputDir,'/',gs,'.MGSEA.txt') , 
+        SGSEA.res <- SGSEA.res[order(SGSEA.res$empiricalPval) , ]
+        write.table( SGSEA.res , paste0(outputDir,'/',gs,'.SGSEA.txt') , 
                      sep='\t' , quote=FALSE , row.names=FALSE , col.names=TRUE)
-     }
+
+        if( !is.null(MGSEAthres) )
+        {
+            if( ncol(net)<MGSEAthres )
+            {
+                cat('\n--> performing MGSEA ...\n')
+                MGSEA.res <- permutationMultipleLmMatrix( fc , net , weights , 
+                                                    permutationNum )
+                if( !is.null(get(gs)$annot) )
+                {
+                    annot <- get(gs)$annot
+                    if( all(table(annot[,1])==1) )
+                    MGSEA.res <- merge( annot , MGSEA.res , 
+                                        by.x=colnames(annot)[1] , 
+                                        by.y=colnames(MGSEA.res)[1] )
+                }
+                MGSEA.res <- MGSEA.res[order(MGSEA.res$empiricalPval) , ]
+                write.table( MGSEA.res , paste0(outputDir,'/',gs,'.MGSEA.txt') , 
+                             sep='\t' , quote=FALSE , row.names=FALSE , 
+                             col.names=TRUE)
+            }
+        }
+
     }
 
-  }
-
-  return(TRUE)
+    return(TRUE)
   
   
 }

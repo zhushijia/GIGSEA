@@ -16,7 +16,7 @@
 #'
 #' # load data
 #' data(heart.metaXcan)
-#' gene = heart.metaXcan$gene_name
+#' gene <- heart.metaXcan$gene_name
 #'
 #' # extract the imputed Z-score of gene differential expression, which follows 
 #' # the normal distribution
@@ -57,29 +57,29 @@
 #'
 weightedMultipleLm <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
 {
-  library(MASS)
+  #library(MASS)
   
-  x = as.matrix(x)
-  y = as.matrix(y)
-  x[is.na(x)] = 0
-  y[is.na(y)] = 0
-  w[is.na(w)] = 0
+    x <- as.matrix(x)
+    y <- as.matrix(y)
+    x[is.na(x)] <- 0
+    y[is.na(y)] <- 0
+    w[is.na(w)] <- 0
 
-  X = cbind(1,x)
-  W = diag(w)
-  #A = solve(t(X) %*% W %*% X)
-  A = ginv(t(X) %*% W %*% X)
-  B = t(X) %*% W %*% y
-  coefs = A %*% B
-  predicts = X %*% coefs
-  residuals = y - predicts
-  #delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-ncol(X) )
-  delta = colSums( w * residuals^2 )/( sum(w>0,na.rm=TRUE)-qr(X)$rank )
+    X <- cbind(1,x)
+    W <- diag(w)
+    #A <- solve(t(X) %*% W %*% X)
+    A <- ginv(t(X) %*% W %*% X)
+    B <- t(X) %*% W %*% y
+    coefs <- A %*% B
+    predicts <- X %*% coefs
+    residuals <- y - predicts
+    #delta <- colSums( w * residuals^2 )/( sum(w>0,na.rm=T)-ncol(X) )
+    delta <- colSums( w * residuals^2 )/( sum(w>0,na.rm=TRUE)-qr(X)$rank )
   
-  se = vapply( delta , function(d) sqrt( d * diag(A) ) , numeric(nrow(A)) )
+    se <- vapply( delta , function(d) sqrt( d * diag(A) ) , numeric(nrow(A)) )
 
-  t = coefs/se
-  as.matrix(t[-1,])
+    t <- coefs/se
+    as.matrix(t[-1,])
   
 }
 

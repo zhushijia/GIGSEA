@@ -17,7 +17,7 @@
 #'
 #' # load data
 #' data(heart.metaXcan)
-#' gene = heart.metaXcan$gene_name
+#' gene <- heart.metaXcan$gene_name
 #'
 #' # extract the imputed Z-score of gene differential expression, which follows 
 #' # normal distribution
@@ -45,9 +45,9 @@
 #'
 orderedIntersect <- function(x, by.x, by.y)
 {
-  by.x <- as.character(by.x)
-  by.y <- as.character(by.y)
-  x <- x[ by.x %in% by.y , ]
-  by.x <- by.x[ by.x %in% by.y ]
-  x[order(by.x), ]
+    by.x <- as.character(by.x)
+    by.y <- as.character(by.y)
+    x <- x[ by.x %in% by.y , ]
+    by.x <- by.x[ by.x %in% by.y ]
+    x[order(by.x), ]
 }

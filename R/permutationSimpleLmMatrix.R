@@ -39,7 +39,7 @@
 #'
 #' # load data
 #' data(heart.metaXcan)
-#' gene = heart.metaXcan$gene_name
+#' gene <- heart.metaXcan$gene_name
 #'
 #' # extract the imputed Z-score of gene differential expression, which follows 
 #' # the normal distribution
@@ -77,66 +77,69 @@
 #'
 #' @seealso \code{\link{orderedIntersect}}; \code{\link{permutationSimpleLm}};
 #'
-permutationSimpleLmMatrix = function( fc , net , weights=rep(1,nrow(net)) , 
+permutationSimpleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) , 
                                       num=100 , step=1000 )
 {
-  fc[is.na(fc)] = 0
-  weights[is.na(weights)]=0
-  net = as.matrix(net)
-  net = net[,colSums(net)>0]
-  observedCorr = weightedPearsonCorr( x=net, y=fc, w=weights )[,1]
-  observedPval = matrixPval( observedCorr, df=sum(weights>0, na.rm=TRUE)-2 )
-  #observedPval2 = separateLm( fc , net , weights )
-  #max(abs(observedPval-observedPval2))
+    fc[is.na(fc)] <- 0
+    weights[is.na(weights)] <- 0
+    net <- as.matrix(net)
+    net <- net[,colSums(net)>0]
+    observedCorr <- weightedPearsonCorr( x=net, y=fc, w=weights )[,1]
+    observedPval <- matrixPval( observedCorr, df=sum(weights>0, na.rm=TRUE)-2 )
+    #observedPval2 <- separateLm( fc , net , weights )
+    #max(abs(observedPval-observedPval2))
   
-  empiricalSum = rep(0,ncol(net))
-  if( num%%step==0 )
-  {
-    steps = rep(step,num%/%step)
-  } else {
-    steps = c( rep(step,num%/%step) , num%%step )
-  }
-  cs_steps = c( 1, cumsum(steps) )
-  
-  for( i in seq_along(steps) )
-  {
-    stepi = steps[i]
-    shuffledFC = vapply( seq_len(stepi) , 
-                         function(s) sample(fc) , numeric(length(fc)) )
-    shuffledCorr =  weightedPearsonCorr( x=net, y=shuffledFC, w=weights )
-    
-    for( j in seq_len(nrow(shuffledCorr)) )
+    empiricalSum <- rep(0,ncol(net))
+    if( num%%step==0 )
     {
-      if(observedCorr[j]>0) 
-      {
-        empiricalSum[j] = empiricalSum[j] + sum(shuffledCorr > observedCorr[j])
-      } else {
-        empiricalSum[j] = empiricalSum[j] + sum(shuffledCorr < observedCorr[j])
-      }
+        steps <- rep(step,num%/%step)
+    } else {
+        steps <- c( rep(step,num%/%step) , num%%step )
     }
+    cs_steps <- c( 1, cumsum(steps) )
+  
+    for( i in seq_along(steps) )
+    {
+        stepi <- steps[i]
+        shuffledFC <- vapply( seq_len(stepi) , 
+                             function(s) sample(fc) , numeric(length(fc)) )
+        shuffledCorr <-  weightedPearsonCorr( x=net, y=shuffledFC, w=weights )
     
-    for(j in cs_steps[i]:cs_steps[i+1]  ) reportProgress(j,num,10)
-  }
+        for( j in seq_len(nrow(shuffledCorr)) )
+        {
+            if(observedCorr[j]>0) 
+            {
+                empiricalSum[j] <- empiricalSum[j] + 
+                  sum(shuffledCorr > observedCorr[j])
+            } else {
+                empiricalSum[j] <- empiricalSum[j] + 
+                  sum(shuffledCorr < observedCorr[j])
+        }
+        }
+    
+        for(j in cs_steps[i]:cs_steps[i+1]  ) reportProgress(j,num,10)
+    }
   
-  term = colnames(net)
-  usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
-  empiricalPval = (empiricalSum+0.1)/(num*ncol(net))
-  #lc = locfdr( -1 * sign(observedCorr)*qnorm(empiricalPval) , plot=0 )
-  #lc = locfdr( observedCorr , plot=0 )
-  zscore = qnorm(empiricalPval)
-  lc = locfdr( c(zscore,-zscore) , plot=0 )
-  localFdr = lc$fdr[seq_along(zscore)]
+    term <- colnames(net)
+    usedGenes <- apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
+    empiricalPval <- (empiricalSum+0.1)/(num*ncol(net))
+    #lc <- locfdr( -1 * sign(observedCorr)*qnorm(empiricalPval) , plot=0 )
+    #lc <- locfdr( observedCorr , plot=0 )
+    zscore <- qnorm(empiricalPval)
+    lc <- locfdr( c(zscore,-zscore) , plot=0 )
+    localFdr <- lc$fdr[seq_along(zscore)]
   
-  p0 = lc$fp0[3,3]
-  # p0 = lc$fp0[3,3] - 1.96*lc$fp0[4,3]
-  
-  BayesFactor = (1-localFdr)/localFdr *  p0/abs(1-p0)
-  
-  pval = data.frame( term, usedGenes, observedCorr, empiricalPval, BayesFactor )
-  rownames(pval) = NULL
-  #pval = pval[order(pval$BayesFactor,decreasing=TRUE),]
-  pval = pval[order(pval$empiricalPval),]
-  pval
+    p0 <- lc$fp0[3,3]
+    # p0 <- lc$fp0[3,3] - 1.96*lc$fp0[4,3]
+    
+    BayesFactor <- (1-localFdr)/localFdr *  p0/abs(1-p0)
+    
+    pval <- data.frame(term, usedGenes, observedCorr, empiricalPval, 
+                       BayesFactor)
+    rownames(pval) <- NULL
+    #pval <- pval[order(pval$BayesFactor,decreasing=TRUE),]
+    pval <- pval[order(pval$empiricalPval),]
+    pval
   
 }
 

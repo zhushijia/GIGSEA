@@ -30,8 +30,8 @@
 #' head(pval2)
 #'
 #'
-matrixPval = function(r,df)
+matrixPval <- function(r,df)
 {
-  t = sqrt(df)*abs(r) / sqrt(1-r^2)
-  2 * pt(t,df,lower.tail=FALSE)
+    t <- sqrt(df)*abs(r) / sqrt(1-r^2)
+    2 * pt(t,df,lower.tail=FALSE)
 }

@@ -74,32 +74,32 @@
 geneSet2Net <- function( term , geneset , value=NULL , sep=',' )
 {
 
-  split_geneset = strsplit( as.character(geneset) , sep )
-  names(split_geneset) = term
-  all_genes = unique( do.call(c,split_geneset) )
+    split_geneset <- strsplit( as.character(geneset) , sep )
+    names(split_geneset) <- term
+    all_genes <- unique( do.call(c,split_geneset) )
 
-  if( is.null(value) )
-  {
-    net = vapply( seq_along(term) , function(i) {
-      neti = rep(0,length(all_genes))
-      neti[ all_genes %in% split_geneset[[i]] ] = 1
-      neti
-    } , numeric(length(all_genes)) )
-  } else {
-    sv_tmp = strsplit( as.character(value) , sep )
-    split_value = lapply( sv_tmp ,  function(x) as.numeric(as.character(x)) )
-    net = vapply( seq_along(term) , function(i) {
-      neti = rep(0,length(all_genes))
-      index = match( split_geneset[[i]] , all_genes )
-      neti[ index  ] = split_value[[i]]
-      neti
-    } , numeric(length(all_genes)) )
-  }
+    if( is.null(value) )
+    {
+        net <- vapply( seq_along(term) , function(i) {
+            neti = rep(0,length(all_genes))
+            neti[ all_genes %in% split_geneset[[i]] ] = 1
+            neti
+        } , numeric(length(all_genes)) )
+    } else {
+        sv_tmp <- strsplit( as.character(value) , sep )
+        split_value <- lapply( sv_tmp,  function(x) as.numeric(as.character(x)))
+        net <- vapply( seq_along(term) , function(i) {
+            neti <- rep(0,length(all_genes))
+            index <- match( split_geneset[[i]] , all_genes )
+            neti[ index  ] <- split_value[[i]]
+            neti
+        } , numeric(length(all_genes)) )
+    }
 
-  colnames(net) = term
-  rownames(net) = all_genes
-  net = net[ order(all_genes) , ]
-  net
+    colnames(net) <- term
+    rownames(net) <- all_genes
+    net <- net[ order(all_genes) , ]
+    net
 
 }
 

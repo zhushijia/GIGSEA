@@ -83,7 +83,7 @@ runGIGSEA <- function( MetaXcan,
                        MGSEA_thres=NULL )
 {
   
-  MetaXcanCmd<-paste0( MetaXcan , 
+    MetaXcanCmd<-paste0( MetaXcan , 
                        " --model_db_path " , model_db_path , 
                        " --covariance " , covariance ,
                        " --gwas_folder " , gwas_folder ,
@@ -98,40 +98,40 @@ runGIGSEA <- function( MetaXcan,
                        " --pvalue_column " , pvalue_column ,
                        " --output_file " , output_dir , "/MetaXcan.res.csv" ) 
   
-    if( !file.exists(output_dir) )
-    { 
-      cat('creating ' , output_dir, '\n' )
-      dir.create( output_dir , showWarnings = TRUE, recursive = TRUE) 
-    }
+      if( !file.exists(output_dir) )
+      { 
+          cat('creating ' , output_dir, '\n' )
+          dir.create( output_dir , showWarnings = TRUE, recursive = TRUE) 
+      }
   
-    preWD = setwd( output_dir )
+      preWD <- setwd( output_dir )
   
-    cat(MetaXcanCmd,'\n')
-    system2(MetaXcanCmd)
+      cat(MetaXcanCmd,'\n')
+      system2(MetaXcanCmd)
   
-    metaXcan <- read.table( paste0(output_dir,"/MetaXcan.res.csv") , sep=',' , 
+      metaXcan <- read.table( paste0(output_dir,"/MetaXcan.res.csv") , sep=',' , 
                             header=TRUE )
-    cc = table( as.character( metaXcan$gene_name ) )
-    metaXcan = subset( metaXcan , 
+      cc <- table( as.character( metaXcan$gene_name ) )
+      metaXcan <- subset( metaXcan , 
                   ! as.character(metaXcan$gene_name) %in% (names(cc)[cc>1]) )
   
-    gene <- metaXcan$gene_name
-    fc <- metaXcan$zscore
-    usedFrac <- metaXcan$n_snps_used / metaXcan$n_snps_in_cov
-    r2 <- metaXcan$pred_perf_r2
-    weights <- usedFrac*r2
-    data <- data.frame(gene,fc,weights)
+      gene <- metaXcan$gene_name
+      fc <- metaXcan$zscore
+      usedFrac <- metaXcan$n_snps_used / metaXcan$n_snps_in_cov
+      r2 <- metaXcan$pred_perf_r2
+      weights <- usedFrac*r2
+      data <- data.frame(gene,fc,weights)
   
-    cat( 'permutation for' , permutation_num , 'times\n' )
-    cat( 'writing results at' , output_dir , '\n' )
+      cat( 'permutation for' , permutation_num , 'times\n' )
+      cat( 'writing results at' , output_dir , '\n' )
   
-    weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights',
+      weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights',
                  geneSet=gene_set, permutationNum=permutation_num, 
                  outputDir=output_dir, MGSEAthres=MGSEA_thres)
   
-    setwd(preWD)
+      setwd(preWD)
   
-    return(TRUE)
+      return(TRUE)
   
 }
 

@@ -36,7 +36,7 @@
 #'
 #' # load data
 #' data(heart.metaXcan)
-#' gene = heart.metaXcan$gene_name
+#' gene <- heart.metaXcan$gene_name
 #'
 #' # extract the imputed Z-score of gene differential expression, which 
 #' # follows the normal distribution
@@ -76,37 +76,37 @@
 #' @seealso \code{\link{orderedIntersect}}; 
 #' \code{\link{permutationSimpleLmMatrix}};
 #'
-permutationSimpleLm = function( fc , net , weights=rep(1,nrow(net)) , num=100 )
+permutationSimpleLm <- function( fc , net , weights=rep(1,nrow(net)) , num=100 )
 {
-  shuffledPval <- lapply( seq_len(num) , function(i) {
-    reportProgress(i,num,10)
-    shuffledFC = sample(fc,length(fc))
-    separateLm( shuffledFC , net , weights )
-  })
+    shuffledPval <- lapply( seq_len(num) , function(i) {
+        reportProgress(i,num,10)
+        shuffledFC <- sample(fc,length(fc))
+        separateLm( shuffledFC , net , weights )
+   })
 
-  shuffledPval = do.call( cbind , shuffledPval )
-  observedPval = separateLm( fc , net , weights )
+    shuffledPval <- do.call( cbind , shuffledPval )
+    observedPval <- separateLm( fc , net , weights )
+  
+    empiricalPval <- c()
+    for(i in seq_len(nrow(shuffledPval)) )
+    {
+        empiricalPval[i] <- mean( shuffledPval[i,]<observedPval[i] )
+    }
 
-  empiricalPval = c()
-  for(i in seq_len(nrow(shuffledPval)) )
-  {
-    empiricalPval[i] = mean( shuffledPval[i,]<observedPval[i] )
-  }
-
-  term = colnames(net)
-  usedGenes = apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
-  pval = data.frame( term , usedGenes , observedPval , empiricalPval )
-  rownames(pval) = NULL
-  pval = pval[order(pval$empiricalPval),]
-  pval
+    term <- colnames(net)
+    usedGenes <- apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
+    pval <- data.frame( term , usedGenes , observedPval , empiricalPval )
+    rownames(pval) <- NULL
+    pval <- pval[order(pval$empiricalPval),]
+    pval
 }
 
 
-separateLm = function( y , net , weights )
+separateLm <- function( y , net , weights )
 {
-  apply( net , 2 , function(x) {
-    z = lm( y~x , weights=weights )
-    summary(z)$coef[-1,4]
+    apply( net , 2 , function(x) {
+        z <- lm( y~x , weights=weights )
+        summary(z)$coef[-1,4]
   })
 }
 

@@ -46,5 +46,5 @@ dataframe2geneSet <- function( term , gene , value=NULL )
         }
     rownames(res) <- NULL
     res
-  
+    
 }

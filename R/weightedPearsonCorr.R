@@ -60,7 +60,6 @@ weightedPearsonCorr <- function( x, y, w=rep(1,nrow(x))/nrow(x) )
     x[is.na(x)] <- 0
     y[is.na(y)] <- 0
     w[is.na(w)] <- 0
-
     w <- w / sum(w)
     x <- sweep(x, 2, colSums(x * w))
     y <- sweep(y, 2, colSums(y * w))

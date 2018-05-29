@@ -88,7 +88,7 @@ permutationSimpleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
     observedPval <- matrixPval( observedCorr, df=sum(weights>0, na.rm=TRUE)-2 )
     #observedPval2 <- separateLm( fc , net , weights )
     #max(abs(observedPval-observedPval2))
-  
+    
     empiricalSum <- rep(0,ncol(net))
     if( num%%step==0 )
     {
@@ -97,14 +97,14 @@ permutationSimpleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
         steps <- c( rep(step,num%/%step) , num%%step )
     }
     cs_steps <- c( 1, cumsum(steps) )
-  
+    
     for( i in seq_along(steps) )
     {
         stepi <- steps[i]
         shuffledFC <- vapply( seq_len(stepi) , 
                              function(s) sample(fc) , numeric(length(fc)) )
         shuffledCorr <-  weightedPearsonCorr( x=net, y=shuffledFC, w=weights )
-    
+        
         for( j in seq_len(nrow(shuffledCorr)) )
         {
             if(observedCorr[j]>0) 
@@ -116,10 +116,10 @@ permutationSimpleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
                   sum(shuffledCorr < observedCorr[j])
         }
         }
-    
+        
         for(j in cs_steps[i]:cs_steps[i+1]  ) reportProgress(j,num,10)
     }
-  
+    
     term <- colnames(net)
     usedGenes <- apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
     empiricalPval <- (empiricalSum+0.1)/(num*ncol(net))
@@ -128,7 +128,7 @@ permutationSimpleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
     zscore <- qnorm(empiricalPval)
     lc <- locfdr( c(zscore,-zscore) , plot=0 )
     localFdr <- lc$fdr[seq_along(zscore)]
-  
+    
     p0 <- lc$fp0[3,3]
     # p0 <- lc$fp0[3,3] - 1.96*lc$fp0[4,3]
     
@@ -140,6 +140,6 @@ permutationSimpleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
     #pval <- pval[order(pval$BayesFactor,decreasing=TRUE),]
     pval <- pval[order(pval$empiricalPval),]
     pval
-  
+    
 }
 

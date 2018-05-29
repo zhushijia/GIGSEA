@@ -84,11 +84,11 @@ permutationMultipleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
     net <- as.matrix(net)
     net[is.na(net)] <- 0
     net <- net[,colSums(net)>0]
-  
+    
     x <- net
     w <- weights
     y <- fc
-  
+    
     X <- cbind(1,x)
     W <- diag(w)
     A0 <- t(X) %*% W
@@ -101,9 +101,9 @@ permutationMultipleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
     se <- vapply( delta , function(d) sqrt( d * diag(A) ) , numeric(nrow(A)) )
     t <- coefs/se
     observedTstats <- as.matrix(t[-1,1])
-    observedPval <- 2 * pt(abs(observedTstats), df=sum(weights>0, na.rm=TRUE)-2, 
-                        lower.tail=FALSE)
-  
+    observedPval <- 2 * pt(abs(observedTstats), 
+                           df=sum(weights>0, na.rm=TRUE)-2, lower.tail=FALSE)
+    
     empiricalSum <- rep(0,ncol(net))
     if( num%%step==0 )
     {
@@ -112,13 +112,13 @@ permutationMultipleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
         steps <- c( rep(step,num%/%step) , num%%step )
     }
     cs_steps <- c( 1, cumsum(steps) )
-  
+    
     for( i in seq_along(steps) )
     {
         stepi <- steps[i]
         shuffledFC <- vapply( seq_len(stepi) , 
                           function(s) sample(fc) , numeric(length(fc)) )
-    
+         
         B <- A0 %*% shuffledFC
         coefs <- A %*% B
         predicts <- X %*% coefs
@@ -127,7 +127,7 @@ permutationMultipleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
         se <- vapply( delta , function(d) sqrt( d*diag(A) ), numeric(nrow(A)) )
         t <- coefs/se
         shuffledTstats <- as.matrix(t[-1,])
-      
+        
         for(j in seq_len(nrow(shuffledTstats)) )
         {
             if(observedTstats[j]>0) 
@@ -139,30 +139,30 @@ permutationMultipleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
                     sum( shuffledTstats < observedTstats[j] )
             }
         }
-    
+        
         for(j in cs_steps[i]:cs_steps[i+1]  ) reportProgress(j,num,10)
     }
-  
+    
     term <- colnames(net)
     usedGenes <- apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
     empiricalPval <- (empiricalSum+0.1)/(num*ncol(net))
-  
+    
     #lc = locfdr( sign(observedTstats) * qnorm(empiricalPval) , plot=0 )
     #lc = locfdr( observedTstats , plot=0 )
     zscore <- qnorm(empiricalPval)
     lc <- locfdr( c(zscore,-zscore) , plot=0 )
     localFdr <- lc$fdr[seq_along(zscore)]
-  
+    
     p0 <- lc$fp0[3,3]
     # p0 <- lc$fp0[3,3] - 1.96*lc$fp0[4,3]
   
     BayesFactor <- (1-localFdr)/localFdr *  p0/abs(1-p0)
-  
+    
     pval <- data.frame(term,usedGenes,observedTstats,empiricalPval,BayesFactor)
     rownames(pval) <- NULL
     #pval <- pval[order(pval$BayesFactor,decreasing=TRUE),]
     pval <- pval[order(pval$empiricalPval),]
     pval
-  
+    
 }
 

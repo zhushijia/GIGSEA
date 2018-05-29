@@ -50,29 +50,28 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
         cat('creating ' , outputDir, '\n' )
         dir.create( outputDir , showWarnings = TRUE, recursive = TRUE) 
     }
-  
+    
     allGeneSet <- c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA",
                     "Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug")
     noGeneSet <- setdiff( geneSet , allGeneSet )
-    if(length(noGeneSet)) cat( "Gene sets are not defined: " , noGeneSet , '\n')
-
+    if(length(noGeneSet)) cat( "Gene sets are not defined: ", noGeneSet, '\n')
+    
     for( gs in intersect(geneSet,allGeneSet) )
     {
-
         cat('\n\n*** Checking',gs,'...\n')
         data(list=gs)
         net <- get(gs)$net
         net <- net[ rownames(net) %in% as.character(data[,geneCol]) , ]
         imputeFC <- data[ match(rownames(net),as.character(data[,geneCol])), ]
         fc <- imputeFC[,fcCol]
-
+        
         if( is.null(weightCol) )
         {
             weights <- rep(1, nrow(net))
         } else {
             weights <- imputeFC[,weightCol]
         }
-
+        
         cat('--> performing SGSEA ...\n')
         SGSEA.res <- permutationSimpleLmMatrix( fc , net , weights , 
                                                 permutationNum )
@@ -86,7 +85,7 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
         SGSEA.res <- SGSEA.res[order(SGSEA.res$empiricalPval) , ]
         write.table( SGSEA.res , paste0(outputDir,'/',gs,'.SGSEA.txt') , 
                      sep='\t' , quote=FALSE , row.names=FALSE , col.names=TRUE)
-
+        
         if( !is.null(MGSEAthres) )
         {
             if( ncol(net)<MGSEAthres )
@@ -103,16 +102,14 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
                                         by.y=colnames(MGSEA.res)[1] )
                 }
                 MGSEA.res <- MGSEA.res[order(MGSEA.res$empiricalPval) , ]
-                write.table( MGSEA.res , paste0(outputDir,'/',gs,'.MGSEA.txt') , 
+                write.table( MGSEA.res, paste0(outputDir,'/',gs,'.MGSEA.txt'), 
                              sep='\t' , quote=FALSE , row.names=FALSE , 
                              col.names=TRUE)
             }
         }
-
     }
-
+    
     return(TRUE)
-  
-  
+    
 }
 

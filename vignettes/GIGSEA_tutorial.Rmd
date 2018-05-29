@@ -4,6 +4,10 @@ author: |
   | Shijia Zhu
   | Department of Genetics and Genomic Sciences and Icahn Institute for Genomics and Multiscale Biology, Icahn School of Medicine at Mount Sinai, New York, NY 10029, USA
 date: "August 28, 2017"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{GIGSEA: Genotype Imputed Gene Set Enrichment Analysis}
+  %\VignetteEncoding{UTF-8}
 output:
   pdf_document:
     toc: yes
@@ -14,14 +18,10 @@ output:
     toc: yes
     toc_depth: 3
 ---
-<!--
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{GIGSEA: Genotype Imputed Gene Set Enrichment Analysis}
--->
 
 ## Abstract
-We presented the Genotype Imputed Gene Set Enrichment Analysis (GIGSEA), a novel
-method that uses GWAS-and-eQTL-imputed differential gene expression to 
+We presented the Genotype Imputed Gene Set Enrichment Analysis (GIGSEA), a 
+novel method that uses GWAS-and-eQTL-imputed differential gene expression to 
 interrogate gene set enrichment for the trait-associated SNPs. By incorporating 
 eQTL from large gene expression studies, e.g. GTEx, GIGSEA appropriately 
 addresses such challenges for SNP enrichment as gene size, gene boundary, 
@@ -31,8 +31,9 @@ enrichment, properly adjusting the bias due to redundancy in different gene
 sets. The permutation test, furthermore, is used to evaluate the significance 
 of enrichment, whose efficiency can be largely elevated by expressing the 
 computational intensive part in terms of large matrix operation. We have shown 
-the appropriate type I error rates for GIGSEA (<5%), and the preliminary results
-also demonstrate its good performance to uncover the real biological signal. 
+the appropriate type I error rates for GIGSEA (<5%), and the preliminary 
+results also demonstrate its good performance to uncover the real biological 
+signal. 
 
 
 ## 1. Import packages
@@ -50,11 +51,12 @@ library(GIGSEA)
 GIGSEA first uses MetaXcan (also called "s-predixcan") to impute 
 trait-associated differential gene expression from both GWAS summary and eQTL 
 database with LD structure adjusted, and next, builds a weighted regression 
-model to perfrom gene set enrichment analysis. In user's convenience, we combine
-these procedures together into one function `runGIGSEA()`, which writes the 
-enrichment test results at the local directory. Users only need to provide their
-GWAS summary data, and specify the paths to the MetaXcan.py file, the eQTL 
-database (e.g. GTex and DGN) and the reference popultation (e.g. 1000 Genome). 
+model to perfrom gene set enrichment analysis. In user's convenience, we 
+combine these procedures together into one function `runGIGSEA()`, which writes 
+the enrichment test results at the local directory. Users only need to provide 
+their GWAS summary data, and specify the paths to the MetaXcan.py file, the 
+eQTL database (e.g. GTex and DGN) and the reference popultation (e.g. 1000 
+Genome). 
 
 ```{r}
 # runGIGSEA( MetaXcan="software/MetaXcan.py" , 
@@ -76,20 +78,21 @@ as follows. Users can use it to test the codes of GIGSEA step by step.
 
 ## 3. One example of MetaXcan output
 MetaXcan integrates GWAS summary result with eQTL information to map 
-trait-associated genes. See <https://github.com/hakyimlab/MetaXcan>. It provides
-a novel way to aggregate the multiple markers within each gene, address the 
-long-range regulation, and adjust bias from gene boundaries and gene size. We 
-use MetaXcan to impute the complex-trait-associated differential gene expression
-from eQTL summary and GWAS summary datasets. MetaXcan imputes ~10,000 genes with
-high quality prediction in most tissues. The training dataset for the expression
-prediction or 1000 Genomes was used as reference population to address the LD 
-structure (covariance) of markers. Users can also specify their own genotype 
-data to address the LD structure. The eQTL summary data was pre-calculated from 
-large gene expression studies, such as the Genotype-Tissue Expression Project 
-(GTEx; a comprehensive set of tissues from of ~20,000 samples) 
-(Lonsdale, et al., 2013) and Depression Genes and Networks (DGN; 922 whole-blood
-samples) (Battle, et al., 2014). So, users only need to provide the GWAS summary
-data to estimate the genetically regulated gene expression. 
+trait-associated genes. See <https://github.com/hakyimlab/MetaXcan>. It 
+provides a novel way to aggregate the multiple markers within each gene, 
+address the long-range regulation, and adjust bias from gene boundaries and 
+gene size. We use MetaXcan to impute the complex-trait-associated differential 
+gene expression from eQTL summary and GWAS summary datasets. MetaXcan imputes 
+~10,000 genes with high quality prediction in most tissues. The training 
+dataset for the expression prediction or 1000 Genomes was used as reference 
+population to address the LD structure (covariance) of markers. Users can also 
+specify their own genotype data to address the LD structure. The eQTL summary 
+data was pre-calculated from large gene expression studies, such as the 
+Genotype-Tissue Expression Project (GTEx; a comprehensive set of tissues from 
+of ~20,000 samples) (Lonsdale, et al., 2013) and Depression Genes and Networks 
+(DGN; 922 whole-blood samples) (Battle, et al., 2014). So, users only need to 
+provide the GWAS summary data to estimate the genetically regulated gene 
+expression. 
 
 We take as an example the cardiovascular disease (CVD) GWAS, CARDIoGRAMplusC4D 
 (60,801 cases, 123,504 controls and 9.4M SNPs) (Nikpay, et al., 2015). The 
@@ -121,15 +124,15 @@ gene's measured transcriptome
 - `var_g`: variance of the gene expression
 
 
-We use the linear regression model to build a threshold-free gene set enrichment
-test, checking whether genes are significantly differentially expressed in a 
-given gene set, as compared to the background. In the regression model, we 
-regress the imputed Z-score of differential gene expression on the gene sets. 
-However, the gene expression cannot be perfectly predicted using genotype, which
-is indicated by the prediction R^2, and moreover, not all SNPs in the prediction
-model are in user’s dataset. In order to take into account such two factors, we 
-use as weights the multiplication of prediction R^2 and fraction of 
-imputation-used SNPs, building a weighted linear regression model. 
+We use the linear regression model to build a threshold-free gene set 
+enrichment test, checking whether genes are significantly differentially 
+expressed in a given gene set, as compared to the background. In the regression 
+model, we regress the imputed Z-score of differential gene expression on the 
+gene sets. However, the gene expression cannot be perfectly predicted using 
+genotype, which is indicated by the prediction R^2, and moreover, not all SNPs 
+in the prediction model are in user’s dataset. In order to take into account 
+such two factors, we use as weights the multiplication of prediction R^2 and 
+fraction of imputation-used SNPs, building a weighted linear regression model. 
 
 ```{r}
 gene = heart.metaXcan$gene_name
@@ -149,8 +152,8 @@ head(data)
 
 ## 4. Load data of gene sets
 GIGSEA is built on the weighted linear regression model, so it permits both 
-discrete-valued and continuous-valued gene sets. We already incorporated several
-gene sets into the GIGSEA package, including:
+discrete-valued and continuous-valued gene sets. We already incorporated 
+several gene sets into the GIGSEA package, including:
 
 1) **discrete-valued gene sets**:
 - `MSigDB.KEGG.Pathway`: Gene sets derived from the KEGG pathway database. It 
@@ -163,7 +166,8 @@ function as potential transcription factor binding sites. It comprises 615 TFs
 <http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C3> 
 - `MSigDB.miRNA`: Gene sets that contain genes sharing putative target sites 
 (seed matches) of human mature miRNA in their 3'-UTRs. It comprises 221 miRNAs 
-(column) and 7444 genes (row). See c3.mir.v6.0.symbols.gmt.txt at <http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C3>
+(column) and 7444 genes (row). See c3.mir.v6.0.symbols.gmt.txt at
+<http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C3>
 - `GO`: Gene sets that contain genes annotated by the same Gene Ontology (GO) 
 term. For each GO term, we not only incorporate its own gene sets, but also 
 incorporate the gene sets belonging to its offsprings. See the "database GO.db" 
@@ -191,11 +195,11 @@ It comprises 87 miRNA seed motifs and 9861 genes.
 See <http://www.targetscan.org>.
 - `LINCS.CMap.drug`: Large perturbational datasets of gene expression signature 
 from small-molecule compounds in multiple cell types from LINCS/CMap database. 
-We downloaded the data of LINCS phase 2 level 5 from GEO (GSE70138). The data is
-saved in the GCTx format (binary format based on HDF5 that enables fast i/o than
-text), and we parsed it using the R package cmapR. The LINCS level 5 data is a 
-numeric matrix, comprising 118050 drugs/doses and 12328 genes. Each entry is a 
-replicate-collapsed z-score of differential gene expression due to a drug 
+We downloaded the data of LINCS phase 2 level 5 from GEO (GSE70138). The data 
+is saved in the GCTx format (binary format based on HDF5 that enables fast i/o 
+than text), and we parsed it using the R package cmapR. The LINCS level 5 data 
+is a numeric matrix, comprising 118050 drugs/doses and 12328 genes. Each entry 
+is a replicate-collapsed z-score of differential gene expression due to a drug 
 perturbation, which is calculated by aggregating across individual replicates. 
 See <https://clue.io>. In order to generate a single signature for each drug 
 perturbation, we further average the differential gene expression across 
@@ -203,10 +207,10 @@ different drug doses, resulting in a condensed matrix of 1826 drugs (column)
 and 12328 genes (row). 
 
 ### 4.1 Discrete-valued gene sets:
-We first show an example of discrete-valued gene set: MSigDB.KEGG.Pathway, where
-the row represents the gene, and the column represents the pathway. Each entry 
-takes discrete values of 0 or 1, where 1 represents the gene (row) belongs to 
-the pathway (column), and otherwise, not.  
+We first show an example of discrete-valued gene set: MSigDB.KEGG.Pathway, 
+where the row represents the gene, and the column represents the pathway. Each 
+entry takes discrete values of 0 or 1, where 1 represents the gene (row) 
+belongs to the pathway (column), and otherwise, not.  
 ```{r}
 # load data
 data(MSigDB.KEGG.Pathway)
@@ -267,13 +271,13 @@ index_down <- grep('-dn',gmt)
 gff_up <- gmt2geneSet( gmt[index_up] , termCol=c(1,2) , singleValue = 1 )
 gff_down <- gmt2geneSet( gmt[index_down] , termCol=c(1,2) , singleValue = -1 )
 
-# as following, combine the up-regulated and down-regulated gene sets together, 
+# as following, combine the up and down-regulated gene sets together, 
 # and use value of 1 and -1 to indicate their direction:
 # extract the drug names
 term_up <- sapply( gff_up$term , function(x) gsub('-up','',x) )
 term_down <- sapply( gff_down$term , function(x) gsub('-dn','',x) )
 all(term_up==term_down)
-# combine up-regulated and down-regulated gene names for each drug perturbation
+# combine up and down-regulated gene names for each drug perturbation
 geneset <- sapply( 1:nrow(gff_up) , function(i) 
   paste(gff_up$geneset[i],gff_down$geneset[i],sep=',') )
 # use 1 and -1 to indicate direction of up-regulated and down-regulated genes
@@ -300,15 +304,15 @@ format( object.size(net2), units = "auto")
 After obtaining the imputed differential gene expression and the weights, we 
 build the weighted linear regression model to investigate the gene set 
 enrichment. Permutation test was used to adjust the p values of the regression 
-coefficients. We repeatedly shuffle the differential gene expression to obtain a
-global null distribution of no associated gene sets and calculate the empirical 
-p value for each gene set. For the Single Gene Set Erichment Analysis (SGSEA), 
-especially with many gene sets tested, a large number of weighted simple linear 
-regression model would be interrogated. To improve the efficiency, we use 
-weighted Pearson correlation to rank the significance, which uses the same 
-hypothesis statistic with the weighted linear regression model. Furthermore, we 
-expressed it in terms of large matrix inner product, substantially improving the
-time efficiency. 
+coefficients. We repeatedly shuffle the differential gene expression to obtain 
+a global null distribution of no associated gene sets and calculate the 
+empirical p value for each gene set. For the Single Gene Set Erichment Analysis 
+(SGSEA), especially with many gene sets tested, a large number of weighted 
+simple linear regression model would be interrogated. To improve the 
+efficiency, we use weighted Pearson correlation to rank the significance, which
+uses the same hypothesis statistic with the weighted linear regression model. 
+Furthermore, we expressed it in terms of large matrix inner product, 
+substantially improving the time efficiency. 
 
 ```{r}
 # take MSigDB.KEGG.Pathway as an example
@@ -332,11 +336,11 @@ A gene may function in multiple ways and thus appear multiple times in
 functional gene sets. In spite of reflecting the crosstalk between gene sets, 
 such overlap may make the results of gene set analysis more difficult to 
 interpret.
-To address the redundancy existing among gene sets, we build a weighted multiple
-linear regression model, taking into account all gene sets in one model. The 
-redundancy of one gene set can be adjusted by considering all other gene sets as
-covariates. To improve the time efficiency, we also use matrix operation to 
-solve the weighted multiple regression model.   
+To address the redundancy existing among gene sets, we build a weighted 
+multiple linear regression model, taking into account all gene sets in one 
+model. The redundancy of one gene set can be adjusted by considering all other 
+gene sets as covariates. To improve the time efficiency, we also use matrix 
+operation to solve the weighted multiple regression model.   
 
 ```{r}
 # MGSEA.res1 uses the weighted multiple linear regression model 

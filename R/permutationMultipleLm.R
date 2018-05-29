@@ -88,22 +88,18 @@ permutationMultipleLm <- function( fc, net, weights=rep(1,nrow(net)), num=100 )
         f <- summary(shuffledLM)$fstatistic[1]
         list( p=p , f=f )
     } )
-
     shuffledPval <- do.call( cbind , lapply(shuffle,function(x) x$p ) )
     shuffledF    <- do.call(   c   , lapply(shuffle,function(x) x$f ) )
-
     trueLM <- lm( fc~net , weights=weights )
     observedCoef <- summary(trueLM)$coef[-1,-4]
     observedPval <- summary(trueLM)$coef[-1,4]
-  
     observedF <- summary(trueLM)$fstatistic[1]
-
-    empiricalPval <- c()
+    
+    empiricalPval <- vector("numeric", nrow(shuffledPval))
     for( i in seq_len(nrow(shuffledPval)) )
     {
         empiricalPval[i] <- mean( shuffledPval[i,]<observedPval[i] )
     }
-
     nonNaRange <- which( !is.na(trueLM$coefficients[-1]) )
     term <- colnames(net)[nonNaRange]
     usedGenes <- apply(as.matrix(net), 2, 
@@ -112,11 +108,7 @@ permutationMultipleLm <- function( fc, net, weights=rep(1,nrow(net)), num=100 )
     pval <- data.frame(term,usedGenes,observedCoef,observedPval,empiricalPval)
     rownames(pval) = NULL
     pval <- pval[order(pval$empiricalPval),]
-
     fval <- c( f=observedF , f.pval=mean( shuffledF<observedF ) )
-
     #list( fval=fval , pval=pval )
-
     pval
-
 }

@@ -83,16 +83,16 @@ permutationSimpleLm <- function( fc , net , weights=rep(1,nrow(net)) , num=100 )
         shuffledFC <- sample(fc,length(fc))
         separateLm( shuffledFC , net , weights )
    })
-
+   
     shuffledPval <- do.call( cbind , shuffledPval )
     observedPval <- separateLm( fc , net , weights )
-  
-    empiricalPval <- c()
+    
+    empiricalPval <- vector("numeric", nrow(shuffledPval))
     for(i in seq_len(nrow(shuffledPval)) )
     {
         empiricalPval[i] <- mean( shuffledPval[i,]<observedPval[i] )
     }
-
+    
     term <- colnames(net)
     usedGenes <- apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
     pval <- data.frame( term , usedGenes , observedPval , empiricalPval )

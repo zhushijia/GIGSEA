@@ -73,11 +73,9 @@
 #'
 geneSet2Net <- function( term , geneset , value=NULL , sep=',' )
 {
-
     split_geneset <- strsplit( as.character(geneset) , sep )
     names(split_geneset) <- term
     all_genes <- unique( do.call(c,split_geneset) )
-
     if( is.null(value) )
     {
         net <- vapply( seq_along(term) , function(i) {
@@ -95,11 +93,9 @@ geneSet2Net <- function( term , geneset , value=NULL , sep=',' )
             neti
         } , numeric(length(all_genes)) )
     }
-
     colnames(net) <- term
     rownames(net) <- all_genes
     net <- net[ order(all_genes) , ]
     net
-
 }
 

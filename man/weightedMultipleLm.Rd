@@ -26,7 +26,7 @@ matrix operation
 
 # load data
 data(heart.metaXcan)
-gene = heart.metaXcan$gene_name
+gene <- heart.metaXcan$gene_name
 
 # extract the imputed Z-score of gene differential expression, which follows 
 # the normal distribution

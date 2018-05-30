@@ -4,7 +4,8 @@
 \alias{permutationSimpleLm}
 \title{permutationSimpleLm}
 \usage{
-permutationSimpleLm(fc, net, weights = rep(1, nrow(net)), num = 100)
+permutationSimpleLm(fc, net, weights = rep(1, nrow(net)), num = 100,
+  verbose = TRUE)
 }
 \arguments{
 \item{fc}{a vector of numeric values representing the gene expression fold 
@@ -18,6 +19,9 @@ permuted genes}
 
 \item{num}{a vector of integer values representing the number of 
 permutations}
+
+\item{verbose}{an boolean value indicating whether or not to print output to 
+the screen}
 }
 \value{
 a data frame comprising the following columns:
@@ -45,7 +49,7 @@ values for a weighted simple linear regression.
 
 # load data
 data(heart.metaXcan)
-gene = heart.metaXcan$gene_name
+gene <- heart.metaXcan$gene_name
 
 # extract the imputed Z-score of gene differential expression, which 
 # follows the normal distribution

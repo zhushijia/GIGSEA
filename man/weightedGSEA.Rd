@@ -7,7 +7,7 @@
 weightedGSEA(data, geneCol, fcCol, weightCol = NULL,
   geneSet = c("MSigDB.KEGG.Pathway", "MSigDB.TF", "MSigDB.miRNA",
   "TargetScan.miRNA"), permutationNum = 100, outputDir = getwd(),
-  MGSEAthres = NULL)
+  MGSEAthres = NULL, verbose = TRUE)
 }
 \arguments{
 \item{data}{a data frame comprising comlumns: gene names (characer), 
@@ -33,6 +33,9 @@ results}
 
 \item{MGSEAthres}{an integer value indicating the thresfold for MGSEA. MGSEA 
 is performed with no more than "MGSEAthres" gene sets}
+
+\item{verbose}{an boolean value indicating whether or not to print output to 
+the screen}
 }
 \value{
 TRUE
@@ -44,7 +47,7 @@ and writes out the results.
 \examples{
 
 data(heart.metaXcan)
-gene = heart.metaXcan$gene_name
+gene <- heart.metaXcan$gene_name
 fc <- heart.metaXcan$zscore
 usedFrac <- heart.metaXcan$n_snps_used / heart.metaXcan$n_snps_in_cov
 r2 <- heart.metaXcan$pred_perf_r2

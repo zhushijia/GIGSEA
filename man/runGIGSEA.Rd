@@ -10,7 +10,7 @@ runGIGSEA(MetaXcan, model_db_path, covariance, gwas_folder, gwas_file_pattern,
   beta_sign_column = "direction", zscore_column = "Z",
   pvalue_column = "P", gene_set = c("MSigDB.KEGG.Pathway", "MSigDB.TF",
   "MSigDB.miRNA", "TargetScan.miRNA"), permutation_num = 1000,
-  output_dir = "./GIGSEA", MGSEA_thres = NULL)
+  output_dir = "./GIGSEA", MGSEA_thres = NULL, verbose = TRUE)
 }
 \arguments{
 \item{MetaXcan}{a character value indicating the path to the MetaXcan.py 
@@ -65,6 +65,9 @@ results.}
 \item{MGSEA_thres}{an integer value indicating the thresfold for performing 
 MGSEA. When the number of gene sets is smaller than MGSEAthres, we perform 
 MGSEA.}
+
+\item{verbose}{an boolean value indicating whether or not to print output to 
+the screen}
 }
 \value{
 TRUE

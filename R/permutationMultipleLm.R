@@ -10,7 +10,10 @@
 #' @param weights a vector of numeric values representing the weights of 
 #' permuated genes
 #' @param num an integer value representing the number of permutations
-#'
+#' @param verbose an boolean value indicating whether or not to print output to 
+#' the screen 
+#' 
+#' 
 #' @return a data frame comprising the following columns:
 #' \itemize{
 #' \item {term} a vector of character incidating the names of gene sets.
@@ -76,11 +79,12 @@
 #' @seealso \code{\link{orderedIntersect}}; 
 #' \code{\link{permutationMultipleLmMatrix}};
 #'
-permutationMultipleLm <- function( fc, net, weights=rep(1,nrow(net)), num=100 )
+permutationMultipleLm <- function( fc, net, weights=rep(1,nrow(net)), 
+                                   num=100, verbose=TRUE )
 {
     net <- as.matrix(net) # to transform the sparseMatrix to matrix
     shuffle <- lapply( seq_len(num), function(i) {
-        reportProgress(i,num,10)
+        if( verbose ) reportProgress(i,num,10)
         #randomfc <- rnorm(nrow(net))
         shuffledFC <- sample(fc,length(fc))
         shuffledLM <- lm( shuffledFC~net , weights=weights )

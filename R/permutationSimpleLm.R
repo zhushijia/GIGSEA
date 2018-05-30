@@ -11,6 +11,8 @@
 #' permuted genes
 #' @param num a vector of integer values representing the number of 
 #' permutations
+#' @param verbose an boolean value indicating whether or not to print output to 
+#' the screen 
 #'
 #' @return a data frame comprising the following columns:
 #' \itemize{
@@ -76,10 +78,11 @@
 #' @seealso \code{\link{orderedIntersect}}; 
 #' \code{\link{permutationSimpleLmMatrix}};
 #'
-permutationSimpleLm <- function( fc , net , weights=rep(1,nrow(net)) , num=100 )
+permutationSimpleLm <- function( fc, net, weights=rep(1,nrow(net)), 
+                                 num=100, verbose=TRUE )
 {
     shuffledPval <- lapply( seq_len(num) , function(i) {
-        reportProgress(i,num,10)
+        if(verbose) reportProgress(i,num,10)
         shuffledFC <- sample(fc,length(fc))
         separateLm( shuffledFC , net , weights )
    })

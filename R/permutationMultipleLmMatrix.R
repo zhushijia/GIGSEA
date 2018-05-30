@@ -12,6 +12,8 @@
 #' @param num an integer value representing the number of permutations
 #' @param step an integer value representing the number of permutations in 
 #' each step 
+#' @param verbose an boolean value indicating whether or not to print output to 
+#' the screen 
 #'
 #' @return a data frame comprising following columns:
 #' \itemize{
@@ -77,7 +79,7 @@
 #' \code{\link{permutationMultipleLm}};
 #'
 permutationMultipleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) , 
-                                        num=100 , step=1000 )
+                                        num=100 , step=1000 , verbose=TRUE )
 {
     fc[is.na(fc)] <- 0
     weights[is.na(weights)]<-0
@@ -140,7 +142,10 @@ permutationMultipleLmMatrix <- function( fc , net , weights=rep(1,nrow(net)) ,
             }
         }
         
-        for(j in cs_steps[i]:cs_steps[i+1]  ) reportProgress(j,num,10)
+        for(j in cs_steps[i]:cs_steps[i+1]  ) 
+        {
+            if(verbose) reportProgress(j,num,10)
+        }
     }
     
     term <- colnames(net)

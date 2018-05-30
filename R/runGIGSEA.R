@@ -40,6 +40,8 @@
 #' @param MGSEA_thres an integer value indicating the thresfold for performing 
 #' MGSEA. When the number of gene sets is smaller than MGSEAthres, we perform 
 #' MGSEA.
+#' @param verbose an boolean value indicating whether or not to print output to 
+#' the screen 
 #'
 #' @return TRUE
 #' @export
@@ -80,7 +82,8 @@ runGIGSEA <- function( MetaXcan,
                                   "MSigDB.miRNA","TargetScan.miRNA"), 
                        permutation_num=1000, 
                        output_dir="./GIGSEA", 
-                       MGSEA_thres=NULL )
+                       MGSEA_thres=NULL ,
+                       verbose = TRUE )
 {
     
     MetaXcanCmd<-paste0( MetaXcan , 
@@ -100,13 +103,11 @@ runGIGSEA <- function( MetaXcan,
       
     if( !file.exists(output_dir) )
     { 
-        cat('creating ' , output_dir, '\n' )
+        if(verbose) message('creating ' , output_dir )
         dir.create( output_dir , showWarnings = TRUE, recursive = TRUE) 
     }
-      
-    preWD <- setwd( output_dir )
     
-    cat(MetaXcanCmd,'\n')
+    if(verbose) message(MetaXcanCmd)
     system2(MetaXcanCmd)
     
     metaXcan <- read.table( paste0(output_dir,"/MetaXcan.res.csv") , 
@@ -122,13 +123,13 @@ runGIGSEA <- function( MetaXcan,
     weights <- usedFrac*r2
     data <- data.frame(gene,fc,weights)
     
-    cat( 'permutation for' , permutation_num , 'times\n' )
-    cat( 'writing results at' , output_dir , '\n' )
+    if(verbose) message( 'permutation for' , permutation_num , 'times' )
+    if(verbose) message( 'writing results at' , output_dir )
     
     weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights',
                  geneSet=gene_set, permutationNum=permutation_num, 
                  outputDir=output_dir, MGSEAthres=MGSEA_thres)
-    setwd(preWD)
+    
     return(TRUE)
 }
 

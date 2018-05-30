@@ -19,7 +19,10 @@
 #' results
 #' @param MGSEAthres an integer value indicating the thresfold for MGSEA. MGSEA 
 #' is performed with no more than "MGSEAthres" gene sets 
-#'
+#' @param verbose an boolean value indicating whether or not to print output to 
+#' the screen 
+#' 
+#' 
 #' @return TRUE
 #' @export
 #'
@@ -42,23 +45,24 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
                         geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF",
                                   "MSigDB.miRNA","TargetScan.miRNA") ,
                         permutationNum=100 , outputDir=getwd() , 
-                        MGSEAthres = NULL )
+                        MGSEAthres = NULL , verbose = TRUE )
 {
   
     if( !file.exists(outputDir) )
     { 
-        cat('creating ' , outputDir, '\n' )
+        if( verbose ) message('creating ' , outputDir )
         dir.create( outputDir , showWarnings = TRUE, recursive = TRUE) 
     }
     
     allGeneSet <- c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA",
                     "Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug")
     noGeneSet <- setdiff( geneSet , allGeneSet )
-    if(length(noGeneSet)) cat( "Gene sets are not defined: ", noGeneSet, '\n')
+    if( length(noGeneSet)>0 & verbose ) 
+        message( "Gene sets are not defined: ", noGeneSet )
     
     for( gs in intersect(geneSet,allGeneSet) )
     {
-        cat('\n\n*** Checking',gs,'...\n')
+        if( verbose ) message('\n\n*** Checking',gs,'...')
         data(list=gs)
         net <- get(gs)$net
         net <- net[ rownames(net) %in% as.character(data[,geneCol]) , ]
@@ -72,7 +76,7 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
             weights <- imputeFC[,weightCol]
         }
         
-        cat('--> performing SGSEA ...\n')
+        if( verbose ) message('--> performing SGSEA ...')
         SGSEA.res <- permutationSimpleLmMatrix( fc , net , weights , 
                                                 permutationNum )
         if( !is.null(get(gs)$annot) )
@@ -90,7 +94,7 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
         {
             if( ncol(net)<MGSEAthres )
             {
-                cat('\n--> performing MGSEA ...\n')
+                if( verbose ) message('\n--> performing MGSEA ...')
                 MGSEA.res <- permutationMultipleLmMatrix( fc , net , weights , 
                                                     permutationNum )
                 if( !is.null(get(gs)$annot) )

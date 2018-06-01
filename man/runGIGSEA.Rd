@@ -55,7 +55,7 @@ p-values data, by default, "P".}
 
 \item{gene_set}{a vector of characters indicating the gene sets of interest 
 for enrichment test, by default, c("MSigDB.KEGG.Pathway","MSigDB.TF",
-"MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO", "LINCS.CMap.drug")}
+"MSigDB.miRNA","TargetScan.miRNA")}
 
 \item{permutation_num}{an integer indicating the number of permutation.}
 

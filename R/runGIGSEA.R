@@ -33,7 +33,7 @@
 #' p-values data, by default, "P".
 #' @param gene_set a vector of characters indicating the gene sets of interest 
 #' for enrichment test, by default, c("MSigDB.KEGG.Pathway","MSigDB.TF",
-#' "MSigDB.miRNA","Fantom5.TF","TargetScan.miRNA","GO", "LINCS.CMap.drug")
+#' "MSigDB.miRNA","TargetScan.miRNA")
 #' @param permutation_num an integer indicating the number of permutation.
 #' @param output_dir a character value indicating the directory for saving the 
 #' results.
@@ -86,8 +86,7 @@ runGIGSEA <- function( MetaXcan,
                        verbose = TRUE )
 {
     
-    MetaXcanCmd<-paste0( MetaXcan , 
-                       " --model_db_path " , model_db_path , 
+    MetaXcanCmd<-paste0( " --model_db_path " , model_db_path , 
                        " --covariance " , covariance ,
                        " --gwas_folder " , gwas_folder ,
                        " --gwas_file_pattern " , gwas_file_pattern ,
@@ -107,8 +106,8 @@ runGIGSEA <- function( MetaXcan,
         dir.create( output_dir , showWarnings = TRUE, recursive = TRUE) 
     }
     
-    if(verbose) message(MetaXcanCmd)
-    system2(MetaXcanCmd)
+    if(verbose) message( paste( MetaXcan, MetaXcanCmd) )
+    system2( MetaXcan , args = MetaXcanCmd )
     
     metaXcan <- read.table( paste0(output_dir,"/MetaXcan.res.csv") , 
                               sep=',' , header=TRUE )
@@ -128,7 +127,7 @@ runGIGSEA <- function( MetaXcan,
     
     weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights',
                  geneSet=gene_set, permutationNum=permutation_num, 
-                 outputDir=output_dir, MGSEAthres=MGSEA_thres)
+                 outputDir=output_dir, MGSEAthres=MGSEA_thres, verbose=verbose)
     
     return(TRUE)
 }

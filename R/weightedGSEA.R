@@ -62,7 +62,7 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
     
     for( gs in intersect(geneSet,allGeneSet) )
     {
-        if( verbose ) message('\n\n*** Checking',gs,'...')
+        if( verbose ) message('\n\n*** Checking ',gs,'...')
         data(list=gs)
         net <- get(gs)$net
         net <- net[ rownames(net) %in% as.character(data[,geneCol]) , ]
@@ -78,7 +78,7 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
         
         if( verbose ) message('--> performing SGSEA ...')
         SGSEA.res <- permutationSimpleLmMatrix( fc , net , weights , 
-                                                permutationNum )
+                                              permutationNum, verbose=verbose)
         if( !is.null(get(gs)$annot) )
         {
             annot <- get(gs)$annot
@@ -96,7 +96,7 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
             {
                 if( verbose ) message('\n--> performing MGSEA ...')
                 MGSEA.res <- permutationMultipleLmMatrix( fc , net , weights , 
-                                                    permutationNum )
+                                              permutationNum, verbose=verbose)
                 if( !is.null(get(gs)$annot) )
                 {
                     annot <- get(gs)$annot

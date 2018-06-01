@@ -193,18 +193,7 @@ benchmark tests. To obtain a site count associated with each gene, we average
 the TargetScan Pct scores of all RefSeq transcripts associated with each gene. 
 It comprises 87 miRNA seed motifs and 9861 genes. 
 See <http://www.targetscan.org>.
-- `LINCS.CMap.drug`: Large perturbational datasets of gene expression signature 
-from small-molecule compounds in multiple cell types from LINCS/CMap database. 
-We downloaded the data of LINCS phase 2 level 5 from GEO (GSE70138). The data 
-is saved in the GCTx format (binary format based on HDF5 that enables fast i/o 
-than text), and we parsed it using the R package cmapR. The LINCS level 5 data 
-is a numeric matrix, comprising 118050 drugs/doses and 12328 genes. Each entry 
-is a replicate-collapsed z-score of differential gene expression due to a drug 
-perturbation, which is calculated by aggregating across individual replicates. 
-See <https://clue.io>. In order to generate a single signature for each drug 
-perturbation, we further average the differential gene expression across 
-different drug doses, resulting in a condensed matrix of 1826 drugs (column) 
-and 12328 genes (row). 
+
 
 ### 4.1 Discrete-valued gene sets:
 We first show an example of discrete-valued gene set: MSigDB.KEGG.Pathway, 
@@ -300,7 +289,7 @@ format( object.size(net2), units = "auto")
 
 
 ## 5. Gene set enrichment analysis
-### 5.1 Gene set enrichment analysis using weighted simple linear regression
+### 5.1 GSEA using weighted simple linear regression model
 After obtaining the imputed differential gene expression and the weights, we 
 build the weighted linear regression model to investigate the gene set 
 enrichment. Permutation test was used to adjust the p values of the regression 
@@ -331,7 +320,7 @@ system.time( SGSEA.res2 <- permutationSimpleLmMatrix( fc=data2$fc ,
 head(SGSEA.res2)
 ```
 
-### 5.2 Gene set enrichment analysis using weighted multiple regression model
+### 5.2 GSEA using weighted multiple linear regression model
 A gene may function in multiple ways and thus appear multiple times in 
 functional gene sets. In spite of reflecting the crosstalk between gene sets, 
 such overlap may make the results of gene set analysis more difficult to 

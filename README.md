@@ -51,4 +51,4 @@ data set and discovered the plausible biological findings.
 
 
 ## Example:
-  See [Tutorial](https://github.com/zhushijia/GIGSEA/blob/master/vignettes/GIGSEA_tutorial.Rmd)
+  See [Tutorial](https://github.com/zhushijia/GIGSEA/wiki)

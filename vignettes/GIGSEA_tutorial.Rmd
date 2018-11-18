@@ -40,11 +40,14 @@ signal.
 In GIGSEA, the gene sets are saved as matrices. Such matrices are largely 
 sparse, so, in order to save space, we used the functions provided by the R 
 package "Matrix" to build the sparse matrices and pre-saved into the GIGSEA 
-package. In addition, GIGSEA uses the local fdr, implemented by the R package 
-"locfdr", to adjust for multiple hypothesis testing.  
+package. GIGSEA uses the local fdr, implemented by the R package 
+"locfdr", to adjust for multiple hypothesis testing. In addition, it requires 
+the R package [GIGSEAdata](https://github.com/zhushijia/GIGSEAdata), which is 
+a collection of gene sets.
 
 ```{r}
 library(GIGSEA)
+library(GIGSEAdata)
 ```
 
 ## 2. Quick start
@@ -224,6 +227,8 @@ the row represents the gene, and the column represents the miRNA. Each entry
 takes continuous values of pct, representing the binding affinity of miRNA on 
 the gene 3' UTR.   
 ```{r}
+# TargetScan.miRNA requires the "GIGSEAdata" package
+library(GIGSEAdata)
 # load data
 data(TargetScan.miRNA)
 # TargetScan.miRNA is a list comprising two components: net and annot

@@ -168,12 +168,13 @@ function as potential transcription factor binding sites. It comprises 615 TFs
 (seed matches) of human mature miRNA in their 3'-UTRs. It comprises 221 miRNAs 
 (column) and 7444 genes (row). See c3.mir.v6.0.symbols.gmt.txt at
 <http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C3>
-- `GO`: Gene sets that contain genes annotated by the same Gene Ontology (GO) 
+- `org.Hs.eg.GO`(require [GIGSEAdata](https://github.com/zhushijia/GIGSEAdata)): 
+Gene sets that contain genes annotated by the same Gene Ontology (GO) 
 term. For each GO term, we not only incorporate its own gene sets, but also 
 incorporate the gene sets belonging to its offsprings. See the "database GO.db" 
-in R. 
+in R.  
 
-2) **continuous-valued gene sets**:
+2) **continuous-valued gene sets (require R package [GIGSEAdata](https://github.com/zhushijia/GIGSEAdata))**:
 - `Fantom5.TF`: The human transcript promoter locations were obtained from 
 Fantom5. Based on the promoter locations, the tool MotEvo was used to predict 
 the human transcriptional factor (TF) target sites. The dataset contains 500 
@@ -357,6 +358,9 @@ SGSEA. Users can specify `MGSEAthres` to perform MGMEA for those with less than
 # import packages and prepare data as above
 library(GIGSEA)
 
+# load database of Fantom5.TF, TargetScan.miRNA and org.Hs.eg.GO
+library(GIGSEAdata)
+
 # prepare the dataset
 data(heart.metaXcan)
 gene = heart.metaXcan$gene_name
@@ -368,7 +372,7 @@ data <- data.frame(gene,fc,weights)
 
 # run one-step GIGSEA 
 #weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights',
-#geneSet=c("MSigDB.KEGG.Pathway","Fantom5.TF","TargetScan.miRNA","GO"), 
+#geneSet=c("MSigDB.KEGG.Pathway","Fantom5.TF","TargetScan.miRNA","org.Hs.eg.GO"), 
 #permutationNum=10000, outputDir="./GIGSEA" )
 
 #dir("./GIGSEA")

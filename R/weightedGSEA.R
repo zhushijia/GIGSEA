@@ -37,13 +37,13 @@
 #' data <- data.frame(gene,fc,weights)
 #' # run one-step GIGSEA 
 #' # weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', 
-#' #    geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA",
-#' # "TargetScan.miRNA"), permutationNum=10000, outputDir="./GIGSEA" )
+#' #  geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA") ,
+#' #  permutationNum=10000, outputDir="./GIGSEA" )
 #' # dir("./GIGSEA")
 #' 
 weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
                         geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF",
-                                  "MSigDB.miRNA","TargetScan.miRNA") ,
+                                  "MSigDB.miRNA") ,
                         permutationNum=100 , outputDir=getwd() , 
                         MGSEAthres = NULL , verbose = TRUE )
 {
@@ -54,8 +54,8 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
         dir.create( outputDir , showWarnings = TRUE, recursive = TRUE) 
     }
     
-    allGeneSet <- c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA",
-                    "Fantom5.TF","TargetScan.miRNA","GO","LINCS.CMap.drug")
+    allGeneSet <- c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA")
+    
     noGeneSet <- setdiff( geneSet , allGeneSet )
     if( length(noGeneSet)>0 & verbose ) 
         message( "Gene sets are not defined: ", noGeneSet )

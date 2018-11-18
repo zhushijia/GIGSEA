@@ -5,9 +5,9 @@
 \title{weightedGSEA}
 \usage{
 weightedGSEA(data, geneCol, fcCol, weightCol = NULL,
-  geneSet = c("MSigDB.KEGG.Pathway", "MSigDB.TF", "MSigDB.miRNA",
-  "TargetScan.miRNA"), permutationNum = 100, outputDir = getwd(),
-  MGSEAthres = NULL, verbose = TRUE)
+  geneSet = c("MSigDB.KEGG.Pathway", "MSigDB.TF", "MSigDB.miRNA"),
+  permutationNum = 100, outputDir = getwd(), MGSEAthres = NULL,
+  verbose = TRUE)
 }
 \arguments{
 \item{data}{a data frame comprising comlumns: gene names (characer), 
@@ -55,8 +55,8 @@ weights <- usedFrac*r2
 data <- data.frame(gene,fc,weights)
 # run one-step GIGSEA 
 # weightedGSEA(data, geneCol='gene', fcCol='fc', weightCol= 'weights', 
-#    geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA",
-# "TargetScan.miRNA"), permutationNum=10000, outputDir="./GIGSEA" )
+#  geneSet=c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA") ,
+#  permutationNum=10000, outputDir="./GIGSEA" )
 # dir("./GIGSEA")
 
 }

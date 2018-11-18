@@ -39,6 +39,7 @@ data set and discovered the plausible biological findings.
 ## Dependencies on R packages
 -  Matrix - [Matrix](https://cran.r-project.org/web/packages/Matrix/index.html)
 -  locfdr - [locfdr](https://cran.r-project.org/web/packages/locfdr/index.html)
+-  GIGSEA - [GIGSEA](https://github.com/zhushijia/GIGSEAdata)
 
 ## Installation:
 1. Install GIGSEA R package from [devtools](https://github.com/hadley/devtools) package in R

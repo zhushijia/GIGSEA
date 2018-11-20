@@ -54,7 +54,8 @@ weightedGSEA <- function( data , geneCol , fcCol , weightCol=NULL ,
         dir.create( outputDir , showWarnings = TRUE, recursive = TRUE) 
     }
     
-    allGeneSet <- c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA")
+    allGeneSet <- c("MSigDB.KEGG.Pathway","MSigDB.TF","MSigDB.miRNA",
+                    "Fantom5.TF","TargetScan.miRNA","org.Hs.eg.GO")
     
     noGeneSet <- setdiff( geneSet , allGeneSet )
     if( length(noGeneSet)>0 & verbose ) 

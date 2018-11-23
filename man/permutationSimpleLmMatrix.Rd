@@ -4,8 +4,8 @@
 \alias{permutationSimpleLmMatrix}
 \title{permutationSimpleLmMatrix}
 \usage{
-permutationSimpleLmMatrix(fc, net, weights = rep(1, nrow(net)), num = 100,
-  step = 1000, verbose = TRUE)
+permutationSimpleLmMatrix(fc, net, weights = rep(1, nrow(net)),
+  num = 100, step = 1000, verbose = TRUE)
 }
 \arguments{
 \item{fc}{a vector of numeric values representing the gene expression fold 

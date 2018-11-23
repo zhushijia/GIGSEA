@@ -11,8 +11,6 @@ LazyData: true
 Depends: R (>= 3.5), Matrix, MASS, locfdr, stats, utils
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 NeedsCompilation: no
 biocViews: GeneSetEnrichment,SNP,VariantAnnotation,GeneExpression,GeneRegulation,Regression,DifferentialExpression
-
-

@@ -4,7 +4,8 @@
 \alias{gmt2geneSet}
 \title{gmt2geneSet}
 \usage{
-gmt2geneSet(gmt, termCol = 1, nonGeneCol = termCol, singleValue = NULL)
+gmt2geneSet(gmt, termCol = 1, nonGeneCol = termCol,
+  singleValue = NULL)
 }
 \arguments{
 \item{gmt}{a vector of character values. Each item is a list of words 

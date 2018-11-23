@@ -4,9 +4,10 @@
 \alias{runGIGSEA}
 \title{runGIGSEA}
 \usage{
-runGIGSEA(MetaXcan, model_db_path, covariance, gwas_folder, gwas_file_pattern,
-  snp_column = "SNP", non_effect_allele_column = "A2",
-  effect_allele_column = "A1", or_column = "OR", beta_column = "BETA",
+runGIGSEA(MetaXcan, model_db_path, covariance, gwas_folder,
+  gwas_file_pattern, snp_column = "SNP",
+  non_effect_allele_column = "A2", effect_allele_column = "A1",
+  or_column = "OR", beta_column = "BETA",
   beta_sign_column = "direction", zscore_column = "Z",
   pvalue_column = "P", gene_set = c("MSigDB.KEGG.Pathway", "MSigDB.TF",
   "MSigDB.miRNA", "TargetScan.miRNA"), permutation_num = 1000,

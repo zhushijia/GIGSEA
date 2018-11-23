@@ -106,18 +106,9 @@ permutationSimpleLmMatrix <- function( fc, net, weights=rep(1,nrow(net)),
         shuffledFC <- vapply( seq_len(stepi) , 
                              function(s) sample(fc) , numeric(length(fc)) )
         shuffledCorr <-  weightedPearsonCorr( x=net, y=shuffledFC, w=weights )
-        
-        for( j in seq_len(nrow(shuffledCorr)) )
-        {
-            if(observedCorr[j]>0) 
-            {
-                empiricalSum[j] <- empiricalSum[j] + 
-                  sum(shuffledCorr > observedCorr[j])
-            } else {
-                empiricalSum[j] <- empiricalSum[j] + 
-                  sum(shuffledCorr < observedCorr[j])
-        }
-        }
+       
+        empiricalPvali <- empiricalPval(observedCorr, shuffledCorr, step=stepi)
+        empiricalSum <- empiricalSum + empiricalPvali*length(shuffledCorr)
         
         for(j in cs_steps[i]:cs_steps[i+1]  ) 
         {

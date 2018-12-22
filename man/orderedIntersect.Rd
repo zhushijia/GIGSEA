@@ -4,16 +4,20 @@
 \alias{orderedIntersect}
 \title{orderedIntersect}
 \usage{
-orderedIntersect(x, by.x, by.y)
+orderedIntersect(x, by.x, by.y, duplicate = "mean")
 }
 \arguments{
-\item{x}{a data frame}
+\item{x}{a data frame comprising of numeric values}
 
 \item{by.x}{a vector of character values. The data frame is sorted based on 
 by.x}
 
 \item{by.y}{a vector of character values. After being sorted, the rows of x 
 are further filtered by intersecting by.x with by.y}
+
+\item{duplicate}{a character value taking values from "mean", "median", 
+"max", "max", "min", and "remove". It represents how to deal with the 
+duplicates in x in terms of by.x.}
 }
 \value{
 a data frame sorted by "by.x" and intersected with "by.y"
@@ -46,9 +50,10 @@ head(data)
 net <- MSigDB.KEGG.Pathway$net
 
 # intersect the user-provided imputed genes with the gene set of interest
-data2 <- orderedIntersect( x=data, by.x=data$gene, by.y=rownames(net) )
+data2 <- orderedIntersect( x=data[,c("fc","weights")], 
+by.x=data$gene, by.y=rownames(net) )
 net2 <- orderedIntersect( x=net, by.x=rownames(net), by.y=data$gene )
-all( rownames(net2) == as.character(data2$gene) )
+all( rownames(net2) == rownames(data2) )
 
 }
 \author{

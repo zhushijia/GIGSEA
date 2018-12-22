@@ -115,12 +115,21 @@ runGIGSEA <- function( MetaXcan,
     metaXcan <- subset( metaXcan , 
                ! as.character(metaXcan$gene_name) %in% (names(cc)[cc>1]) )
       
+#    gene <- metaXcan$gene_name
+#    fc <- metaXcan$zscore
+#    usedFrac <- metaXcan$n_snps_used / metaXcan$n_snps_in_cov
+#    r2 <- metaXcan$pred_perf_r2
+#    weights <- usedFrac*r2
+#    data <- data.frame(gene,fc,weights)
+    
     gene <- metaXcan$gene_name
-    fc <- metaXcan$zscore
+    # in case of duplicates, get mean
+    fc <- tapply( metaXcan$zscore, gene, mean)
     usedFrac <- metaXcan$n_snps_used / metaXcan$n_snps_in_cov
     r2 <- metaXcan$pred_perf_r2
-    weights <- usedFrac*r2
-    data <- data.frame(gene,fc,weights)
+    # in case of duplicates, get mean
+    weights <- tapply( usedFrac*r2, gene, mean)
+    data <- data.frame( gene=names(fc), fc=fc, weights=weights )
     
     if(verbose) message( 'permutation for' , permutation_num , 'times' )
     if(verbose) message( 'writing results at' , output_dir )

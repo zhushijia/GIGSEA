@@ -57,11 +57,11 @@
 #' net <- MSigDB.KEGG.Pathway$net
 #'
 #' # intersect the permuted genes with the gene sets of interest
-#' data2 <- orderedIntersect( x = data , by.x = data$gene , 
+#' data2 <- orderedIntersect( x = data[,c("fc","weights")] , by.x = data$gene , 
 #' by.y = rownames(net)  )
 #' net2 <- orderedIntersect( x = net , by.x = rownames(net) , 
 #' by.y = data$gene  )
-#' all( rownames(net2) == as.character(data2$gene) )
+#' all( rownames(net2) == rownames(data2) )
 #'
 #' # the SGSEA.res1 uses the weighted simple linear regression model, 
 #' # while SGSEA.res2 used the weighted Pearson correlation. The latter one 

@@ -81,11 +81,16 @@
 permutationSimpleLm <- function( fc, net, weights=rep(1,nrow(net)), 
                                  num=100, verbose=TRUE )
 {
+    fc[is.na(fc)] <- 0
+    weights[is.na(weights)] <- 0
+    net <- as.matrix(net)
+    net <- net[,colSums(net)>0]
+    
     shuffledPval <- lapply( seq_len(num) , function(i) {
         if(verbose) reportProgress(i,num,10)
         shuffledFC <- sample(fc,length(fc))
         separateLm( shuffledFC , net , weights )
-   })
+    })
    
     shuffledPval <- do.call( cbind , shuffledPval )
     observedPval <- separateLm( fc , net , weights )
@@ -100,6 +105,10 @@ permutationSimpleLm <- function( fc, net, weights=rep(1,nrow(net)),
     usedGenes <- apply(as.matrix(net), 2, function(x) sum(x!=0,na.rm=TRUE) )
     pval <- data.frame( term , usedGenes , observedPval , empiricalPval )
     rownames(pval) <- NULL
+    
+    nonNaRange <- which( !is.na(pval$observedPval) )
+    pval <- pval[nonNaRange,]
+    
     pval <- pval[order(pval$empiricalPval),]
     pval
 }
@@ -109,7 +118,14 @@ separateLm <- function( y , net , weights )
 {
     apply( net , 2 , function(x) {
         z <- lm( y~x , weights=weights )
-        summary(z)$coef[-1,4]
+        coef <- summary(z)$coef
+        if(nrow(coef)==2)
+        {
+          p <- coef[2,4]
+        } else {
+          p <- NA
+        }
+        p
   })
 }
 

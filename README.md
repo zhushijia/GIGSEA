@@ -53,3 +53,6 @@ data set and discovered the plausible biological findings.
 
 ## Example:
   See [Tutorial](https://github.com/zhushijia/GIGSEA/wiki)
+  
+## Citation:
+  S Zhu, T Qian, Y Hoshida, Y Shen, J Yu, K Hao. GIGSEA: genotype imputed gene set enrichment analysis using GWAS summary level data. Bioinformatics 35 (1), 160-163 [link](https://academic.oup.com/bioinformatics/article/35/1/160/5053312)[pdf](https://www.researchgate.net/publication/326380374_GIGSEA_Genotype_Imputed_Gene_Set_Enrichment_Analysis_using_GWAS_Summary_Level_Data)
